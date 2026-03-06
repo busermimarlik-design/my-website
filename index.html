@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buser Mimarlık | Minimalist Tasarım & BIM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <nav class="fixed w-full z-50 mix-blend-difference px-8 py-6 flex justify-between items-center text-white">
+        <div class="text-2xl font-bold tracking-tighter">BUSER MİMARLIK</div>
+        <div class="space-x-8 text-sm uppercase tracking-widest hidden md:block">
+            <a href="#projects" class="hover:opacity-50">Projeler</a>
+            <a href="#services" class="hover:opacity-50">Hizmetler</a>
+            <a href="#about" class="hover:opacity-50">Hakkımızda</a>
+            <a href="#contact" class="hover:opacity-50">İletişim</a>
+        </div>
+    </nav>
+
+    <section class="h-screen hero-bg flex items-center justify-center text-center text-white px-4">
+        <div>
+            <h1 class="text-5xl md:text-8xl font-light mb-4 tracking-tight">Çatalhöyük Koruma Çatısı</h1>
+            <p class="text-lg md:text-xl font-light opacity-80 uppercase tracking-[0.3em]">Antik Mirasın Geleceği</p>
+            <div class="mt-12">
+                <a href="#projects" class="border border-white px-8 py-3 text-sm uppercase tracking-widest hover:bg-white hover:text-black transition">Keşfet</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 px-8 max-w-7xl mx-auto">
+        <h2 class="text-3xl font-light mb-16 uppercase tracking-widest border-b pb-4">Seçili Projeler</h2>
+        <div class="grid md:grid-cols-2 gap-12">
+            <div class="group cursor-pointer">
+                <div class="overflow-hidden bg-gray-100 aspect-video mb-4">
+                    <img src="https://images.unsplash.com/photo-1518005020251-582c788447dd?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Karahantepe">
+                </div>
+                <h3 class="text-xl font-medium">Karahantepe Koruma Kanopisi</h3>
+                <p class="text-gray-500 text-sm uppercase">Arkeolojik Mimari / 2026</p>
+            </div>
+            <div class="group cursor-pointer">
+                <div class="overflow-hidden bg-gray-100 aspect-video mb-4">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1000" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="DSİ">
+                </div>
+                <h3 class="text-xl font-medium">DSİ Misafirhanesi</h3>
+                <p class="text-gray-500 text-sm uppercase">Kamu Projesi / Ankara</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="bg-gray-50 py-24 px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-12 text-center">
+            <div>
+                <h3 class="text-lg font-bold mb-4 uppercase">Mimari Tasarım</h3>
+                <p class="text-gray-600 font-light">Konsept tasarımdan uygulama projelerine kadar uçtan uca mimarlık.</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold mb-4 uppercase">BIM & Revit</h3>
+                <p class="text-gray-600 font-light">Uluslararası standartlarda BIM yönetimi ve Revit modelleme süreçleri.</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold mb-4 uppercase">Fotogrametri</h3>
+                <p class="text-gray-600 font-light">Drone teknolojisi ile hassas modelleme ve saha verisi analizi.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="py-24 px-8 text-center border-t">
+        <h2 class="text-2xl font-light mb-8 uppercase tracking-widest">Bize Ulaşın</h2>
+        <p class="text-gray-500 mb-2">Ankara, Türkiye</p>
+        <p class="text-xl font-medium mb-8">sertacdayilar@gmail.com</p>
+        <div class="flex justify-center space-x-6 text-sm uppercase tracking-widest opacity-60">
+            <a href="#" class="hover:opacity-100 transition">Instagram</a>
+            <a href="#" class="hover:opacity-100 transition">LinkedIn</a>
+        </div>
+    </footer>
+
+</body>
+</html>
