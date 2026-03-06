@@ -1,98 +1,45 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buser Mimarlık | Minimalist Tasarım & BIM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-.hero-section {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('./Image8.jpg'); /* Başına ./ ekleyerek aynı dizinde olduğunu belirttik */
-    background-size: cover;
-    background-position: center;
-}
-    </style>
-</head>
-<body class="bg-white text-gray-900">
+<section class="h-screen flex items-center bg-zinc-950 text-white px-8 md:px-24 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-30">
+        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070" class="w-full h-full object-cover grayscale" alt="Buser Mimarlık Vizyon">
+    </div>
 
-    <nav class="fixed w-full z-50 mix-blend-difference px-8 py-6 flex justify-between items-center text-white">
-        <div class="text-2xl font-bold tracking-tighter">BUSER MİMARLIK</div>
-        <div class="space-x-8 text-sm uppercase tracking-widest hidden md:block">
-            <a href="#projects" class="hover:opacity-50 transition">Projeler</a>
-            <a href="#services" class="hover:opacity-50 transition">Hizmetler</a>
-            <a href="#about" class="hover:opacity-50 transition">Hakkımızda</a>
-            <a href="#contact" class="hover:opacity-50 transition">İletişim</a>
+    <div class="relative z-10 max-w-5xl">
+        <h1 class="text-6xl md:text-9xl font-light mb-8 tracking-tighter leading-none">
+            Fizikseli <br> <span class="font-semibold italic text-zinc-400">Dijitalle </span> <br> İnşa Ediyoruz.
+        </h1>
+        <p class="text-xl md:text-2xl font-light max-w-2xl leading-relaxed border-l border-zinc-500 pl-8 mb-12 text-zinc-300">
+            Ankara merkezli Buser Mimarlık; <span class="text-white">BIM (Yapı Bilgi Modellemesi)</span> ekosistemini estetik disiplinle harmanlayarak, mimariyi sadece tasarlamaz; dijital bir hassasiyetle modeller.
+        </p>
+        <div class="flex space-x-6">
+            <a href="#projects" class="group flex items-center space-x-3 text-sm uppercase tracking-widest border-b border-transparent hover:border-white transition-all pb-2">
+                <span>Projeleri İncele</span>
+                <span class="transform group-hover:translate-x-2 transition-transform">→</span>
+            </a>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <section class="h-screen hero-section flex items-center justify-center text-center text-white px-4">
+<section id="about" class="py-32 px-8 bg-white">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-24 items-center">
         <div>
-            <h1 class="text-5xl md:text-8xl font-light mb-4 tracking-tight">Çatalhöyük Koruma Çatısı</h1>
-            <p class="text-lg md:text-xl font-light opacity-80 uppercase tracking-[0.3em]">Antik Mirasın Geleceği</p>
-            <div class="mt-12">
-                <a href="#projects" class="border border-white px-8 py-3 text-sm uppercase tracking-widest hover:bg-white hover:text-black transition">Keşfet</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-24 px-8 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-light mb-16 uppercase tracking-widest border-b pb-4">Seçili Projeler</h2>
-        <div class="grid md:grid-cols-2 gap-16">
-            <div class="group">
-                <div class="overflow-hidden bg-gray-100 aspect-video mb-6">
-                    <img src="https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Karahantepe">
-                </div>
-                <h3 class="text-2xl font-medium">Karahantepe Koruma Kanopisi</h3>
-                <p class="text-gray-500 text-sm uppercase mt-2 tracking-wider">Arkeolojik Mimari / Şanlıurfa</p>
-            </div>
-            <div class="group">
-                <div class="overflow-hidden bg-gray-100 aspect-video mb-6">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="DSİ">
-                </div>
-                <h3 class="text-2xl font-medium">DSİ Misafirhanesi</h3>
-                <p class="text-gray-500 text-sm uppercase mt-2 tracking-wider">Kamu Yapısı / Ankara</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="bg-black text-white py-32 px-8">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-sm uppercase tracking-[0.5em] mb-12 opacity-50">Vizyonumuz</h2>
-            <p class="text-2xl md:text-4xl font-light leading-relaxed">
-                Ankara merkezli Buser Mimarlık, geleneksel mimari estetiği <strong>BIM ve Revit</strong> ekosisteminin teknik gücüyle buluşturuyor. Freelance çalışma disiplinimizle, Çatalhöyük ve Karahantepe gibi antik mirasların korunmasından modern kamu yapılarına kadar geniş bir yelpazede yenilikçi çözümler üretiyoruz.
+            <h2 class="text-xs uppercase tracking-[0.6em] text-zinc-400 mb-6">Filozofimiz</h2>
+            <h3 class="text-4xl font-light mb-8 leading-tight">Mirasın Korunmasından <br> Geleceğin İnşasına.</h3>
+            <p class="text-zinc-600 leading-relaxed mb-6 font-light">
+                Buser Mimarlık, tasarımın bir veri yönetimi olduğuna inanır. Çatalhöyük ve Karahantepe gibi antik mirasların korunmasından, modern kamu yapılarına kadar her ölçekteki projede **Revit ve BIM** standartlarını temel alıyoruz.
+            </p>
+            <p class="text-zinc-600 leading-relaxed font-light">
+                Freelance çalışma disiplinimiz, butik ofis hassasiyetiyle küresel standartları buluşturur. Her çizgi, her modelleme adımı; sahadaki gerçekliğin dijitaldeki kusursuz karşılığıdır.
             </p>
         </div>
-    </section>
-
-    <section id="services" class="py-24 px-8 max-w-7xl mx-auto">
-        <div class="grid md:grid-cols-3 gap-12">
-            <div class="border-t border-gray-200 pt-8">
-                <h3 class="text-lg font-bold mb-4 uppercase tracking-tighter">Mimari Tasarım</h3>
-                <p class="text-gray-600 font-light">Konsept tasarımdan uygulama projelerine kadar titiz bir mimari süreç yönetimi.</p>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-zinc-100 p-8 text-center aspect-square flex flex-col justify-center">
+                <span class="text-4xl font-light mb-2">BIM</span>
+                <span class="text-xs uppercase tracking-widest text-zinc-500 italic">Level 2+ Ready</span>
             </div>
-            <div class="border-t border-gray-200 pt-8">
-                <h3 class="text-lg font-bold mb-4 uppercase tracking-tighter">BIM & Revit</h3>
-                <p class="text-gray-600 font-light">Uluslararası standartlarda Yapı Bilgi Modellemesi (BIM) ile hatasız proje teslimi.</p>
-            </div>
-            <div class="border-t border-gray-200 pt-8">
-                <h3 class="text-lg font-bold mb-4 uppercase tracking-tighter">Fotogrametri</h3>
-                <p class="text-gray-600 font-light">Drone teknolojisi ile arkeolojik alanlarda ve inşaat sahalarında hassas modelleme.</p>
+            <div class="bg-zinc-900 p-8 text-center text-white aspect-square flex flex-col justify-center">
+                <span class="text-4xl font-light mb-2">%100</span>
+                <span class="text-xs uppercase tracking-widest text-zinc-400 italic">Hassasiyet</span>
             </div>
         </div>
-    </section>
-
-    <footer id="contact" class="py-32 px-8 text-center border-t">
-        <h2 class="text-3xl font-light mb-12 uppercase tracking-[0.3em]">İşbirliği İçin</h2>
-        <div class="mb-12">
-            <p class="text-gray-400 text-sm uppercase mb-2">E-posta</p>
-            <a href="mailto:sertacdayilar@gmail.com" class="text-3xl md:text-5xl font-light hover:opacity-50 transition">sertacdayilar@gmail.com</a>
-        </div>
-        <p class="text-gray-500 text-sm">Ankara, Türkiye — Buser Mimarlık</p>
-    </footer>
-
-</body>
-</html>
-
+    </div>
+</section>
