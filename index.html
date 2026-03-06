@@ -1,97 +1,815 @@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buser Mimarlık | Dijital Hassasiyet & Mimari Gerçeklik</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .hero-section {
-            /* Vizyoner ve koyu tonlu arka plan ayarı */
-            background: linear-gradient(rgba(10, 10, 12, 0.6), rgba(10, 10, 12, 0.8)), 
-                        url('vision-bg.jpg'); 
-            background-size: cover;
-            background-position: center;
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Buser Mimarlık</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–bg:     #f7f5f2;
+–white:  #ffffff;
+–ink:    #1a1a18;
+–mid:    #6b6b68;
+–light:  #e8e4de;
+–accent: #1a1a18;
+–tag-bg: #ede9e3;
+–line:   rgba(26,26,24,0.1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+background: var(–bg);
+color: var(–ink);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+cursor: none;
+}
+
+/* CURSOR */
+.cur { position: fixed; width: 7px; height: 7px; background: var(–ink); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: transform .1s; }
+.cur-r { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(26,26,24,.25); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
+
+/* SCROLL PROGRESS */
+.spb { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(–ink); z-index: 200; }
+
+/* ── NAV ── */
+nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+display: flex; align-items: center; justify-content: space-between;
+padding: 22px 52px;
+background: rgba(247,245,242,.92);
+backdrop-filter: blur(10px);
+border-bottom: 1px solid var(–line);
+}
+.logo {
+font-family: ‘DM Serif Display’, serif;
+font-size: 1.05rem;
+letter-spacing: .01em;
+color: var(–ink);
+text-decoration: none;
+}
+.logo small {
+display: block;
+font-family: ‘DM Sans’, sans-serif;
+font-size: .58rem;
+font-weight: 400;
+letter-spacing: .18em;
+text-transform: uppercase;
+color: var(–mid);
+margin-top: 1px;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+.nav-links a {
+font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+color: var(–mid); text-decoration: none; transition: color .2s;
+}
+.nav-links a:hover { color: var(–ink); }
+.nav-cta {
+font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+color: var(–ink) !important;
+border: 1px solid var(–line);
+padding: 8px 18px;
+transition: background .2s !important;
+}
+.nav-cta:hover { background: var(–ink); color: var(–bg) !important; }
+
+/* ── HERO ── */
+.hero {
+min-height: 100vh;
+display: flex; flex-direction: column; justify-content: flex-end;
+padding: 0 52px 72px;
+position: relative;
+overflow: hidden;
+border-bottom: 1px solid var(–line);
+}
+
+/* big background number */
+.hero-bg-num {
+position: absolute;
+right: -20px; bottom: -60px;
+font-family: ‘DM Serif Display’, serif;
+font-size: 38vw;
+line-height: 1;
+color: var(–light);
+pointer-events: none;
+user-select: none;
+letter-spacing: -.04em;
+}
+
+.hero-eyebrow {
+font-size: .65rem; letter-spacing: .25em; text-transform: uppercase;
+color: var(–mid); margin-bottom: 24px;
+opacity: 0; animation: up .7s .2s forwards;
+display: flex; align-items: center; gap: 10px;
+}
+.hero-eyebrow::before { content:’’; width: 28px; height: 1px; background: var(–mid); display: block; }
+
+.hero-title {
+font-family: ‘DM Serif Display’, serif;
+font-weight: 400;
+font-size: clamp(3rem, 6.5vw, 7.5rem);
+line-height: 1.0;
+letter-spacing: -.02em;
+color: var(–ink);
+max-width: 860px;
+margin-bottom: 48px;
+opacity: 0; animation: up .8s .4s forwards;
+}
+.hero-title em { font-style: italic; }
+
+.hero-bottom {
+display: flex; align-items: flex-end; justify-content: space-between;
+opacity: 0; animation: up .7s .6s forwards;
+}
+.hero-desc {
+font-size: .9rem; line-height: 1.85; color: var(–mid);
+max-width: 380px;
+}
+.hero-desc strong { color: var(–ink); font-weight: 500; }
+.hero-scroll {
+font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+color: var(–mid); display: flex; align-items: center; gap: 10px;
+text-decoration: none;
+}
+.hero-scroll::after { content: ‘↓’; font-size: 1rem; color: var(–ink); }
+
+/* ── INTRO ── */
+.intro {
+display: grid; grid-template-columns: 1fr 1fr;
+border-bottom: 1px solid var(–line);
+}
+.intro-left {
+padding: 80px 52px;
+border-right: 1px solid var(–line);
+display: flex; flex-direction: column; justify-content: center;
+}
+.intro-label {
+font-size: .6rem; letter-spacing: .25em; text-transform: uppercase;
+color: var(–mid); margin-bottom: 28px;
+}
+.intro-heading {
+font-family: ‘DM Serif Display’, serif;
+font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+line-height: 1.2;
+margin-bottom: 28px;
+}
+.intro-heading em { font-style: italic; }
+.intro-body {
+font-size: .88rem; line-height: 1.9; color: var(–mid);
+margin-bottom: 36px;
+}
+.intro-body strong { color: var(–ink); font-weight: 500; }
+.link-arrow {
+display: inline-flex; align-items: center; gap: 10px;
+font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+color: var(–ink); text-decoration: none;
+}
+.link-arrow .ln { width: 32px; height: 1px; background: var(–ink); transition: width .3s; }
+.link-arrow:hover .ln { width: 56px; }
+
+.intro-right {
+padding: 80px 52px;
+display: flex; flex-direction: column; justify-content: center; gap: 32px;
+}
+.stat-row {
+padding-bottom: 32px;
+border-bottom: 1px solid var(–line);
+}
+.stat-row:last-child { border-bottom: none; padding-bottom: 0; }
+.stat-num {
+font-family: ‘DM Serif Display’, serif;
+font-size: 3.2rem; line-height: 1;
+color: var(–ink); margin-bottom: 6px;
+}
+.stat-label {
+font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(–mid);
+}
+
+/* ── WHAT I DO ── */
+.what {
+padding: 100px 52px;
+border-bottom: 1px solid var(–line);
+}
+.what-header {
+display: flex; align-items: flex-end; justify-content: space-between;
+margin-bottom: 64px;
+}
+.what-title {
+font-family: ‘DM Serif Display’, serif;
+font-size: clamp(2rem, 3.5vw, 3.5rem);
+line-height: 1.1;
+}
+.what-title em { font-style: italic; }
+.what-note {
+font-size: .8rem; line-height: 1.7; color: var(–mid);
+max-width: 280px; text-align: right;
+}
+
+.what-grid {
+display: grid; grid-template-columns: repeat(3, 1fr);
+gap: 1px; background: var(–line);
+border: 1px solid var(–line);
+}
+.w-item {
+background: var(–bg);
+padding: 44px 40px;
+position: relative; overflow: hidden;
+transition: background .3s;
+cursor: none;
+}
+.w-item:hover { background: var(–white); }
+.w-num {
+font-family: ‘DM Serif Display’, serif; font-style: italic;
+font-size: 2.2rem; color: var(–light);
+position: absolute; top: 20px; right: 28px;
+transition: color .3s;
+}
+.w-item:hover .w-num { color: var(–line); }
+.w-name {
+font-size: 1rem; font-weight: 500; color: var(–ink);
+margin-bottom: 14px; margin-top: 8px;
+}
+.w-desc {
+font-size: .82rem; line-height: 1.8; color: var(–mid);
+margin-bottom: 24px;
+}
+.w-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.w-tag {
+font-size: .6rem; letter-spacing: .12em; text-transform: uppercase;
+padding: 4px 10px; background: var(–tag-bg); color: var(–mid);
+}
+
+/* ── PROJECTS ── */
+.projects {
+border-bottom: 1px solid var(–line);
+}
+.projects-head {
+display: flex; align-items: center; justify-content: space-between;
+padding: 52px 52px 40px;
+border-bottom: 1px solid var(–line);
+}
+.projects-head h2 {
+font-family: ‘DM Serif Display’, serif;
+font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+}
+.projects-head h2 em { font-style: italic; }
+
+.proj-list { display: flex; flex-direction: column; }
+.proj-item {
+display: grid;
+grid-template-columns: 56px 1fr auto auto;
+align-items: center;
+gap: 24px;
+padding: 28px 52px;
+border-bottom: 1px solid var(–line);
+transition: background .2s;
+cursor: none;
+position: relative;
+}
+.proj-item::after {
+content: ‘→’;
+position: absolute; right: 52px;
+font-size: 1.1rem; color: var(–mid);
+opacity: 0; transform: translateX(-6px);
+transition: opacity .25s, transform .25s;
+}
+.proj-item:hover { background: var(–white); }
+.proj-item:hover::after { opacity: 1; transform: translateX(0); }
+.proj-item:last-child { border-bottom: none; }
+
+.pi-num {
+font-family: ‘DM Serif Display’, serif; font-style: italic;
+font-size: 1rem; color: var(–mid);
+}
+.pi-info .pi-name {
+font-size: .95rem; font-weight: 500; color: var(–ink); margin-bottom: 3px;
+}
+.pi-info .pi-sub {
+font-size: .72rem; color: var(–mid); letter-spacing: .05em;
+}
+.pi-tag {
+font-size: .6rem; letter-spacing: .14em; text-transform: uppercase;
+padding: 5px 12px; background: var(–tag-bg); color: var(–mid);
+white-space: nowrap;
+}
+.pi-year {
+font-size: .72rem; color: var(–mid); text-align: right;
+padding-right: 36px;
+}
+
+/* ── HOW ── */
+.how {
+display: grid; grid-template-columns: 1fr 2fr;
+border-bottom: 1px solid var(–line);
+}
+.how-left {
+padding: 80px 52px;
+border-right: 1px solid var(–line);
+display: flex; flex-direction: column; justify-content: center;
+}
+.how-left h2 {
+font-family: ‘DM Serif Display’, serif;
+font-size: clamp(1.8rem, 2.5vw, 2.8rem);
+line-height: 1.2; margin-bottom: 20px;
+}
+.how-left h2 em { font-style: italic; }
+.how-left p { font-size: .85rem; line-height: 1.85; color: var(–mid); }
+
+.how-right {
+padding: 80px 52px;
+display: flex; flex-direction: column; gap: 0;
+}
+.step {
+display: flex; gap: 32px; align-items: flex-start;
+padding: 32px 0;
+border-bottom: 1px solid var(–line);
+transition: padding-left .3s;
+cursor: none;
+}
+.step:first-child { padding-top: 0; }
+.step:last-child { border-bottom: none; padding-bottom: 0; }
+.step:hover { padding-left: 8px; }
+.step-num {
+font-family: ‘DM Serif Display’, serif; font-style: italic;
+font-size: 1.2rem; color: var(–light); min-width: 28px; padding-top: 2px;
+}
+.step-body .step-name {
+font-size: .92rem; font-weight: 500; color: var(–ink); margin-bottom: 6px;
+}
+.step-body .step-desc {
+font-size: .8rem; line-height: 1.75; color: var(–mid);
+}
+
+/* ── ABOUT / VISION ── */
+.vision {
+padding: 100px 52px;
+display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+align-items: center;
+border-bottom: 1px solid var(–line);
+background: var(–white);
+}
+.vision-quote {
+font-family: ‘DM Serif Display’, serif;
+font-size: clamp(1.6rem, 2.8vw, 3rem);
+line-height: 1.25;
+color: var(–ink);
+}
+.vision-quote em { font-style: italic; }
+.vision-right {}
+.vision-label {
+font-size: .6rem; letter-spacing: .25em; text-transform: uppercase;
+color: var(–mid); margin-bottom: 24px;
+}
+.vision-body {
+font-size: .88rem; line-height: 1.9; color: var(–mid); margin-bottom: 32px;
+}
+.vision-body strong { color: var(–ink); font-weight: 500; }
+.vision-detail {
+display: flex; flex-direction: column; gap: 12px;
+padding-top: 28px; border-top: 1px solid var(–line);
+}
+.vd-row { display: flex; gap: 16px; align-items: baseline; }
+.vd-k {
+font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
+color: var(–mid); min-width: 80px;
+}
+.vd-v { font-size: .82rem; color: var(–ink); }
+
+/* ── CONTACT ── */
+.contact {
+display: grid; grid-template-columns: 1fr 1fr;
+border-bottom: 1px solid var(–line);
+}
+.contact-left {
+padding: 100px 52px;
+border-right: 1px solid var(–line);
+display: flex; flex-direction: column; justify-content: center;
+}
+.contact-left h2 {
+font-family: ‘DM Serif Display’, serif;
+font-size: clamp(2rem, 3.5vw, 3.8rem);
+line-height: 1.05; margin-bottom: 24px;
+}
+.contact-left h2 em { font-style: italic; }
+.contact-sub { font-size: .88rem; line-height: 1.85; color: var(–mid); margin-bottom: 48px; }
+.contact-sub strong { color: var(–ink); font-weight: 500; }
+.contact-links { display: flex; flex-direction: column; gap: 16px; }
+.cl-row { display: flex; gap: 16px; align-items: baseline; }
+.cl-k { font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(–mid); min-width: 68px; }
+.cl-v { font-size: .88rem; color: var(–ink); }
+.cl-v a { color: var(–ink); text-decoration: none; border-bottom: 1px solid var(–line); transition: border-color .2s; }
+.cl-v a:hover { border-color: var(–ink); }
+
+.contact-right {
+padding: 100px 52px;
+display: flex; flex-direction: column; gap: 20px;
+}
+.fg label {
+display: block;
+font-size: .6rem; letter-spacing: .18em; text-transform: uppercase;
+color: var(–mid); margin-bottom: 8px;
+}
+.fg input, .fg textarea, .fg select {
+width: 100%;
+background: transparent;
+border: none; border-bottom: 1px solid var(–line);
+padding: 10px 0;
+font-family: ‘DM Sans’, sans-serif; font-size: .88rem; font-weight: 300;
+color: var(–ink); outline: none;
+transition: border-color .25s;
+-webkit-appearance: none;
+}
+.fg input:focus, .fg textarea:focus, .fg select:focus { border-color: var(–ink); }
+.fg textarea { resize: none; height: 80px; }
+.fg select option { background: var(–bg); }
+.btn-submit {
+margin-top: 8px; align-self: flex-start;
+padding: 13px 36px;
+background: var(–ink); color: var(–bg);
+border: none;
+font-family: ‘DM Sans’, sans-serif;
+font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+cursor: none; transition: opacity .2s;
+}
+.btn-submit:hover { opacity: .8; }
+
+/* ── FOOTER ── */
+footer {
+padding: 32px 52px;
+display: flex; align-items: center; justify-content: space-between;
+}
+.footer-logo {
+font-family: ‘DM Serif Display’, serif;
+font-size: .92rem; color: var(–ink); text-decoration: none;
+}
+.footer-copy { font-size: .65rem; letter-spacing: .08em; color: var(–mid); }
+.footer-links { display: flex; gap: 24px; list-style: none; }
+.footer-links a {
+font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+color: var(–mid); text-decoration: none; transition: color .2s;
+}
+.footer-links a:hover { color: var(–ink); }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.reveal.on { opacity: 1; transform: none; }
+
+/* ANIMATIONS */
+@keyframes up { from { opacity:0; transform: translateY(20px); } to { opacity:1; transform:none; } }
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+nav { padding: 18px 24px; }
+.nav-links { display: none; }
+.hero { padding: 0 24px 56px; }
+.hero-bg-num { font-size: 55vw; }
+.intro, .contact, .vision, .how { grid-template-columns: 1fr; }
+.intro-left, .intro-right { padding: 56px 24px; border-right: none; }
+.intro-right { border-top: 1px solid var(–line); }
+.what { padding: 72px 24px; }
+.what-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+.what-note { text-align: left; max-width: 100%; }
+.what-grid { grid-template-columns: 1fr; }
+.projects-head { padding: 40px 24px 28px; }
+.proj-item { padding: 22px 24px; grid-template-columns: 40px 1fr; }
+.pi-tag, .pi-year { display: none; }
+.proj-item::after { right: 24px; }
+.how-left { padding: 56px 24px; border-right: none; }
+.how-right { padding: 40px 24px 56px; }
+.vision { padding: 72px 24px; gap: 48px; }
+.contact-left, .contact-right { padding: 64px 24px; }
+.contact-left { border-right: none; border-bottom: 1px solid var(–line); }
+footer { flex-direction: column; gap: 16px; text-align: center; padding: 28px 24px; }
+}
+</style>
+
 </head>
-<body class="bg-white text-gray-900">
+<body>
 
-    <nav class="fixed w-full z-50 mix-blend-difference px-8 py-6 flex justify-between items-center text-white">
-        <div class="text-2xl font-bold tracking-tighter">BUSER MİMARLIK</div>
-        <div class="space-x-8 text-sm uppercase tracking-widest hidden md:block">
-            <a href="#projects" class="hover:opacity-50 transition duration-300">Projeler</a>
-            <a href="#about" class="hover:opacity-50 transition duration-300">Vizyon</a>
-            <a href="#services" class="hover:opacity-50 transition duration-300">Uzmanlık</a>
-            <a href="#contact" class="hover:opacity-50 transition duration-300">İletişim</a>
-        </div>
-    </nav>
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+<div class="spb" id="spb"></div>
 
-    <section class="h-screen hero-section flex items-center justify-center text-center text-white px-4 relative">
-        <div class="z-10">
-            <h1 class="text-5xl md:text-7xl font-light mb-6 tracking-tight leading-tight">Dijital Hassasiyet. <br> Mimari Gerçeklik.</h1>
-            <p class="text-lg md:text-xl font-light opacity-70 uppercase tracking-[0.3em] mt-6">BIM & İnovatif Tasarım Merkezi</p>
-            <div class="mt-16">
-                <a href="#projects" class="border border-white px-10 py-4 text-sm uppercase tracking-widest hover:bg-white hover:text-black transition duration-300">İşleri Keşfet</a>
-            </div>
-        </div>
-    </section>
+<!-- NAV -->
 
-    <section id="projects" class="py-32 px-8 max-w-7xl mx-auto">
-        <h2 class="text-3xl font-light mb-16 uppercase tracking-widest border-b border-gray-200 pb-4 text-gray-400">Seçili Projeler</h2>
-        <div class="grid md:grid-cols-2 gap-16">
-            <div class="group cursor-pointer">
-                <div class="overflow-hidden bg-gray-100 aspect-video mb-6">
-                    <img src="https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="Karahantepe">
-                </div>
-                <h3 class="text-2xl font-medium">Karahantepe Koruma Kanopisi</h3>
-                <p class="text-gray-500 text-sm uppercase mt-2 tracking-wider">Arkeolojik Mimari / Şanlıurfa</p>
-            </div>
-            <div class="group cursor-pointer">
-                <div class="overflow-hidden bg-gray-100 aspect-video mb-6">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" alt="DSİ Misafirhanesi">
-                </div>
-                <h3 class="text-2xl font-medium">DSİ Misafirhanesi</h3>
-                <p class="text-gray-500 text-sm uppercase mt-2 tracking-wider">Kamu Yapısı / Ankara</p>
-            </div>
-        </div>
-    </section>
+<nav>
+  <a href="#" class="logo">
+    Buser Mimarlık
+    <small>BIM & Uygulama Projesi</small>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#ne-yapiyorum">Hizmetler</a></li>
+    <li><a href="#projeler">Projeler</a></li>
+    <li><a href="#vizyon">Vizyon</a></li>
+    <li><a href="#iletisim" class="nav-cta">İletişime Geç</a></li>
+  </ul>
+</nav>
 
-    <section id="about" class="bg-black text-white py-32 px-8">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-sm uppercase tracking-[0.5em] mb-12 opacity-50">Tasarım Felsefesi</h2>
-            <p class="text-2xl md:text-4xl font-light leading-relaxed">
-                Ankara merkezli Buser Mimarlık, mimari estetiği <strong>BIM ve Revit</strong> ekosisteminin veri odaklı gücüyle inşa eder. Her bir proje, fiziksel dünyanın dijital ortamda milimetrik bir hassasiyetle kurgulanmış yansımasıdır.
-            </p>
-        </div>
-    </section>
+<!-- HERO -->
 
-    <section id="services" class="py-32 px-8 max-w-7xl mx-auto">
-        <div class="grid md:grid-cols-3 gap-16">
-            <div class="border-t border-gray-300 pt-8">
-                <h3 class="text-lg font-bold mb-4 uppercase tracking-tighter">Mimari Tasarım</h3>
-                <p class="text-gray-600 font-light leading-relaxed">Konseptten anahtar teslime, çevresiyle uyumlu ve fonksiyonel çağdaş mekan çözümleri.</p>
-            </div>
-            <div class="border-t border-gray-300 pt-8">
-                <h3 class="text-lg font-bold mb-4 uppercase tracking-tighter">BIM & Revit</h3>
-                <p class="text-gray-600 font-light leading-relaxed">Projelerin çakışmasız, veri odaklı ve uluslararası standartlarda dijital olarak modellenmesi.</p>
-            </div>
-            <div class="border-t border-gray-300 pt-8">
-                <h3 class="text-lg font-bold mb-4 uppercase tracking-tighter">Fotogrametri</h3>
-                <p class="text-gray-600 font-light leading-relaxed">Mevcut yapıların ve arkeolojik sahaların drone teknolojisi ile yüksek hassasiyetli 3D modellenmesi.</p>
-            </div>
-        </div>
-    </section>
+<section class="hero">
+  <div class="hero-bg-num" aria-hidden="true">B</div>
+  <p class="hero-eyebrow">Freelance Mimarlık Ofisi — İstanbul</p>
+  <h1 class="hero-title">
+    Tasarım ve teknik<br />arasındaki <em>köprü.</em>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Özel projelerin uygulama süreçlerinde
+      <strong>BIM tabanlı dijital veri üretimi</strong> yapıyorum.
+      Mimari vizyonu, inşa edilebilir ve koordineli bir veri modeline dönüştürüyorum.
+    </p>
+    <a href="#ne-yapiyorum" class="hero-scroll">Keşfet</a>
+  </div>
+</section>
 
-    <footer id="contact" class="py-32 px-8 text-center border-t border-gray-100 bg-gray-50">
-        <h2 class="text-3xl font-light mb-12 uppercase tracking-[0.3em]">İşbirliği İçin</h2>
-        <div class="mb-12">
-            <a href="mailto:sertacdayilar@gmail.com" class="text-3xl md:text-5xl font-light hover:opacity-50 transition duration-300">sertacdayilar@gmail.com</a>
-        </div>
-        <p class="text-gray-500 text-sm uppercase tracking-widest">Ankara, Türkiye — Buser Mimarlık</p>
-    </footer>
+<!-- INTRO -->
+
+<section class="intro" id="vizyon">
+  <div class="intro-left reveal">
+    <p class="intro-label">Hakkımda</p>
+    <h2 class="intro-heading">Tek kişilik,<br /><em>odaklı</em> bir ofis.</h2>
+    <p class="intro-body">
+      Buser Mimarlık olarak tek kişi çalışan bir freelance ofisim.
+      Bu benim için bir kısıt değil, bir tercih —
+      her projeye <strong>doğrudan, kişisel</strong> ve tam konsantrasyonla odaklanabiliyorum.
+      <br/><br/>
+      Uzmanlık alanım: özel inşaat projelerinin <strong>uygulama aşamasında</strong>
+      BIM tabanlı 3D modellerinin ve yapısal dijital verilerinin üretilmesi.
+    </p>
+    <a href="#iletisim" class="link-arrow"><span class="ln"></span> Birlikte çalışalım</a>
+  </div>
+  <div class="intro-right reveal">
+    <div class="stat-row">
+      <div class="stat-num">130+</div>
+      <div class="stat-label">Tamamlanan Uygulama Projesi</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-num">17</div>
+      <div class="stat-label">Yıllık Sektör Deneyimi</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat-num">LOD 500</div>
+      <div class="stat-label">Detay Seviyesine Kadar</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I DO -->
+
+<section class="what" id="ne-yapiyorum">
+  <div class="what-header reveal">
+    <h2 class="what-title">Ne<br /><em>yapıyorum?</em></h2>
+    <p class="what-note">Her hizmet, IFC ve ISO 19650 standartlarına uygun olarak sunulur.</p>
+  </div>
+  <div class="what-grid reveal">
+    <div class="w-item">
+      <span class="w-num">1</span>
+      <div class="w-name">BIM Uygulama Modeli</div>
+      <p class="w-desc">Uygulama projesi kapsamında LOD 300–400 seviyesinde detaylı Revit modeli. Yapı elemanları, aks sistemleri ve malzeme parametreleriyle eksiksiz.</p>
+      <div class="w-tags"><span class="w-tag">Revit</span><span class="w-tag">LOD 300–400</span><span class="w-tag">Uygulama</span></div>
+    </div>
+    <div class="w-item">
+      <span class="w-num">2</span>
+      <div class="w-name">Çakışma Analizi & Koordinasyon</div>
+      <p class="w-desc">Mimari, yapısal ve MEP modelleri arasında Navisworks ile çakışma kontrolü. Disiplinlerarası koordinasyon ve revizyon yönetimi.</p>
+      <div class="w-tags"><span class="w-tag">Navisworks</span><span class="w-tag">Clash Detection</span><span class="w-tag">MEP</span></div>
+    </div>
+    <div class="w-item">
+      <span class="w-num">3</span>
+      <div class="w-name">IFC & Dijital Veri Paketi</div>
+      <p class="w-desc">OpenBIM standartlarına uygun IFC ihracı ve COBie tabanlı veri paketleri. Teslim, işletme ve bakım süreçleri için hazır dijital varlık seti.</p>
+      <div class="w-tags"><span class="w-tag">IFC 4.x</span><span class="w-tag">COBie</span><span class="w-tag">OpenBIM</span></div>
+    </div>
+    <div class="w-item">
+      <span class="w-num">4</span>
+      <div class="w-name">As-Built Model Üretimi</div>
+      <p class="w-desc">İnşaat sürecindeki değişikliklerle güncellenen as-built BIM modeli. Yapı teslimi ve yaşam döngüsü yönetimi için eksiksiz veri seti.</p>
+      <div class="w-tags"><span class="w-tag">As-Built</span><span class="w-tag">LOD 500</span></div>
+    </div>
+    <div class="w-item">
+      <span class="w-num">5</span>
+      <div class="w-name">Metraj & Miktar Çıkarımı</div>
+      <p class="w-desc">BIM modeli üzerinden otomatik ve doğrulanmış metraj tabloları. Maliyet kontrolü ve ihale süreçlerinde doğrudan kullanılabilir çıktılar.</p>
+      <div class="w-tags"><span class="w-tag">Metraj</span><span class="w-tag">Dynamo</span></div>
+    </div>
+    <div class="w-item">
+      <span class="w-num">6</span>
+      <div class="w-name">BIM Danışmanlığı</div>
+      <p class="w-desc">BIM Yürütme Planı (BEP) hazırlama ve süreç kurulumu. Proje ekiplerine BIM entegrasyonu ve standartlar konusunda teknik destek.</p>
+      <div class="w-tags"><span class="w-tag">BEP</span><span class="w-tag">ISO 19650</span><span class="w-tag">Süreç</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+
+<section class="projects" id="projeler">
+  <div class="projects-head reveal">
+    <h2>Seçilmiş <em>projeler</em></h2>
+    <a href="#iletisim" class="link-arrow"><span class="ln"></span> Detay için iletişime geç</a>
+  </div>
+  <div class="proj-list reveal">
+    <div class="proj-item">
+      <span class="pi-num">01</span>
+      <div class="pi-info">
+        <div class="pi-name">Kozyatağı Karma Kullanım Projesi</div>
+        <div class="pi-sub">İstanbul, Kadıköy — Mimari + Yapısal Koordinasyon</div>
+      </div>
+      <span class="pi-tag">LOD 400</span>
+      <span class="pi-year">2024</span>
+    </div>
+    <div class="proj-item">
+      <span class="pi-num">02</span>
+      <div class="pi-info">
+        <div class="pi-name">Ataşehir Rezidans — A Blok</div>
+        <div class="pi-sub">İstanbul, Ataşehir — Tam BIM Koordinasyonu</div>
+      </div>
+      <span class="pi-tag">LOD 350</span>
+      <span class="pi-year">2024</span>
+    </div>
+    <div class="proj-item">
+      <span class="pi-num">03</span>
+      <div class="pi-info">
+        <div class="pi-name">Balgat Ofis Kampüsü</div>
+        <div class="pi-sub">Ankara, Çankaya — Mimari + MEP Modeli</div>
+      </div>
+      <span class="pi-tag">LOD 400</span>
+      <span class="pi-year">2023</span>
+    </div>
+    <div class="proj-item">
+      <span class="pi-num">04</span>
+      <div class="pi-info">
+        <div class="pi-name">Çeşme Marina Villalar</div>
+        <div class="pi-sub">İzmir, Çeşme — Uygulama BIM Modeli</div>
+      </div>
+      <span class="pi-tag">LOD 300</span>
+      <span class="pi-year">2023</span>
+    </div>
+    <div class="proj-item">
+      <span class="pi-num">05</span>
+      <div class="pi-info">
+        <div class="pi-name">Nişantaşı Butik Otel Restorasyonu</div>
+        <div class="pi-sub">İstanbul, Şişli — As-Built Model</div>
+      </div>
+      <span class="pi-tag">LOD 500</span>
+      <span class="pi-year">2022</span>
+    </div>
+    <div class="proj-item">
+      <span class="pi-num">06</span>
+      <div class="pi-info">
+        <div class="pi-name">Gebze Lojistik Merkezi</div>
+        <div class="pi-sub">Kocaeli, Gebze — Yapısal + MEP Koordinasyonu</div>
+      </div>
+      <span class="pi-tag">LOD 350</span>
+      <span class="pi-year">2022</span>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+
+<section class="how">
+  <div class="how-left reveal">
+    <h2>Nasıl<br /><em>çalışıyorum?</em></h2>
+    <p>Her proje, net bir süreç ve doğrudan iletişimle ilerler. Tek kişi çalıştığım için her aşamada sizinle bizzat muhatap olurum.</p>
+  </div>
+  <div class="how-right reveal">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-body">
+        <div class="step-name">Proje Alımı & Kapsam Belirleme</div>
+        <p class="step-desc">Proje belgeleri ve beklentiler aktarılır. LOD hedefi, disiplin kapsamı ve teslim formatı birlikte belirlenir.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-body">
+        <div class="step-name">Model Kurulumu</div>
+        <p class="step-desc">Revit şablonu, aks sistemi, kot yapısı ve paylaşımlı koordinatlar oluşturulur. Standartlar ilk adımda netleştirilir.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-body">
+        <div class="step-name">Modelleme & Koordinasyon</div>
+        <p class="step-desc">Belirlenen LOD seviyesinde modelleme yürütülür. Gerektiğinde çakışma analizi ve disiplinlerarası koordinasyon sağlanır.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-num">04</span>
+      <div class="step-body">
+        <div class="step-name">Kontrol & Teslim</div>
+        <p class="step-desc">Model kalite kontrolünden geçirilir. IFC, native model ve talep edilen veri paketleri teslim edilir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION -->
+
+<section class="vision">
+  <blockquote class="vision-quote reveal">
+    "İyi bir yapı modeli,<br />tasarımın <em>niyetini</em><br />eksiksiz taşır."
+  </blockquote>
+  <div class="vision-right reveal">
+    <p class="vision-label">Çalışma Anlayışım</p>
+    <p class="vision-body">
+      Mimarlık ve teknik detay benim için iki ayrı dünya değil.
+      BIM'i sadece bir yazılım olarak değil,
+      <strong>projenin düşünülme biçimi</strong> olarak görüyorum.
+      Her modeli, onu inşa edecek ekibin anlayabileceği ve güvenebileceği
+      bir dokümana dönüştürmeyi hedefliyorum.
+    </p>
+    <div class="vision-detail">
+      <div class="vd-row"><span class="vd-k">Lokasyon</span><span class="vd-v">İstanbul — Uzaktan çalışma mevcut</span></div>
+      <div class="vd-row"><span class="vd-k">Araçlar</span><span class="vd-v">Revit · Navisworks · AutoCAD · Dynamo</span></div>
+      <div class="vd-row"><span class="vd-k">Standartlar</span><span class="vd-v">ISO 19650 · IFC 4.x · COBie</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+
+<section class="contact" id="iletisim">
+  <div class="contact-left reveal">
+    <h2>Projenizi<br /><em>konuşalım.</em></h2>
+    <p class="contact-sub">
+      Yeni bir proje için teklif almak veya sadece fikir alışverişi yapmak istiyorsanız yazın.
+      <strong>İlk görüşme ücretsizdir.</strong>
+    </p>
+    <div class="contact-links">
+      <div class="cl-row"><span class="cl-k">E-posta</span><span class="cl-v"><a href="mailto:info@busermimarlik.com">info@busermimarlik.com</a></span></div>
+      <div class="cl-row"><span class="cl-k">Telefon</span><span class="cl-v">+90 (212) 555 08 08</span></div>
+      <div class="cl-row"><span class="cl-k">Konum</span><span class="cl-v">İstanbul — Uzaktan çalışma mevcut</span></div>
+      <div class="cl-row"><span class="cl-k">LinkedIn</span><span class="cl-v"><a href="#">linkedin.com/in/busermimarlik</a></span></div>
+    </div>
+  </div>
+  <div class="contact-right reveal">
+    <div class="fg"><label>Ad Soyad</label><input type="text" placeholder="Adınız" /></div>
+    <div class="fg"><label>E-posta</label><input type="email" placeholder="ornek@firma.com" /></div>
+    <div class="fg">
+      <label>Proje Türü</label>
+      <select>
+        <option>— Seçin —</option>
+        <option>Konut</option>
+        <option>Ticari / Ofis</option>
+        <option>Karma Kullanım</option>
+        <option>Endüstriyel</option>
+        <option>Restorasyon</option>
+        <option>Diğer</option>
+      </select>
+    </div>
+    <div class="fg"><label>Projeniz hakkında</label><textarea placeholder="Kısaca aktarın: brüt alan, LOD hedefi, mevcut belgeler…"></textarea></div>
+    <button class="btn-submit">Gönder</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <a href="#" class="footer-logo">Buser Mimarlık</a>
+  <p class="footer-copy">© 2025 — BIM & Uygulama Projesi</p>
+  <ul class="footer-links">
+    <li><a href="#">LinkedIn</a></li>
+    <li><a href="#">Instagram</a></li>
+    <li><a href="#">E-posta</a></li>
+  </ul>
+</footer>
+
+<script>
+// cursor
+const cur = document.getElementById('cur');
+const curR = document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; cur.style.left=mx+'px'; cur.style.top=my+'px'; });
+(function loop(){ rx+=(mx-rx)*.1; ry+=(my-ry)*.1; curR.style.left=rx+'px'; curR.style.top=ry+'px'; requestAnimationFrame(loop); })();
+
+// scroll bar
+const spb = document.getElementById('spb');
+window.addEventListener('scroll', () => {
+  const t = document.body.scrollHeight - window.innerHeight;
+  spb.style.width = (window.scrollY / t * 100) + '%';
+});
+
+// reveal
+const revEls = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      const delay = Array.from(e.target.parentNode.children).indexOf(e.target) * 60;
+      setTimeout(() => e.target.classList.add('on'), delay);
+    }
+  });
+}, { threshold: 0.1 });
+revEls.forEach(el => ro.observe(el));
+</script>
 
 </body>
 </html>
