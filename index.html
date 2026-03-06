@@ -1,755 +1,398 @@
 <!DOCTYPE html>
-
 <html lang="tr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Buser Mimarlık</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet"/>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buser Mimarlık | Dijital Hassasiyet & Mimari Gerçeklik</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
-:root{
-–bg:#f4f1ec;
-–ink:#18180f;
-–mid:#8a8778;
-–soft:#e8e3da;
-–white:#fffef9;
-–line:rgba(24,24,15,.1);
-–accent:#c9a96e;
-}
+    <style>
+        html { scroll-behavior: smooth; }
 
-html{scroll-behavior:smooth;}
+        :root {
+            --bg-dark: #324355; 
+            --bg-light: #f9f9f9; 
+            --bg-footer: #f3f4f6;
+            --text-dark: #111827; /* Gündüz modunda ikon bu rengi (koyu lacivert/siyah) alacak */
+            --text-light: #ffffff;
+            --text-gray: #6b7280;
+            --accent: #c9a063; 
+            --border-color: #e5e7eb;
+            --nav-bg: rgba(249, 249, 249, 0.95);
+            --transition-speed: 0.8s;
+        }
 
-body{
-background:var(–bg);
-color:var(–ink);
-font-family:‘Outfit’,sans-serif;
-font-weight:300;
-overflow-x:hidden;
-cursor:none;
-}
+        body.dark-theme {
+            --bg-light: #111827; 
+            --bg-footer: #0f141e; 
+            --text-dark: #f9f9f9; /* Gece modunda ikon bu rengi (beyaz) alacak */
+            --text-gray: #9ca3af;
+            --border-color: #374151; 
+            --nav-bg: rgba(17, 24, 39, 0.95);
+        }
 
-/* ─── CURSOR ─── */
-#dot{position:fixed;width:8px;height:8px;background:var(–ink);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .12s,background .2s;}
-#ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(24,24,15,.22);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
-body:has(a:hover) #dot,body:has(button:hover) #dot{transform:translate(-50%,-50%) scale(2.4);background:var(–accent);}
-body:has(a:hover) #ring,body:has(button:hover) #ring{transform:translate(-50%,-50%) scale(0);opacity:0;}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ─── PROGRESS ─── */
-#prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(–accent);z-index:300;transition:width .06s linear;}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark); 
+            color: var(--text-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease; 
+        }
 
-/* ─── NAV ─── */
-nav{
-position:fixed;top:0;left:0;right:0;z-index:200;
-padding:0 52px;
-height:68px;
-display:flex;align-items:center;justify-content:space-between;
-background:rgba(244,241,236,.9);
-backdrop-filter:blur(16px);
-border-bottom:1px solid transparent;
-transition:border-color .4s;
-}
-nav.scrolled{border-color:var(–line);}
-.nav-logo{
-font-family:‘Playfair Display’,serif;
-font-size:.98rem;letter-spacing:.02em;
-color:var(–ink);text-decoration:none;
-display:flex;flex-direction:column;gap:1px;
-}
-.nav-logo span{
-font-family:‘Outfit’,sans-serif;
-font-size:.55rem;letter-spacing:.22em;
-text-transform:uppercase;color:var(–mid);font-weight:400;
-}
-.nav-links{display:flex;gap:10px;list-style:none;align-items:center;}
-.nav-links a{
-font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
-color:var(–mid);text-decoration:none;
-padding:8px 16px;
-border-radius:100px;
-transition:background .25s,color .25s;
-}
-.nav-links a:hover{background:var(–ink);color:var(–bg);}
-.nav-links .cta{
-background:var(–ink);color:var(–bg) !important;
-}
-.nav-links .cta:hover{background:var(–accent);}
+        #mesh-canvas {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 1; pointer-events: none;
+        }
 
-/* ─── HERO ─── */
-.hero{
-min-height:100vh;
-display:flex;flex-direction:column;
-justify-content:flex-end;
-padding:120px 52px 80px;
-position:relative;overflow:hidden;
-}
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; background: var(--nav-bg);
+            backdrop-filter: blur(10px); box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            transition: all 0.5s ease;
+        }
+        .brand { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .brand img { height: 40px; width: auto; }
+        .brand span { font-size: 20px; letter-spacing: 2px; font-weight: 600; color: var(--text-dark); transition: color 0.5s ease;}
+        
+        .nav-right { display: flex; align-items: center; gap: 40px; }
+        .nav-links { list-style: none; display: flex; gap: 40px; }
+        .nav-links li a { color: var(--text-dark); text-decoration: none; text-transform: uppercase; font-size: 12px; letter-spacing: 3px; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links li a:hover { color: var(--accent); }
+        
+        /* YENİ: TEMA BUTONU VE SVG İKON AYARLARI */
+        .theme-switch { 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: var(--text-dark); /* SVG bu rengi miras alır */
+            transition: transform 0.3s ease, color 0.5s ease; 
+        }
+        .theme-switch:hover { transform: scale(1.1) rotate(10deg); color: var(--accent); }
+        
+        .theme-switch svg { width: 22px; height: 22px; transition: all 0.3s ease; }
+        
+        /* Başlangıçta (Gündüz) Güneş gizli, Ay görünür */
+        .icon-sun { display: none; }
+        .icon-moon { display: block; }
+        
+        /* Gece modunda tam tersi */
+        body.dark-theme .icon-sun { display: block; }
+        body.dark-theme .icon-moon { display: none; }
 
-/* animated background lines */
-.hero-lines{
-position:absolute;inset:0;overflow:hidden;pointer-events:none;
-}
-.hero-lines span{
-position:absolute;bottom:0;left:0;right:0;
-height:1px;background:var(–line);
-transform-origin:left;
-animation:lineGrow 1.8s cubic-bezier(.16,1,.3,1) forwards;
-opacity:0;
-}
-.hero-lines span:nth-child(1){top:30%;animation-delay:.1s;}
-.hero-lines span:nth-child(2){top:55%;animation-delay:.25s;}
-.hero-lines span:nth-child(3){top:75%;animation-delay:.4s;}
-.hl-v{
-position:absolute;top:0;bottom:0;
-width:1px;background:var(–line);
-transform-origin:top;
-animation:vlineGrow 1.8s cubic-bezier(.16,1,.3,1) forwards;
-opacity:0;
-}
-.hl-v:nth-child(4){left:33.33%;animation-delay:.2s;}
-.hl-v:nth-child(5){left:66.66%;animation-delay:.35s;}
+        .menu-btn { display: none; font-size: 28px; cursor: pointer; color: var(--text-dark); }
 
-@keyframes lineGrow{from{opacity:0;transform:scaleX(0);}to{opacity:1;transform:scaleX(1);}}
-@keyframes vlineGrow{from{opacity:0;transform:scaleY(0);}to{opacity:1;transform:scaleY(1);}}
+        section { width: 100%; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 120px 5vw; }
 
-.hero-eyebrow{
-font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
-color:var(–mid);margin-bottom:28px;
-display:flex;align-items:center;gap:12px;
-opacity:0;animation:fadeUp .6s .5s forwards;
-}
-.hero-eyebrow::before{content:’’;width:32px;height:1px;background:var(–accent);display:block;}
+        .light-section { position: relative; z-index: 2; background-color: var(--bg-light); transition: background-color 0.5s ease; }
+        .dark-section { position: relative; z-index: 0; background-color: transparent; color: var(--text-light); }
+        .dark-section .container, .dark-section .hero-content { position: relative; z-index: 2; }
 
-.hero-h1{
-font-family:‘Playfair Display’,serif;
-font-weight:400;
-font-size:clamp(3.6rem,7.5vw,9rem);
-line-height:.95;letter-spacing:-.025em;
-color:var(–ink);
-max-width:1100px;
-margin-bottom:56px;
-}
-/* word-by-word animation */
-.hero-h1 .w{display:inline-block;overflow:hidden;vertical-align:bottom;}
-.hero-h1 .w span{display:block;transform:translateY(110%);animation:wordUp .7s cubic-bezier(.16,1,.3,1) forwards;}
+        .hero { position: relative; width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.95)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069') center/cover no-repeat; z-index: 0; padding: 0 20px; }
+        .hero h1 { font-size: 4.5rem; font-weight: 300; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; color: var(--text-light); }
+        .hero p { font-size: 1.1rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 50px; }
+        .hero-btn { border: 1px solid var(--accent); padding: 15px 40px; color: var(--text-light); text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-size: 12px; transition: all 0.3s ease; }
+        .hero-btn:hover { background-color: var(--accent); color: var(--bg-dark); }
 
-.hero-h1 .w:nth-child(1) span{animation-delay:.4s;}
-.hero-h1 .w:nth-child(2) span{animation-delay:.52s;}
-.hero-h1 .w:nth-child(3) span{animation-delay:.64s;}
-.hero-h1 .w:nth-child(4) span{animation-delay:.76s;}
-.hero-h1 .w:nth-child(5) span{animation-delay:.88s;}
-.hero-h1 .w:nth-child(6) span{animation-delay:1s;}
-.hero-h1 .w:nth-child(7) span{animation-delay:1.12s;}
-.hero-h1 .italic{font-style:italic;}
-@keyframes wordUp{from{transform:translateY(110%);}to{transform:translateY(0);}}
+        .section-title { font-size: 1.8rem; font-weight: 300; margin-bottom: 60px; text-transform: uppercase; letter-spacing: 5px; color: var(--text-gray); border-bottom: 1px solid var(--border-color); padding-bottom: 20px; transition: border-color 0.5s ease; }
 
-.hero-bottom{
-display:flex;align-items:flex-end;justify-content:space-between;gap:40px;
-opacity:0;animation:fadeUp .7s 1.2s forwards;
-}
-.hero-desc{
-font-size:.95rem;line-height:1.85;
-color:var(–mid);max-width:400px;
-}
-.hero-desc strong{color:var(–ink);font-weight:500;}
-.hero-cta{
-display:inline-flex;align-items:center;gap:14px;
-padding:16px 32px;
-background:var(–ink);color:var(–bg);
-font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
-text-decoration:none;
-transition:background .3s,gap .3s;
-white-space:nowrap;
-}
-.hero-cta:hover{background:var(–accent);gap:22px;}
-.hero-cta svg{transition:transform .3s;}
-.hero-cta:hover svg{transform:translateX(4px);}
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+        .project-card { cursor: pointer; position: relative; }
+        .project-img-wrapper { overflow: hidden; aspect-ratio: 16/9; background-color: #f3f4f6; margin-bottom: 20px; }
+        .project-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
+        .project-card:hover .project-img { transform: scale(1.05); }
+        .project-info h3 { font-size: 1.5rem; font-weight: 500; color: var(--text-dark); transition: color 0.3s ease;}
+        .project-card:hover .project-info h3 { color: var(--accent); }
+        .project-info p { color: var(--text-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
 
-/* scroll indicator */
-.hero-scroll{
-position:absolute;right:52px;bottom:80px;
-writing-mode:vertical-rl;
-font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
-color:var(–mid);text-decoration:none;
-display:flex;align-items:center;gap:8px;
-opacity:0;animation:fadeUp .6s 1.5s forwards;
-}
-.hero-scroll::after{content:’’;width:1px;height:40px;background:var(–mid);}
+        .about-content { text-align: center; max-width: 900px !important; }
+        .about-subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 8px; color: var(--accent); margin-bottom: 40px; display: block; }
+        .about-text { font-size: 2.2rem; font-weight: 300; line-height: 1.6; }
 
-/* ─── VISION ─── */
-.vision{
-display:grid;grid-template-columns:1fr 1fr;
-border-top:1px solid var(–line);
-}
-.vis-left{
-padding:100px 64px;
-border-right:1px solid var(–line);
-display:flex;flex-direction:column;justify-content:center;
-background:var(–ink);
-}
-.vis-label{
-font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;
-color:rgba(255,255,255,.3);margin-bottom:32px;
-display:flex;align-items:center;gap:10px;
-}
-.vis-label::after{content:’’;width:28px;height:1px;background:var(–accent);}
-.vis-quote{
-font-family:‘Playfair Display’,serif;
-font-size:clamp(1.6rem,2.6vw,2.8rem);
-line-height:1.3;font-weight:400;
-color:var(–white);margin-bottom:36px;
-}
-.vis-quote em{font-style:italic;color:var(–accent);}
-.vis-author{
-font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;
-color:rgba(255,255,255,.35);
-}
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; }
+        .service-item { border-top: 1px solid var(--border-color); padding-top: 30px; transition: border-color 0.5s ease; }
+        .service-item h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -0.5px; }
+        .service-item p { color: var(--text-gray); font-weight: 300; }
 
-.vis-right{
-padding:100px 64px;
-display:flex;flex-direction:column;gap:40px;justify-content:center;
-background:var(–white);
-}
-.vis-block{}
-.vis-block-label{
-font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
-color:var(–mid);margin-bottom:10px;
-}
-.vis-block-text{
-font-size:.9rem;line-height:1.85;color:var(–ink);
-}
-.vis-block-text strong{font-weight:500;}
-.vis-divider{width:100%;height:1px;background:var(–line);}
-.vis-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
-.vtag{
-font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;
-padding:6px 14px;
-border:1px solid var(–line);
-color:var(–mid);
-transition:all .2s;
-}
-.vtag:hover{border-color:var(–ink);color:var(–ink);}
+        footer { text-align: center; background-color: var(--bg-footer); border-top: 1px solid var(--border-color); position: relative; z-index: 2; transition: background-color 0.5s ease, border-color 0.5s ease;}
+        footer .container { padding: 100px 20px; }
+        footer h2 { font-size: 2rem; font-weight: 300; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
+        .social-links { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; }
+        .social-links a { color: var(--text-gray); text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; position: relative; }
+        .social-links a:hover { color: var(--text-dark); }
+        .social-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background-color: var(--text-dark); transition: width 0.3s ease; }
+        .social-links a:hover::after { width: 100%; }
+        .footer-bottom { color: var(--text-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; }
 
-/* ─── PROJECTS ─── */
-.projects{padding:100px 52px;border-top:1px solid var(–line);}
-.proj-header{
-display:flex;align-items:flex-end;justify-content:space-between;
-margin-bottom:72px;
-}
-.proj-title{
-font-family:‘Playfair Display’,serif;
-font-size:clamp(2.2rem,4vw,4.5rem);
-line-height:1.05;font-weight:400;
-letter-spacing:-.02em;
-}
-.proj-title em{font-style:italic;}
-.proj-subtitle{
-font-size:.8rem;line-height:1.7;
-color:var(–mid);max-width:240px;text-align:right;
-}
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 10, 12, 0.9); backdrop-filter: blur(8px); z-index: 1000; overflow-y: auto; padding: 40px 20px; opacity: 0; transition: opacity 0.4s ease; }
+        .modal-overlay.active { display: block; opacity: 1; }
+        .modal-content { background-color: var(--bg-light); max-width: 1000px; margin: 0 auto; position: relative; border-radius: 4px; overflow: hidden; transform: translateY(50px); transition: transform 0.4s ease, background-color 0.5s ease; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
+        .modal-close-btn { position: absolute; top: 20px; right: 25px; font-size: 40px; font-weight: 300; color: #ffffff; cursor: pointer; z-index: 10; line-height: 1; transition: color 0.3s ease; }
+        .modal-close-btn:hover { color: var(--accent); }
+        .modal-header-img { width: 100%; height: 50vh; object-fit: cover; }
+        .modal-body { padding: 50px; }
+        .modal-title { font-size: 2.5rem; font-weight: 400; font-family: 'Playfair Display', serif; color: var(--text-dark); margin-bottom: 10px; transition: color 0.5s ease; }
+        .modal-category { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); margin-bottom: 30px; }
+        .modal-desc { font-size: 1.1rem; color: var(--text-gray); line-height: 1.8; margin-bottom: 40px; transition: color 0.5s ease;}
+        .modal-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .modal-gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; }
+        .hidden-anim { opacity: 0; transform: translateY(40px); transition: all var(--transition-speed) ease-out; }
+        .show-anim { opacity: 1; transform: translateY(0); }
 
-/* project grid */
-.proj-grid{
-display:grid;
-grid-template-columns:repeat(12,1fr);
-gap:16px;
-}
-.proj-card{
-position:relative;overflow:hidden;
-background:var(–soft);
-cursor:none;
-}
-.proj-card:nth-child(1){grid-column:span 7;aspect-ratio:16/10;}
-.proj-card:nth-child(2){grid-column:span 5;aspect-ratio:3/4;}
-.proj-card:nth-child(3){grid-column:span 4;aspect-ratio:4/5;}
-.proj-card:nth-child(4){grid-column:span 8;aspect-ratio:16/9;}
-.proj-card:nth-child(5){grid-column:span 6;aspect-ratio:4/3;}
-.proj-card:nth-child(6){grid-column:span 6;aspect-ratio:4/3;}
-
-/* placeholder visual — architectural grid pattern */
-.proj-bg{
-position:absolute;inset:0;
-display:flex;align-items:center;justify-content:center;
-transition:transform .8s cubic-bezier(.16,1,.3,1);
-}
-.proj-card:hover .proj-bg{transform:scale(1.04);}
-.proj-bg svg{width:70%;height:70%;opacity:.18;}
-
-/* color tints per card */
-.proj-card:nth-child(1) .proj-bg{background:#d9d4cc;}
-.proj-card:nth-child(2) .proj-bg{background:#cdd3d0;}
-.proj-card:nth-child(3) .proj-bg{background:#d4cec8;}
-.proj-card:nth-child(4) .proj-bg{background:#cdd2cc;}
-.proj-card:nth-child(5) .proj-bg{background:#d8d2c8;}
-.proj-card:nth-child(6) .proj-bg{background:#cfd4d0;}
-
-.proj-overlay{
-position:absolute;inset:0;
-background:linear-gradient(to top,rgba(24,24,15,.75) 0%,transparent 55%);
-opacity:0;transition:opacity .4s;
-}
-.proj-card:hover .proj-overlay{opacity:1;}
-
-.proj-info{
-position:absolute;bottom:0;left:0;right:0;
-padding:28px 28px 24px;
-transform:translateY(6px);
-transition:transform .4s cubic-bezier(.16,1,.3,1);
-}
-.proj-card:hover .proj-info{transform:translateY(0);}
-
-.proj-cat{
-font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;
-color:var(–accent);margin-bottom:5px;
-}
-.proj-name{
-font-family:‘Playfair Display’,serif;
-font-size:1.1rem;color:#fff;line-height:1.25;
-}
-.proj-meta{
-font-size:.68rem;color:rgba(255,255,255,.5);
-margin-top:4px;letter-spacing:.06em;
-}
-
-/* ─── CONTACT ─── */
-.contact{
-border-top:1px solid var(–line);
-display:grid;grid-template-columns:1fr 1fr;
-}
-.contact-left{
-padding:100px 64px;
-border-right:1px solid var(–line);
-display:flex;flex-direction:column;justify-content:center;
-}
-.contact-tag{
-font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;
-color:var(–mid);margin-bottom:28px;
-display:flex;align-items:center;gap:10px;
-}
-.contact-tag::before{content:’’;width:24px;height:1px;background:var(–accent);}
-.contact-h2{
-font-family:‘Playfair Display’,serif;
-font-size:clamp(2.4rem,4vw,4.8rem);
-line-height:.98;font-weight:400;
-letter-spacing:-.025em;
-margin-bottom:28px;
-}
-.contact-h2 em{font-style:italic;}
-.contact-sub{
-font-size:.88rem;line-height:1.85;color:var(–mid);
-margin-bottom:52px;
-}
-.contact-sub strong{color:var(–ink);font-weight:500;}
-.contact-details{display:flex;flex-direction:column;gap:16px;}
-.cd-row{display:flex;gap:20px;align-items:baseline;}
-.cd-k{
-font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
-color:var(–accent);min-width:72px;
-}
-.cd-v{font-size:.88rem;color:var(–ink);}
-.cd-v a{color:var(–ink);text-decoration:none;border-bottom:1px solid var(–line);transition:border-color .2s;}
-.cd-v a:hover{border-color:var(–accent);}
-
-.contact-right{
-padding:100px 64px;
-background:var(–white);
-display:flex;flex-direction:column;gap:22px;justify-content:center;
-}
-.fg{}
-.fg label{
-display:block;
-font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
-color:var(–mid);margin-bottom:9px;
-}
-.fg input,.fg textarea,.fg select{
-width:100%;background:transparent;
-border:none;border-bottom:1px solid var(–line);
-padding:10px 0;
-font-family:‘Outfit’,sans-serif;font-size:.9rem;
-font-weight:300;color:var(–ink);outline:none;
-transition:border-color .25s;-webkit-appearance:none;
-}
-.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(–ink);}
-.fg textarea{resize:none;height:80px;}
-.fg select option{background:var(–bg);}
-.btn-send{
-margin-top:6px;align-self:flex-start;
-display:flex;align-items:center;gap:12px;
-padding:15px 36px;
-background:var(–ink);color:var(–bg);
-border:none;
-font-family:‘Outfit’,sans-serif;
-font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
-cursor:none;transition:background .3s,gap .3s;
-}
-.btn-send:hover{background:var(–accent);gap:20px;}
-
-/* ─── FOOTER ─── */
-footer{
-border-top:1px solid var(–line);
-padding:28px 52px;
-display:flex;align-items:center;justify-content:space-between;
-background:var(–bg);
-}
-.fl{font-family:‘Playfair Display’,serif;font-size:.9rem;color:var(–ink);text-decoration:none;}
-.fc{font-size:.62rem;letter-spacing:.1em;color:var(–mid);}
-.flinks{display:flex;gap:24px;list-style:none;}
-.flinks a{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(–mid);text-decoration:none;transition:color .2s;}
-.flinks a:hover{color:var(–ink);}
-
-/* ─── REVEAL ─── */
-.r{opacity:0;transform:translateY(28px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
-.r.on{opacity:1;transform:none;}
-.r2{opacity:0;transform:translateY(28px);transition:opacity .9s .12s cubic-bezier(.16,1,.3,1),transform .9s .12s cubic-bezier(.16,1,.3,1);}
-.r2.on{opacity:1;transform:none;}
-.r3{opacity:0;transform:translateY(28px);transition:opacity .9s .24s cubic-bezier(.16,1,.3,1),transform .9s .24s cubic-bezier(.16,1,.3,1);}
-.r3.on{opacity:1;transform:none;}
-
-/* ─── KEYFRAMES ─── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
-
-/* ─── RESPONSIVE ─── */
-@media(max-width:900px){
-nav{padding:0 24px;}
-.nav-links{display:none;}
-.hero{padding:100px 24px 64px;}
-.hero-scroll{display:none;}
-.hero-h1{font-size:clamp(2.8rem,12vw,5rem);}
-.hero-bottom{flex-direction:column;align-items:flex-start;gap:28px;}
-.vision{grid-template-columns:1fr;}
-.vis-left,.vis-right{padding:64px 28px;}
-.vis-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.08);}
-.projects{padding:72px 24px;}
-.proj-header{flex-direction:column;align-items:flex-start;gap:12px;}
-.proj-subtitle{text-align:left;max-width:none;}
-.proj-card:nth-child(n){grid-column:span 12;}
-.contact{grid-template-columns:1fr;}
-.contact-left,.contact-right{padding:64px 28px;}
-.contact-left{border-right:none;border-bottom:1px solid var(–line);}
-footer{flex-direction:column;gap:14px;text-align:center;padding:24px;}
-}
-</style>
-
+        @media screen and (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .menu-btn { display: block; }
+            .nav-links { position: absolute; top: 70px; left: -100%; flex-direction: column; background-color: var(--nav-bg); width: 100%; text-align: center; padding: 30px 0; transition: left 0.4s ease; gap: 25px; }
+            .nav-links.active { left: 0; }
+            .hero h1 { font-size: 2.5rem; }
+            .about-text { font-size: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
 
-<div id="dot"></div>
-<div id="ring"></div>
-<div id="prog"></div>
+    <canvas id="mesh-canvas"></canvas>
 
-<!-- NAV -->
+    <nav>
+        <a href="#home" class="brand">
+            <img src="BUSERMIM-LOGO1.png" alt="Buser Mimarlık Logo">
+            <span>BUSER</span>
+        </a>
+        
+        <div class="nav-right">
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#projects" onclick="toggleMenu()">Projeler</a></li>
+                <li><a href="#about" onclick="toggleMenu()">Vizyon</a></li>
+                <li><a href="#services" onclick="toggleMenu()">Uzmanlık</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">İletişim</a></li>
+            </ul>
+            
+            <div class="theme-switch" onclick="toggleTheme()" title="Temayı Değiştir">
+                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+                <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </div>
+            
+            <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        </div>
+    </nav>
 
-<nav id="nav">
-  <a href="#" class="nav-logo">
-    Buser Mimarlık
-    <span>BIM & Uygulama Projesi</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#vizyon">Vizyon</a></li>
-    <li><a href="#projeler">Projeler</a></li>
-    <li><a href="#iletisim" class="cta">İletişim</a></li>
-  </ul>
-</nav>
+    <section id="home" class="hero dark-section">
+        <div class="hero-content hidden-anim">
+            <h1>Dijital Hassasiyet. <br> Mimari Gerçeklik.</h1>
+            <p>BIM & İnovatif Tasarım Merkezi</p>
+            <a href="#projects" class="hero-btn">İşleri Keşfet</a>
+        </div>
+    </section>
 
-<!-- ═══ HERO ═══ -->
+    <section id="projects" class="light-section">
+        <div class="container">
+            <h2 class="section-title hidden-anim">Seçili Projeler</h2>
+            <div class="grid-container" id="project-container"></div>
+        </div>
+    </section>
 
-<section class="hero">
-  <div class="hero-lines">
-    <span></span><span></span><span></span>
-    <span class="hl-v"></span><span class="hl-v"></span>
-  </div>
+    <section id="about" class="dark-section">
+        <div class="container about-content hidden-anim">
+            <span class="about-subtitle">Tasarım Felsefesi</span>
+            <p class="about-text">
+                Ankara merkezli Buser Mimarlık, mimari estetiği <strong>BIM ve Revit</strong> ekosisteminin veri odaklı gücüyle inşa eder. Her bir proje, fiziksel dünyanın dijital ortamda milimetrik bir hassasiyetle kurgulanmış yansımasıdır.
+            </p>
+        </div>
+    </section>
 
-  <p class="hero-eyebrow">Freelance Mimarlık — İstanbul</p>
+    <section id="services" class="light-section">
+        <div class="container">
+            <div class="services-grid">
+                <div class="service-item hidden-anim" style="transition-delay: 0s;">
+                    <h3>Mimari Tasarım</h3>
+                    <p>Konseptten anahtar teslime, çevresiyle uyumlu ve fonksiyonel çağdaş mekan çözümleri.</p>
+                </div>
+                <div class="service-item hidden-anim" style="transition-delay: 0.2s;">
+                    <h3>BIM & Revit</h3>
+                    <p>Projelerin çakışmasız, veri odaklı ve uluslararası standartlarda dijital olarak modellenmesi.</p>
+                </div>
+                <div class="service-item hidden-anim" style="transition-delay: 0.4s;">
+                    <h3>Fotogrametri</h3>
+                    <p>Mevcut yapıların ve arkeolojik sahaların drone teknolojisi ile yüksek hassasiyetli 3D modellenmesi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <h1 class="hero-h1">
-    <span class="w"><span>Tasarımı</span></span>&nbsp;
-    <span class="w"><span>inşaata</span></span>&nbsp;
-    <span class="w italic"><span>bağlayan</span></span><br/>
-    <span class="w"><span>dijital</span></span>&nbsp;
-    <span class="w"><span>veri</span></span>&nbsp;
-    <span class="w"><span>&amp;</span></span>&nbsp;
-    <span class="w italic"><span>uzmanlık.</span></span>
-  </h1>
+    <footer id="contact" class="light-section">
+        <div class="container hidden-anim">
+            <h2>İşbirliği İçin</h2>
+            <div class="social-links">
+                <a href="mailto:busermimarlik@gmail.com" title="Bize E-posta Gönderin">Mail</a>
+                <a href="#" target="_blank">Instagram</a>
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="#" target="_blank">Behance</a> 
+            </div>
+            <p class="footer-bottom">Ankara, Türkiye — Buser Mimarlık</p>
+        </div>
+    </footer>
 
-  <div class="hero-bottom">
-    <p class="hero-desc">
-      Özel projelerin <strong>uygulama aşamasında</strong> BIM tabanlı
-      3D modelleme ve dijital veri üretimi yapıyorum.
-      Mimari vizyonu, inşa edilebilir ve koordineli bir modele dönüştürüyorum.
-    </p>
-    <a href="#projeler" class="hero-cta">
-      Projeleri Gör
-      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M0 6h14M10 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
-  </div>
-
-<a href="#vizyon" class="hero-scroll">Keşfet</a>
-
-</section>
-
-<!-- ═══ VISION ═══ -->
-
-<section class="vision" id="vizyon">
-  <div class="vis-left r">
-    <p class="vis-label">Çalışma Anlayışım</p>
-    <blockquote class="vis-quote">
-      "İyi bir yapı modeli,<br/>tasarımın <em>niyetini</em><br/>eksiksiz taşır."
-    </blockquote>
-    <p class="vis-author">— Buser Mimarlık</p>
-  </div>
-  <div class="vis-right">
-    <div class="vis-block r">
-      <p class="vis-block-label">Kim miyim?</p>
-      <p class="vis-block-text">
-        Buser Mimarlık olarak <strong>tek kişilik, odaklı</strong> bir freelance ofisim.
-        Her projeye doğrudan, kişisel ve tam konsantrasyonla yaklaşıyorum.
-        Bu tercih, müşterilerimin her zaman işini bizzat yapan kişiyle
-        muhatap olması anlamına gelir.
-      </p>
+    <div id="projectModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeModal()">&times;</span>
+            <img id="modalImg" src="" alt="Proje" class="modal-header-img">
+            <div class="modal-body">
+                <h2 id="modalTitle" class="modal-title">Proje Adı</h2>
+                <p id="modalCategory" class="modal-category">Kategori / Yıl</p>
+                <p id="modalDesc" class="modal-desc">Proje detayı...</p>
+                <div id="modalGallery" class="modal-gallery"></div>
+            </div>
+        </div>
     </div>
-    <div class="vis-divider"></div>
-    <div class="vis-block r2">
-      <p class="vis-block-label">Ne yapıyorum?</p>
-      <p class="vis-block-text">
-        Uygulama projelerinde <strong>BIM tabanlı 3D modelleme, çakışma analizi,
-        IFC &amp; dijital veri paketi üretimi</strong> ve as-built model hazırlama.
-        Mimarlık ile teknik veri üretimi arasındaki köprüyü kuruyorum.
-      </p>
-    </div>
-    <div class="vis-divider"></div>
-    <div class="vis-block r3">
-      <p class="vis-block-label">Araçlar &amp; Standartlar</p>
-      <div class="vis-tags">
-        <span class="vtag">Revit</span>
-        <span class="vtag">Navisworks</span>
-        <span class="vtag">AutoCAD</span>
-        <span class="vtag">Dynamo</span>
-        <span class="vtag">IFC 4.x</span>
-        <span class="vtag">ISO 19650</span>
-        <span class="vtag">LOD 100–500</span>
-        <span class="vtag">COBie</span>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ═══ PROJECTS ═══ -->
+    <script>
+        // YENİ: Javascript'ten emojileri (Güneş/Ay) sildik, CSS ile SVG geçişini sağladık
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
 
-<section class="projects" id="projeler">
-  <div class="proj-header r">
-    <h2 class="proj-title">Seçilmiş<br/><em>projeler</em></h2>
-    <p class="proj-subtitle">Her proje teslim edilmiş uygulama modeli içermektedir.</p>
-  </div>
+        const canvas = document.getElementById('mesh-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        let mouse = { x: null, y: null, radius: 130 }
 
-  <div class="proj-grid">
+        window.addEventListener('mousemove', function(event) { mouse.x = event.x; mouse.y = event.y; });
+        window.addEventListener('mouseout', function() { mouse.x = undefined; mouse.y = undefined; });
 
-```
-<!-- Card 1 -->
-<div class="proj-card r">
-  <div class="proj-bg">
-    <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="20" y="100" width="160" height="40" stroke="var(--ink)" stroke-width=".6"/>
-      <rect x="35" y="70" width="130" height="32" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="50" y="44" width="100" height="28" stroke="var(--ink)" stroke-width=".5"/>
-      <polygon points="50,44 100,14 150,44" stroke="var(--ink)" stroke-width=".6" fill="none"/>
-      <line x1="80" y1="100" x2="80" y2="140" stroke="var(--ink)" stroke-width=".4"/>
-      <line x1="120" y1="100" x2="120" y2="140" stroke="var(--ink)" stroke-width=".4"/>
-      <line x1="20" y1="155" x2="180" y2="155" stroke="var(--ink)" stroke-width=".4"/>
-      <line x1="20" y1="151" x2="20" y2="159" stroke="var(--ink)" stroke-width=".5"/>
-      <line x1="180" y1="151" x2="180" y2="159" stroke="var(--ink)" stroke-width=".5"/>
-    </svg>
-  </div>
-  <div class="proj-overlay"></div>
-  <div class="proj-info">
-    <p class="proj-cat">Karma Kullanım · LOD 400</p>
-    <p class="proj-name">Kozyatağı Karma Kullanım</p>
-    <p class="proj-meta">İstanbul, Kadıköy — 2024</p>
-  </div>
-</div>
+        function setCanvasSize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
 
-<!-- Card 2 -->
-<div class="proj-card r2">
-  <div class="proj-bg">
-    <svg viewBox="0 0 120 180" fill="none">
-      <rect x="15" y="160" width="90" height="14" stroke="var(--ink)" stroke-width=".6"/>
-      <rect x="20" y="135" width="80" height="27" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="20" y="110" width="80" height="27" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="20" y="85" width="80" height="27" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="20" y="60" width="80" height="27" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="20" y="35" width="80" height="27" stroke="var(--ink)" stroke-width=".5"/>
-      <line x1="60" y1="35" x2="60" y2="174" stroke="var(--ink)" stroke-width=".3"/>
-      <line x1="35" y1="85" x2="35" y2="174" stroke="var(--ink)" stroke-width=".3"/>
-      <line x1="85" y1="85" x2="85" y2="174" stroke="var(--ink)" stroke-width=".3"/>
-    </svg>
-  </div>
-  <div class="proj-overlay"></div>
-  <div class="proj-info">
-    <p class="proj-cat">Konut · LOD 350</p>
-    <p class="proj-name">Ataşehir A Blok Rezidans</p>
-    <p class="proj-meta">İstanbul, Ataşehir — 2024</p>
-  </div>
-</div>
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; 
+                this.size = Math.random() * 2 + 1; this.speedX = Math.random() * 1 - 0.5; this.speedY = Math.random() * 1 - 0.5; 
+            }
+            update() {
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
 
-<!-- Card 3 -->
-<div class="proj-card r">
-  <div class="proj-bg">
-    <svg viewBox="0 0 140 180" fill="none">
-      <rect x="10" y="150" width="120" height="20" stroke="var(--ink)" stroke-width=".6"/>
-      <rect x="20" y="90" width="100" height="62" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="30" y="50" width="80" height="42" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="45" y="20" width="50" height="32" stroke="var(--ink)" stroke-width=".5"/>
-      <line x1="50" y1="90" x2="50" y2="170" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="90" y1="90" x2="90" y2="170" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="70" y1="20" x2="70" y2="90" stroke="var(--ink)" stroke-width=".35"/>
-    </svg>
-  </div>
-  <div class="proj-overlay"></div>
-  <div class="proj-info">
-    <p class="proj-cat">Ticari · LOD 400</p>
-    <p class="proj-name">Balgat Ofis Kampüsü</p>
-    <p class="proj-meta">Ankara, Çankaya — 2023</p>
-  </div>
-</div>
+                if (mouse.x != undefined && mouse.y != undefined) {
+                    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy); 
+                    if (distance < mouse.radius) {
+                        const forceDirectionX = dx / distance; const forceDirectionY = dy / distance;
+                        this.x -= forceDirectionX * 2; this.y -= forceDirectionY * 2;
+                    }
+                }
+            }
+            draw() {
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(201, 160, 99, 0.7)'; ctx.fill();
+            }
+        }
 
-<!-- Card 4 -->
-<div class="proj-card r2">
-  <div class="proj-bg">
-    <svg viewBox="0 0 240 140" fill="none">
-      <rect x="10" y="90" width="220" height="34" stroke="var(--ink)" stroke-width=".6"/>
-      <rect x="20" y="60" width="200" height="32" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="35" y="34" width="170" height="28" stroke="var(--ink)" stroke-width=".5"/>
-      <polygon points="35,34 120,8 205,34" stroke="var(--ink)" stroke-width=".5" fill="none"/>
-      <line x1="60" y1="90" x2="60" y2="124" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="120" y1="90" x2="120" y2="124" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="180" y1="90" x2="180" y2="124" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="10" y1="133" x2="230" y2="133" stroke="var(--ink)" stroke-width=".35"/>
-    </svg>
-  </div>
-  <div class="proj-overlay"></div>
-  <div class="proj-info">
-    <p class="proj-cat">Konut · LOD 300</p>
-    <p class="proj-name">Çeşme Marina Villalar</p>
-    <p class="proj-meta">İzmir, Çeşme — 2023</p>
-  </div>
-</div>
+        function initMesh() {
+            particlesArray = []; let numberOfParticles = (canvas.width * canvas.height) / 11000;
+            for (let i = 0; i < numberOfParticles; i++) particlesArray.push(new Particle());
+        }
 
-<!-- Card 5 -->
-<div class="proj-card r">
-  <div class="proj-bg">
-    <svg viewBox="0 0 180 140" fill="none">
-      <rect x="20" y="80" width="140" height="40" stroke="var(--ink)" stroke-width=".6"/>
-      <rect x="30" y="50" width="120" height="32" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="45" y="25" width="90" height="27" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="60" y="10" width="60" height="17" stroke="var(--ink)" stroke-width=".5"/>
-      <line x1="90" y1="10" x2="90" y2="120" stroke="var(--ink)" stroke-width=".3"/>
-      <line x1="60" y1="80" x2="60" y2="120" stroke="var(--ink)" stroke-width=".3"/>
-      <line x1="120" y1="80" x2="120" y2="120" stroke="var(--ink)" stroke-width=".3"/>
-    </svg>
-  </div>
-  <div class="proj-overlay"></div>
-  <div class="proj-info">
-    <p class="proj-cat">Restorasyon · LOD 500 As-Built</p>
-    <p class="proj-name">Nişantaşı Butik Otel</p>
-    <p class="proj-meta">İstanbul, Şişli — 2022</p>
-  </div>
-</div>
+        function animateMesh() {
+            requestAnimationFrame(animateMesh); ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update(); particlesArray[i].draw();
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x; const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < 120) {
+                        ctx.beginPath(); ctx.strokeStyle = `rgba(201, 160, 99, ${1 - distance / 120})`; ctx.lineWidth = 0.8;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y); ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke(); ctx.closePath();
+                    }
+                }
+            }
+        }
 
-<!-- Card 6 -->
-<div class="proj-card r2">
-  <div class="proj-bg">
-    <svg viewBox="0 0 180 140" fill="none">
-      <rect x="10" y="60" width="160" height="60" stroke="var(--ink)" stroke-width=".6"/>
-      <rect x="10" y="40" width="60" height="22" stroke="var(--ink)" stroke-width=".5"/>
-      <rect x="110" y="40" width="60" height="22" stroke="var(--ink)" stroke-width=".5"/>
-      <line x1="40" y1="60" x2="40" y2="120" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="80" y1="60" x2="80" y2="120" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="100" y1="60" x2="100" y2="120" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="140" y1="60" x2="140" y2="120" stroke="var(--ink)" stroke-width=".35"/>
-      <line x1="10" y1="90" x2="170" y2="90" stroke="var(--ink)" stroke-width=".3"/>
-      <line x1="10" y1="128" x2="170" y2="128" stroke="var(--ink)" stroke-width=".35"/>
-    </svg>
-  </div>
-  <div class="proj-overlay"></div>
-  <div class="proj-info">
-    <p class="proj-cat">Endüstriyel · LOD 350</p>
-    <p class="proj-name">Gebze Lojistik Merkezi</p>
-    <p class="proj-meta">Kocaeli, Gebze — 2022</p>
-  </div>
-</div>
-```
+        window.addEventListener('resize', () => { setCanvasSize(); initMesh(); });
+        setCanvasSize(); initMesh(); animateMesh();
 
-  </div>
-</section>
+        function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
 
-<!-- ═══ CONTACT ═══ -->
+        const projeler = [
+            { ad: "Karahantepe Koruma Kanopisi", tur: "Arkeolojik Mimari / Şanlıurfa", gorsel: "https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070", detay: "Karahantepe arkeolojik alanında kazı çalışmalarını ve eşsiz buluntuları doğa şartlarından korumak amacıyla tasarlanmış kanopi tasarımı. Tarihi dokuya zarar vermeden, çevresiyle uyumlu ve parametrik bir strüktür kurgulanmıştır. Tüm çelik konstrüksiyon BIM süreçleriyle milimetrik olarak modellenmiştir.", galeri: ["https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070", "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=2000"] },
+            { ad: "DSİ Misafirhanesi", tur: "Kamu Yapısı / Ankara", gorsel: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069", detay: "Devlet Su İşleri için tasarlanan modern ve fonksiyonel misafirhane yapısı. Enerji verimliliği ön planda tutularak tasarlanan cephe sistemi ve ferah iç mekan kurgusu ile kamu yapılarında yeni bir standart hedeflenmiştir.", galeri: ["https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069", "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000"] },
+            { ad: "Modern Villa Kompleksi", tur: "Konut Mimari / İzmir", gorsel: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&w=800&q=80", detay: "Doğayla iç içe, minimalist çizgiler barındıran lüks konut projesi. Açık plan şeması ve geniş cam yüzeyler kullanılarak doğal ışığın mekan içindeki etkisi maksimize edilmiştir.", galeri: ["https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000", "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000"] }
+        ];
 
-<section class="contact" id="iletisim">
-  <div class="contact-left r">
-    <p class="contact-tag">İletişim</p>
-    <h2 class="contact-h2">Projenizi<br/><em>konuşalım.</em></h2>
-    <p class="contact-sub">
-      Yeni bir proje için teklif almak veya sadece fikir alışverişi yapmak istiyorsanız yazın.
-      <strong>İlk görüşme ücretsizdir.</strong>
-    </p>
-    <div class="contact-details">
-      <div class="cd-row"><span class="cd-k">E-posta</span><span class="cd-v"><a href="mailto:info@busermimarlik.com">info@busermimarlik.com</a></span></div>
-      <div class="cd-row"><span class="cd-k">Telefon</span><span class="cd-v">+90 (212) 555 08 08</span></div>
-      <div class="cd-row"><span class="cd-k">Konum</span><span class="cd-v">İstanbul — Uzaktan çalışma mevcut</span></div>
-      <div class="cd-row"><span class="cd-k">LinkedIn</span><span class="cd-v"><a href="#">linkedin.com/in/busermimarlik</a></span></div>
-    </div>
-  </div>
-  <div class="contact-right r2">
-    <div class="fg"><label>Ad Soyad</label><input type="text" placeholder="Adınız"/></div>
-    <div class="fg"><label>E-posta</label><input type="email" placeholder="ornek@firma.com"/></div>
-    <div class="fg">
-      <label>Proje Türü</label>
-      <select>
-        <option>— Seçin —</option>
-        <option>Konut</option><option>Ticari / Ofis</option>
-        <option>Karma Kullanım</option><option>Endüstriyel</option>
-        <option>Restorasyon</option><option>Diğer</option>
-      </select>
-    </div>
-    <div class="fg"><label>Projeniz Hakkında</label><textarea placeholder="Kısaca aktarın: brüt alan, LOD hedefi, teslim tarihi…"></textarea></div>
-    <button class="btn-send">
-      Gönder
-      <svg width="14" height="12" viewBox="0 0 16 12" fill="none"><path d="M0 6h14M10 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-</section>
+        const pContainer = document.getElementById('project-container');
+        projeler.forEach((proje, index) => {
+            const cardHTML = `
+                <div class="project-card hidden-anim" style="transition-delay: ${index * 0.15}s;" onclick="openModal(${index})">
+                    <div class="project-img-wrapper">
+                        <img src="${proje.gorsel}" alt="${proje.ad}" class="project-img">
+                    </div>
+                    <div class="project-info">
+                        <h3>${proje.ad}</h3>
+                        <p>${proje.tur}</p>
+                    </div>
+                </div>
+            `;
+            pContainer.innerHTML += cardHTML;
+        });
 
-<!-- ═══ FOOTER ═══ -->
+        const modal = document.getElementById("projectModal");
+        function openModal(index) {
+            const secilenProje = projeler[index];
+            document.getElementById("modalImg").src = secilenProje.gorsel;
+            document.getElementById("modalTitle").innerText = secilenProje.ad;
+            document.getElementById("modalCategory").innerText = secilenProje.tur;
+            document.getElementById("modalDesc").innerText = secilenProje.detay;
+            
+            const galleryContainer = document.getElementById("modalGallery");
+            galleryContainer.innerHTML = "";
+            secilenProje.galeri.forEach(fotoUrl => {
+                galleryContainer.innerHTML += `<img src="${fotoUrl}" alt="Galeri Görseli">`;
+            });
 
-<footer>
-  <a href="#" class="fl">Buser Mimarlık</a>
-  <p class="fc">© 2025 — BIM & Uygulama Projesi</p>
-  <ul class="flinks">
-    <li><a href="#">LinkedIn</a></li>
-    <li><a href="#">Instagram</a></li>
-    <li><a href="#">E-posta</a></li>
-  </ul>
-</footer>
+            modal.style.display = "block";
+            setTimeout(() => { modal.classList.add("active"); }, 10);
+            document.body.style.overflow = "hidden";
+        }
 
-<script>
-/* cursor */
-const dot=document.getElementById('dot'),ring=document.getElementById('ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+        function closeModal() {
+            modal.classList.remove("active");
+            setTimeout(() => { modal.style.display = "none"; }, 400);
+            document.body.style.overflow = "auto";
+        }
 
-/* scroll progress */
-const prog=document.getElementById('prog');
-window.addEventListener('scroll',()=>{
-  prog.style.width=(window.scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
-  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);
-});
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
 
-/* reveal */
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
-},{threshold:.1});
-document.querySelectorAll('.r,.r2,.r3').forEach(el=>obs.observe(el));
-</script>
+        document.addEventListener('keydown', function(event) { if (event.key === "Escape") closeModal(); });
 
+        const observerElements = document.querySelectorAll('.hidden-anim');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) { entry.target.classList.add('show-anim'); }
+            });
+        }, { threshold: 0.15 });
+        observerElements.forEach((el) => observer.observe(el));
+    </script>
 </body>
 </html>
