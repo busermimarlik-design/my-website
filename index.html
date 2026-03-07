@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buser Mimarlık | Dijital Hassasiyet & Mimari Gerçeklik</title>
-    
+    <title>Buser Mimarlık | Ankara Mimari Tasarım & BIM Merkezi</title>
+    <meta name="description" content="Ankara merkezli Buser Mimarlık; BIM, Revit, Fotogrametri ve yenilikçi mimari tasarım alanlarında profesyonel hizmet sunmaktadır.">
+    <meta name="keywords" content="Buser Mimarlık, Ankara Mimarlık Ofisi, BIM, Revit Tasarım, Fotogrametri, Mimari Proje">
+    <meta name="author" content="Buser Mimarlık">
+    <meta name="robots" content="index, follow">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* AKICI KAYDIRMA */
         html { scroll-behavior: smooth; }
 
+        /* KURUMSAL RENKLER VE TEMA (GÜNDÜZ MODU) */
         :root {
             --bg-dark: #324355; 
             --bg-light: #f9f9f9; 
-            --bg-footer: #f3f4f6;
-            --text-dark: #111827; /* Gündüz modunda ikon bu rengi (koyu lacivert/siyah) alacak */
+            --text-dark: #111827; 
             --text-light: #ffffff;
             --text-gray: #6b7280;
             --accent: #c9a063; 
@@ -23,10 +28,10 @@
             --transition-speed: 0.8s;
         }
 
+        /* GECE MODU RENKLERİ */
         body.dark-theme {
             --bg-light: #111827; 
-            --bg-footer: #0f141e; 
-            --text-dark: #f9f9f9; /* Gece modunda ikon bu rengi (beyaz) alacak */
+            --text-dark: #f9f9f9; 
             --text-gray: #9ca3af;
             --border-color: #374151; 
             --nav-bg: rgba(17, 24, 39, 0.95);
@@ -43,11 +48,13 @@
             transition: background-color 0.5s ease, color 0.5s ease; 
         }
 
+        /* 3D MESH ANİMASYONU CANVAS ALANI */
         #mesh-canvas {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: 1; pointer-events: none;
         }
 
+        /* NAVBAR (MENÜ) */
         nav {
             position: fixed; top: 0; width: 100%; padding: 20px 50px;
             display: flex; justify-content: space-between; align-items: center;
@@ -64,29 +71,22 @@
         .nav-links li a { color: var(--text-dark); text-decoration: none; text-transform: uppercase; font-size: 12px; letter-spacing: 3px; font-weight: 500; transition: color 0.3s ease; }
         .nav-links li a:hover { color: var(--accent); }
         
-        /* YENİ: TEMA BUTONU VE SVG İKON AYARLARI */
+        /* TEMA DEĞİŞTİRME BUTONU VE SVG AYARLARI */
         .theme-switch { 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            color: var(--text-dark); /* SVG bu rengi miras alır */
-            transition: transform 0.3s ease, color 0.5s ease; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: var(--text-dark); transition: transform 0.3s ease, color 0.5s ease; 
         }
         .theme-switch:hover { transform: scale(1.1) rotate(10deg); color: var(--accent); }
-        
         .theme-switch svg { width: 22px; height: 22px; transition: all 0.3s ease; }
         
-        /* Başlangıçta (Gündüz) Güneş gizli, Ay görünür */
         .icon-sun { display: none; }
         .icon-moon { display: block; }
-        
-        /* Gece modunda tam tersi */
         body.dark-theme .icon-sun { display: block; }
         body.dark-theme .icon-moon { display: none; }
 
         .menu-btn { display: none; font-size: 28px; cursor: pointer; color: var(--text-dark); }
 
+        /* BÖLÜM (SECTION) YAPILARI VE Z-INDEX SANDVİÇİ */
         section { width: 100%; }
         .container { max-width: 1400px; margin: 0 auto; padding: 120px 5vw; }
 
@@ -94,14 +94,21 @@
         .dark-section { position: relative; z-index: 0; background-color: transparent; color: var(--text-light); }
         .dark-section .container, .dark-section .hero-content { position: relative; z-index: 2; }
 
-        .hero { position: relative; width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.95)), url('images/hero-arkaplan.jpg') center/cover no-repeat; z-index: 0; padding: 0 20px; }
-        .hero h1 { font-size: 4.5rem; font-weight: 300; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; color: var(--text-light); }
+        /* HERO BÖLÜMÜ (GİRİŞ EKRANI) */
+        .hero { 
+            position: relative; width: 100%; height: 100vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center; z-index: 0; padding: 0 20px;
+            background: linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.95)), 
+                        url('hero-arkaplan.jpg') center/cover no-repeat; 
+        }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 300; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; color: var(--text-light); }
         .hero p { font-size: 1.1rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 50px; }
         .hero-btn { border: 1px solid var(--accent); padding: 15px 40px; color: var(--text-light); text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-size: 12px; transition: all 0.3s ease; }
         .hero-btn:hover { background-color: var(--accent); color: var(--bg-dark); }
 
         .section-title { font-size: 1.8rem; font-weight: 300; margin-bottom: 60px; text-transform: uppercase; letter-spacing: 5px; color: var(--text-gray); border-bottom: 1px solid var(--border-color); padding-bottom: 20px; transition: border-color 0.5s ease; }
 
+        /* PROJELER ALANI */
         .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
         .project-card { cursor: pointer; position: relative; }
         .project-img-wrapper { overflow: hidden; aspect-ratio: 16/9; background-color: #f3f4f6; margin-bottom: 20px; }
@@ -111,30 +118,52 @@
         .project-card:hover .project-info h3 { color: var(--accent); }
         .project-info p { color: var(--text-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
 
+        /* VİZYON / HAKKIMIZDA ALANI */
         .about-content { text-align: center; max-width: 900px !important; }
         .about-subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 8px; color: var(--accent); margin-bottom: 40px; display: block; }
         .about-text { font-size: 2.2rem; font-weight: 300; line-height: 1.6; }
 
+        /* UZMANLIK (HİZMETLER) ALANI */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; }
         .service-item { border-top: 1px solid var(--border-color); padding-top: 30px; transition: border-color 0.5s ease; }
         .service-item h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -0.5px; }
         .service-item p { color: var(--text-gray); font-weight: 300; }
 
-        footer { text-align: center; background-color: var(--bg-footer); border-top: 1px solid var(--border-color); position: relative; z-index: 2; transition: background-color 0.5s ease, border-color 0.5s ease;}
-        footer .container { padding: 100px 20px; }
+        /* İLETİŞİM VE FOOTER (GÜNCELLENDİ: ARTIK MESH ANİMASYONU BURADA DA GÖRÜNÜYOR) */
+        footer { 
+            text-align: center; 
+            background-color: transparent; /* Arkadaki animasyonun görünmesi için şeffaf yaptık */
+            border-top: 1px solid rgba(255, 255, 255, 0.1); /* Koyu zemine uygun hafif bir çizgi */
+            position: relative; 
+            z-index: 0; /* Animasyonun altında kaldığı katman */
+        }
+        footer .container { padding: 100px 20px; position: relative; z-index: 2; color: var(--text-light); }
         footer h2 { font-size: 2rem; font-weight: 300; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
+        
+        .email-link { 
+            font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 300; 
+            color: var(--text-light); /* Koyu zeminde parlaması için beyaz yapıldı */
+            text-decoration: none; transition: color 0.3s ease; display: block; margin-bottom: 30px; 
+        }
+        .email-link:hover { color: var(--accent); }
+        
         .social-links { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; }
-        .social-links a { color: var(--text-gray); text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; position: relative; }
-        .social-links a:hover { color: var(--text-dark); }
-        .social-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background-color: var(--text-dark); transition: width 0.3s ease; }
+        .social-links a { 
+            color: var(--text-light); /* Sosyal linkler beyaz yapıldı */
+            text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; position: relative; opacity: 0.8;
+        }
+        .social-links a:hover { color: var(--accent); opacity: 1; }
+        .social-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
         .social-links a:hover::after { width: 100%; }
-        .footer-bottom { color: var(--text-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; }
+        
+        .footer-bottom { color: rgba(255, 255, 255, 0.5); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; }
 
+        /* DETAY PENCERESİ (MODAL) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 10, 12, 0.9); backdrop-filter: blur(8px); z-index: 1000; overflow-y: auto; padding: 40px 20px; opacity: 0; transition: opacity 0.4s ease; }
         .modal-overlay.active { display: block; opacity: 1; }
         .modal-content { background-color: var(--bg-light); max-width: 1000px; margin: 0 auto; position: relative; border-radius: 4px; overflow: hidden; transform: translateY(50px); transition: transform 0.4s ease, background-color 0.5s ease; }
         .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-close-btn { position: absolute; top: 20px; right: 25px; font-size: 40px; font-weight: 300; color: #ffffff; cursor: pointer; z-index: 10; line-height: 1; transition: color 0.3s ease; }
+        .modal-close-btn { position: absolute; top: 20px; right: 25px; font-size: 40px; font-weight: 300; color: #ffffff; cursor: pointer; z-index: 10; line-height: 1; transition: color 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .modal-close-btn:hover { color: var(--accent); }
         .modal-header-img { width: 100%; height: 50vh; object-fit: cover; }
         .modal-body { padding: 50px; }
@@ -143,16 +172,17 @@
         .modal-desc { font-size: 1.1rem; color: var(--text-gray); line-height: 1.8; margin-bottom: 40px; transition: color 0.5s ease;}
         .modal-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .modal-gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; }
+        
+        /* AŞAĞI KAYDIRMA ANİMASYONLARI İÇİN SINIFLAR */
         .hidden-anim { opacity: 0; transform: translateY(40px); transition: all var(--transition-speed) ease-out; }
         .show-anim { opacity: 1; transform: translateY(0); }
 
+        /* MOBİL EKRAN UYUMU */
         @media screen and (max-width: 768px) {
             nav { padding: 15px 20px; }
             .menu-btn { display: block; }
             .nav-links { position: absolute; top: 70px; left: -100%; flex-direction: column; background-color: var(--nav-bg); width: 100%; text-align: center; padding: 30px 0; transition: left 0.4s ease; gap: 25px; }
             .nav-links.active { left: 0; }
-            .hero h1 { font-size: 2.5rem; }
-            .about-text { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -162,7 +192,7 @@
 
     <nav>
         <a href="#home" class="brand">
-            <img src="images/BUSERMIM-LOGO1.png" alt="Buser Mimarlık Logo">
+            <img src="BUSERMIM-LOGO1.png" alt="Buser Mimarlık Logosu">
             <span>BUSER</span>
         </a>
         
@@ -190,7 +220,6 @@
                     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                 </svg>
             </div>
-            
             <div class="menu-btn" onclick="toggleMenu()">☰</div>
         </div>
     </nav>
@@ -238,7 +267,7 @@
         </div>
     </section>
 
-    <footer id="contact" class="light-section">
+    <footer id="contact" class="dark-section">
         <div class="container hidden-anim">
             <h2>İşbirliği İçin</h2>
             <div class="social-links">
@@ -254,7 +283,7 @@
     <div id="projectModal" class="modal-overlay">
         <div class="modal-content">
             <span class="modal-close-btn" onclick="closeModal()">&times;</span>
-            <img id="modalImg" src="" alt="Proje" class="modal-header-img">
+            <img id="modalImg" src="" alt="Proje Kapak Fotoğrafı" class="modal-header-img">
             <div class="modal-body">
                 <h2 id="modalTitle" class="modal-title">Proje Adı</h2>
                 <p id="modalCategory" class="modal-category">Kategori / Yıl</p>
@@ -265,11 +294,12 @@
     </div>
 
     <script>
-        // YENİ: Javascript'ten emojileri (Güneş/Ay) sildik, CSS ile SVG geçişini sağladık
+        // 1. TEMA DEĞİŞTİRME FONKSİYONU
         function toggleTheme() {
             document.body.classList.toggle('dark-theme');
         }
 
+        // 2. 3D MESH CANVAS ANİMASYONU VE FARE ETKİLEŞİMİ
         const canvas = document.getElementById('mesh-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -329,14 +359,44 @@
         window.addEventListener('resize', () => { setCanvasSize(); initMesh(); });
         setCanvasSize(); initMesh(); animateMesh();
 
+        // 3. MOBİL MENÜ
         function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
 
+        // 4. PROJELER VERİ TABANI
         const projeler = [
-            { ad: "Örnek Proje-01", tur: "Arkeolojik Mimari / Şanlıurfa", gorsel: "https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070", detay: "Deneme arkeolojik alanında kazı çalışmalarını ve eşsiz buluntuları doğa şartlarından korumak amacıyla tasarlanmış kanopi tasarımı. Tarihi dokuya zarar vermeden, çevresiyle uyumlu ve parametrik bir strüktür kurgulanmıştır. Tüm çelik konstrüksiyon BIM süreçleriyle milimetrik olarak modellenmiştir.", galeri: ["https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070", "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=2000"] },
-            { ad: "DSİ Misafirhanesi", tur: "Kamu Yapısı / Ankara", gorsel: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069", detay: "Devlet Su İşleri için tasarlanan modern ve fonksiyonel misafirhane yapısı. Enerji verimliliği ön planda tutularak tasarlanan cephe sistemi ve ferah iç mekan kurgusu ile kamu yapılarında yeni bir standart hedeflenmiştir.", galeri: ["https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069", "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000"] },
-            { ad: "Modern Villa Kompleksi", tur: "Konut Mimari / İzmir", gorsel: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&w=800&q=80", detay: "Doğayla iç içe, minimalist çizgiler barındıran lüks konut projesi. Açık plan şeması ve geniş cam yüzeyler kullanılarak doğal ışığın mekan içindeki etkisi maksimize edilmiştir.", galeri: ["https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000", "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000"] }
+            { 
+                ad: "Karahantepe Koruma Kanopisi", 
+                tur: "Arkeolojik Mimari / Şanlıurfa", 
+                gorsel: "https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070", 
+                detay: "Karahantepe arkeolojik alanında kazı çalışmalarını ve eşsiz buluntuları doğa şartlarından korumak amacıyla tasarlanmış kanopi tasarımı. Tarihi dokuya zarar vermeden, çevresiyle uyumlu ve parametrik bir strüktür kurgulanmıştır. Tüm çelik konstrüksiyon BIM süreçleriyle milimetrik olarak modellenmiştir.", 
+                galeri: [
+                    "https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070", 
+                    "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=2000"
+                ] 
+            },
+            { 
+                ad: "DSİ Misafirhanesi", 
+                tur: "Kamu Yapısı / Ankara", 
+                gorsel: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069", 
+                detay: "Devlet Su İşleri için tasarlanan modern ve fonksiyonel misafirhane yapısı. Enerji verimliliği ön planda tutularak tasarlanan cephe sistemi ve ferah iç mekan kurgusu ile kamu yapılarında yeni bir standart hedeflenmiştir.", 
+                galeri: [
+                    "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069", 
+                    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000"
+                ] 
+            },
+            { 
+                ad: "Modern Villa Kompleksi", 
+                tur: "Konut Mimari / İzmir", 
+                gorsel: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&w=800&q=80", 
+                detay: "Doğayla iç içe, minimalist çizgiler barındıran lüks konut projesi. Açık plan şeması ve geniş cam yüzeyler kullanılarak doğal ışığın mekan içindeki etkisi maksimize edilmiştir.", 
+                galeri: [
+                    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000", 
+                    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000"
+                ] 
+            }
         ];
 
+        // 5. PROJELERİ EKRANA BASMA
         const pContainer = document.getElementById('project-container');
         projeler.forEach((proje, index) => {
             const cardHTML = `
@@ -353,7 +413,9 @@
             pContainer.innerHTML += cardHTML;
         });
 
+        // 6. MODAL (DETAY PENCERESİ) KONTROLÜ
         const modal = document.getElementById("projectModal");
+        
         function openModal(index) {
             const secilenProje = projeler[index];
             document.getElementById("modalImg").src = secilenProje.gorsel;
@@ -369,23 +431,28 @@
 
             modal.style.display = "block";
             setTimeout(() => { modal.classList.add("active"); }, 10);
-            document.body.style.overflow = "hidden";
+            document.body.style.overflow = "hidden"; // Arkadaki kaydırmayı durdur
         }
 
         function closeModal() {
             modal.classList.remove("active");
             setTimeout(() => { modal.style.display = "none"; }, 400);
-            document.body.style.overflow = "auto";
+            document.body.style.overflow = "auto"; // Kaydırmayı geri aç
         }
 
+        // Modalı dışarıya tıklayarak kapatma
         window.addEventListener('click', function(event) {
             if (event.target === modal) {
                 closeModal();
             }
         });
 
-        document.addEventListener('keydown', function(event) { if (event.key === "Escape") closeModal(); });
+        // Modalı klavyeden ESC tuşu ile kapatma
+        document.addEventListener('keydown', function(event) { 
+            if (event.key === "Escape") closeModal(); 
+        });
 
+        // 7. AŞAĞI KAYDIRDIKÇA BELİREN ANİMASYONLAR (SCROLL REVEAL)
         const observerElements = document.querySelectorAll('.hidden-anim');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
