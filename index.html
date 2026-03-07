@@ -19,22 +19,26 @@
         :root {
             --bg-dark: #324355; 
             --bg-light: #f9f9f9; 
+            --bg-footer: #f3f4f6;
             --text-dark: #111827; 
             --text-light: #ffffff;
             --text-gray: #6b7280;
             --accent: #c9a063; 
             --border-color: #e5e7eb;
             --nav-bg: rgba(249, 249, 249, 0.95);
+            --bg-about-modal: rgba(249, 249, 249, 0.75); 
             --transition-speed: 0.8s;
         }
 
         /* GECE MODU RENKLERİ */
         body.dark-theme {
             --bg-light: #111827; 
+            --bg-footer: #0f141e; 
             --text-dark: #f9f9f9; 
             --text-gray: #9ca3af;
             --border-color: #374151; 
             --nav-bg: rgba(17, 24, 39, 0.95);
+            --bg-about-modal: rgba(17, 24, 39, 0.85); 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -68,14 +72,11 @@
         
         .nav-right { display: flex; align-items: center; gap: 40px; }
         .nav-links { list-style: none; display: flex; gap: 40px; }
-        .nav-links li a { color: var(--text-dark); text-decoration: none; text-transform: uppercase; font-size: 12px; letter-spacing: 3px; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links li a { color: var(--text-dark); text-decoration: none; text-transform: uppercase; font-size: 12px; letter-spacing: 3px; font-weight: 500; transition: color 0.3s ease; cursor: pointer; }
         .nav-links li a:hover { color: var(--accent); }
         
         /* TEMA DEĞİŞTİRME BUTONU VE SVG AYARLARI */
-        .theme-switch { 
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            color: var(--text-dark); transition: transform 0.3s ease, color 0.5s ease; 
-        }
+        .theme-switch { cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-dark); transition: transform 0.3s ease, color 0.5s ease; }
         .theme-switch:hover { transform: scale(1.1) rotate(10deg); color: var(--accent); }
         .theme-switch svg { width: 22px; height: 22px; transition: all 0.3s ease; }
         
@@ -118,53 +119,71 @@
         .project-card:hover .project-info h3 { color: var(--accent); }
         .project-info p { color: var(--text-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
 
-        /* VİZYON / HAKKIMIZDA ALANI */
+        /* VİZYON ALANI */
         .about-content { text-align: center; max-width: 900px !important; }
         .about-subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 8px; color: var(--accent); margin-bottom: 40px; display: block; }
         .about-text { font-size: 2.2rem; font-weight: 300; line-height: 1.6; }
 
-        /* UZMANLIK (HİZMETLER) ALANI */
+        /* UZMANLIK ALANI */
         .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; }
         .service-item { border-top: 1px solid var(--border-color); padding-top: 30px; transition: border-color 0.5s ease; }
         .service-item h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -0.5px; }
         .service-item p { color: var(--text-gray); font-weight: 300; }
 
-        /* İLETİŞİM VE FOOTER (GÜNCELLENDİ: ARTIK MESH ANİMASYONU BURADA DA GÖRÜNÜYOR) */
+        /* İLETİŞİM VE FOOTER */
         footer { 
-            text-align: center; 
-            background-color: transparent; /* Arkadaki animasyonun görünmesi için şeffaf yaptık */
-            border-top: 1px solid rgba(255, 255, 255, 0.1); /* Koyu zemine uygun hafif bir çizgi */
-            position: relative; 
-            z-index: 0; /* Animasyonun altında kaldığı katman */
+            text-align: center; background-color: transparent; 
+            border-top: 1px solid rgba(255, 255, 255, 0.1); position: relative; z-index: 0; 
         }
         footer .container { padding: 100px 20px; position: relative; z-index: 2; color: var(--text-light); }
         footer h2 { font-size: 2rem; font-weight: 300; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
         
-        .email-link { 
-            font-size: clamp(1.5rem, 4vw, 3rem); font-weight: 300; 
-            color: var(--text-light); /* Koyu zeminde parlaması için beyaz yapıldı */
-            text-decoration: none; transition: color 0.3s ease; display: block; margin-bottom: 30px; 
+        /* GÜNCELLENDİ: Sosyal Linkler ve İkonlar */
+        .social-links { 
+            display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; 
         }
-        .email-link:hover { color: var(--accent); }
-        
-        .social-links { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; }
         .social-links a { 
-            color: var(--text-light); /* Sosyal linkler beyaz yapıldı */
-            text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-size: 0.85rem; font-weight: 500; transition: all 0.3s ease; position: relative; opacity: 0.8;
+            display: flex; align-items: center; gap: 10px; /* İkon ve metni yan yana hizalar */
+            color: var(--text-light); text-decoration: none; text-transform: uppercase; 
+            letter-spacing: 3px; font-size: 0.85rem; font-weight: 500; 
+            transition: all 0.3s ease; position: relative; opacity: 0.8; 
         }
+        /* İkonların zıplama efekti */
+        .social-links a svg { transition: transform 0.3s ease; width: 20px; height: 20px; }
         .social-links a:hover { color: var(--accent); opacity: 1; }
+        .social-links a:hover svg { transform: translateY(-3px); }
+        
+        /* Alt çizgi efekti (Sadece metin kısmı altında kalsın diye left/width ayarını güncelledik) */
         .social-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
         .social-links a:hover::after { width: 100%; }
         
-        .footer-bottom { color: rgba(255, 255, 255, 0.5); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 3px; }
+        .footer-bottom { 
+            color: rgba(255, 255, 255, 0.5); font-size: 0.85rem; text-transform: uppercase; 
+            letter-spacing: 2px; margin-top: 20px; line-height: 1.8;
+        }
 
-        /* DETAY PENCERESİ (MODAL) */
+        /* --- BAŞA DÖN BUTONU --- */
+        #scrollTopBtn {
+            position: fixed; bottom: 40px; right: 40px; width: 50px; height: 50px;
+            background-color: var(--accent); color: #fff; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 99; opacity: 0; visibility: hidden;
+            transform: translateY(20px); transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; outline: none;
+        }
+        #scrollTopBtn.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #scrollTopBtn:hover { background-color: var(--text-dark); transform: translateY(-5px); }
+        #scrollTopBtn svg { width: 24px; height: 24px; }
+
+        /* --- GENEL MODAL AYARLARI --- */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 10, 12, 0.9); backdrop-filter: blur(8px); z-index: 1000; overflow-y: auto; padding: 40px 20px; opacity: 0; transition: opacity 0.4s ease; }
         .modal-overlay.active { display: block; opacity: 1; }
-        .modal-content { background-color: var(--bg-light); max-width: 1000px; margin: 0 auto; position: relative; border-radius: 4px; overflow: hidden; transform: translateY(50px); transition: transform 0.4s ease, background-color 0.5s ease; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-close-btn { position: absolute; top: 20px; right: 25px; font-size: 40px; font-weight: 300; color: #ffffff; cursor: pointer; z-index: 10; line-height: 1; transition: color 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .modal-close-btn:hover { color: var(--accent); }
+        
+        /* PROJE MODALI ÖZEL */
+        .modal-content { background-color: var(--bg-light); max-width: 1000px; margin: 0 auto; position: relative; border-radius: 4px; overflow: hidden; transform: translateY(50px); transition: transform 0.4s ease, background-color 0.5s ease; }
+        .modal-overlay.active .modal-content { transform: translateY(0); }
         .modal-header-img { width: 100%; height: 50vh; object-fit: cover; }
         .modal-body { padding: 50px; }
         .modal-title { font-size: 2.5rem; font-weight: 400; font-family: 'Playfair Display', serif; color: var(--text-dark); margin-bottom: 10px; transition: color 0.5s ease; }
@@ -172,8 +191,28 @@
         .modal-desc { font-size: 1.1rem; color: var(--text-gray); line-height: 1.8; margin-bottom: 40px; transition: color 0.5s ease;}
         .modal-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .modal-gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; }
+
+        /* HAKKIMDA MODALI (BUZLU CAM EFEKTİ) */
+        #aboutMeModal.modal-overlay {
+            background-color: rgba(10, 10, 12, 0.4); 
+            backdrop-filter: none; 
+        }
+        #aboutMeModal .modal-content {
+            background-color: var(--bg-about-modal); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(201, 160, 99, 0.3); 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
         
-        /* AŞAĞI KAYDIRMA ANİMASYONLARI İÇİN SINIFLAR */
+        .about-me-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; padding: 50px; }
+        .about-me-img-wrapper { width: 100%; aspect-ratio: 3/4; overflow: hidden; border-radius: 4px; }
+        .about-me-img { width: 100%; height: 100%; object-fit: cover; }
+        .cv-section-title { font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-top: 30px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; transition: color 0.5s ease; }
+        .cv-list { list-style: none; color: var(--text-gray); line-height: 1.8; font-weight: 300; transition: color 0.5s ease; }
+        .cv-list li { margin-bottom: 5px; }
+
+        /* AŞAĞI KAYDIRMA ANİMASYONLARI */
         .hidden-anim { opacity: 0; transform: translateY(40px); transition: all var(--transition-speed) ease-out; }
         .show-anim { opacity: 1; transform: translateY(0); }
 
@@ -183,6 +222,10 @@
             .menu-btn { display: block; }
             .nav-links { position: absolute; top: 70px; left: -100%; flex-direction: column; background-color: var(--nav-bg); width: 100%; text-align: center; padding: 30px 0; transition: left 0.4s ease; gap: 25px; }
             .nav-links.active { left: 0; }
+            .about-me-grid { grid-template-columns: 1fr; padding: 30px 20px; }
+            .about-me-img-wrapper { aspect-ratio: 1/1; }
+            .modal-body { padding: 30px 20px; }
+            #scrollTopBtn { bottom: 20px; right: 20px; width: 40px; height: 40px; }
         }
     </style>
 </head>
@@ -201,6 +244,7 @@
                 <li><a href="#projects" onclick="toggleMenu()">Projeler</a></li>
                 <li><a href="#about" onclick="toggleMenu()">Vizyon</a></li>
                 <li><a href="#services" onclick="toggleMenu()">Uzmanlık</a></li>
+                <li><a onclick="openAboutModal(); toggleMenu();">Hakkımda</a></li>
                 <li><a href="#contact" onclick="toggleMenu()">İletişim</a></li>
             </ul>
             
@@ -253,10 +297,10 @@
             <div class="services-grid">
                 <div class="service-item hidden-anim" style="transition-delay: 0s;">
                     <h3>Mimari Tasarım</h3>
-                    <p>Konseptten uygulama projesi teslimine, çevresiyle uyumlu ve fonksiyonel çağdaş mekan çözümleri.</p>
+                    <p>Konseptten anahtar teslime, çevresiyle uyumlu ve fonksiyonel çağdaş mekan çözümleri.</p>
                 </div>
                 <div class="service-item hidden-anim" style="transition-delay: 0.2s;">
-                    <h3>BİNA BİLGİ MODELLEMESİ (BIM)</h3>
+                    <h3>Bina Bilgi Modellemesi (BIM)</h3>
                     <p>Projelerin çakışmasız, veri odaklı ve uluslararası standartlarda dijital olarak modellenmesi.</p>
                 </div>
                 <div class="service-item hidden-anim" style="transition-delay: 0.4s;">
@@ -270,13 +314,40 @@
     <footer id="contact" class="dark-section">
         <div class="container hidden-anim">
             <h2>İşbirliği İçin</h2>
+            
             <div class="social-links">
-                <a href="mailto:busermimarlik@gmail.com" title="Bize E-posta Gönderin">Mail</a>
-                <a href="#" target="_blank">Instagram</a>
-                <a href="#" target="_blank">LinkedIn</a>
-                <a href="#" target="_blank">Behance</a> 
+                <a href="mailto:busermimarlik@gmail.com" title="Bize E-posta Gönderin">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    Mail
+                </a>
+                
+                <a href="https://www.instagram.com/busermimarlik/" target="_blank" title="Instagram Profilimiz">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                    Instagram
+                </a>
+                
+                <a href="https://tr.linkedin.com/company/busermimarlik" target="_blank" title="LinkedIn Profilimiz">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                    LinkedIn
+                </a>
             </div>
-            <p class="footer-bottom">Ankara, Türkiye — Buser Mimarlık</p>
+            
+            <p class="footer-bottom">
+                &copy; <span id="currentYear"></span> Buser Mimarlık. All Rights Reserved. <br>
+                Ankara, Türkiye
+            </p>
+            
         </div>
     </footer>
 
@@ -293,13 +364,66 @@
         </div>
     </div>
 
-    <script>
-        // 1. TEMA DEĞİŞTİRME FONKSİYONU
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-        }
+    <div id="aboutMeModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeAboutModal()">&times;</span>
+            
+            <div class="about-me-grid">
+                <div class="about-me-img-wrapper">
+                    <img src="images/senin-fotografin.jpg" alt="Halil Sertaç Dayılar" class="about-me-img" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800'">
+                </div>
+                
+                <div class="about-me-text">
+                    <h2 class="modal-title">Halil Sertaç Dayılar</h2>
+                    <p class="modal-category">Kurucu Mimar & BIM Uzmanı</p>
+                    
+                    <p class="modal-desc">
+                        Mimari tasarımı veri odaklı teknolojilerle birleştiren yenilikçi bir vizyona sahibim. Estetik ve fonksiyonelliği, modern dünyanın ihtiyaçları ve sürdürülebilirlik ilkeleri çerçevesinde yeniden yorumluyorum.
+                    </p>
+                    
+                    <h4 class="cv-section-title">Eğitim</h4>
+                    <ul class="cv-list">
+                        <li>• Yıldız Teknik Üniversitesi - Mimarlık Fakültesi (2012)</li>
+                        <li>• BuildingSMART Profesyonel Sertifikasyon (PCERT) (2025)</li>
+                        <li>• İleri Seviye Revit Eğitimi (TMMOB İstanbul Büyükkent Şubesi)</li>
+                    </ul>
 
-        // 2. 3D MESH CANVAS ANİMASYONU VE FARE ETKİLEŞİMİ
+                    <h4 class="cv-section-title">Uzmanlık & Yazılım</h4>
+                    <ul class="cv-list">
+                        <li>• BIM (Building Information Modeling)</li>
+                        <li>• Autodesk Revit, Navisworks</li>
+                        <li>• Fotogrametri & 3D Modelleme</li>
+                    </ul>
+                    
+                    <h4 class="cv-section-title">Deneyim</h4>
+                    <ul class="cv-list">
+                        <li>• BUSER Mimarlık - Kurucu (Günümüz)</li>
+                        <li>• NKY Mimarlık / Proje Koordinatörü (2021-2024)</li>
+                        <li>• EMAY Uluslararası Mühendislik ve Müşavirlik A.Ş / Proje Koordinatörü (2017-2021)</li>
+                        <li>• İLTAY Mimarlık / Proje Koordinatörü (2015-2017)</li>
+                        <li>• ULUS Mimarlık / Proje Koordinatörü (2013-2014)</li>
+                        <li>• DNA Mimarlık / Mimar (2012-2013)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="scrollTopBtn" onclick="scrollToTop()" title="Başa Dön">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <script>
+        // OTOMATİK YIL GÜNCELLEMESİ
+        document.getElementById("currentYear").innerText = new Date().getFullYear();
+
+        // TEMA DEĞİŞTİRME FONKSİYONU
+        function toggleTheme() { document.body.classList.toggle('dark-theme'); }
+
+        // 3D MESH CANVAS ANİMASYONU
         const canvas = document.getElementById('mesh-canvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -359,50 +483,38 @@
         window.addEventListener('resize', () => { setCanvasSize(); initMesh(); });
         setCanvasSize(); initMesh(); animateMesh();
 
-        // 3. MOBİL MENÜ
+        // MOBİL MENÜ
         function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
 
-        // 4. PROJELER VERİ TABANI
+        // PROJELER VERİ TABANI
         const projeler = [
             { 
-                ad: "Çatalhöyük Güney Koruganı", 
-                tur: "Uygulama Projesi ve Görselleştirme", 
-                gorsel: "https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070", 
+                ad: "Çatalhöyük Güney Koruganı", tur: "Uygulama Projesi ve Görselleştirme", 
+                gorsel: "images/catalhoyuk-1.jpg", 
                 detay: "Çatalhöyük arkeolojik alanında kazı çalışmalarını ve eşsiz buluntuları doğa şartlarından korumak amacıyla tasarlanmış kanopi tasarımı. Tarihi dokuya zarar vermeden, çevresiyle uyumlu ve estetik bir strüktür kurgulanmıştır. Tüm çelik konstrüksiyon ve tarama verileri BIM süreçleriyle milimetrik olarak mimari ile koordine edilmiştir.", 
-                galeri: [
-                    "https://images.unsplash.com/photo-1503387762-592dee58c460?q=80&w=2070", 
-                    "https://images.unsplash.com/photo-1599940824399-b87987ceb72a?q=80&w=2000"
-                ] 
+                galeri: ["images/catalhoyuk-1.jpg", "images/catalhoyuk-2.jpg"] 
             },
             { 
-                ad: "DSİ Lefkoşa Yerleşkesi", 
-                tur: "Uygulama Projesi ve Görselleştirme", 
-                gorsel: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069", 
+                ad: "DSİ Lefkoşa Yerleşkesi", tur: "Uygulama Projesi ve Görselleştirme", 
+                gorsel: "images/dsi-1.jpg", 
                 detay: "Devlet Su İşleri için tasarlanan modern ve fonksiyonel misafirhane yapısı. Enerji verimliliği ön planda tutularak tasarlanan cephe sistemi ve ferah iç mekan kurgusu ile kamu yapılarında yeni bir standart hedeflenmiştir.", 
-                galeri: [
-                    "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069", 
-                    "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000"
-                ] 
+                galeri: ["images/dsi-1.jpg", "images/dsi-2.jpg"] 
             },
             { 
-                ad: "Modern Villa Kompleksi", 
-                tur: "Konut Mimari / İzmir", 
-                gorsel: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&w=800&q=80", 
+                ad: "Modern Villa Kompleksi", tur: "Konut Mimari / İzmir", 
+                gorsel: "images/villa-1.jpg", 
                 detay: "Doğayla iç içe, minimalist çizgiler barındıran lüks konut projesi. Açık plan şeması ve geniş cam yüzeyler kullanılarak doğal ışığın mekan içindeki etkisi maksimize edilmiştir.", 
-                galeri: [
-                    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=2000", 
-                    "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2000"
-                ] 
+                galeri: ["images/villa-1.jpg", "images/villa-2.jpg"] 
             }
         ];
 
-        // 5. PROJELERİ EKRANA BASMA
+        // PROJELERİ EKRANA BASMA
         const pContainer = document.getElementById('project-container');
         projeler.forEach((proje, index) => {
             const cardHTML = `
                 <div class="project-card hidden-anim" style="transition-delay: ${index * 0.15}s;" onclick="openModal(${index})">
                     <div class="project-img-wrapper">
-                        <img src="${proje.gorsel}" alt="${proje.ad}" class="project-img">
+                        <img src="${proje.gorsel}" alt="${proje.ad}" class="project-img" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800'">
                     </div>
                     <div class="project-info">
                         <h3>${proje.ad}</h3>
@@ -413,8 +525,9 @@
             pContainer.innerHTML += cardHTML;
         });
 
-        // 6. MODAL (DETAY PENCERESİ) KONTROLÜ
-        const modal = document.getElementById("projectModal");
+        // MODAL KONTROLLERİ
+        const projectModal = document.getElementById("projectModal");
+        const aboutModal = document.getElementById("aboutMeModal");
         
         function openModal(index) {
             const secilenProje = projeler[index];
@@ -426,33 +539,60 @@
             const galleryContainer = document.getElementById("modalGallery");
             galleryContainer.innerHTML = "";
             secilenProje.galeri.forEach(fotoUrl => {
-                galleryContainer.innerHTML += `<img src="${fotoUrl}" alt="Galeri Görseli">`;
+                galleryContainer.innerHTML += `<img src="${fotoUrl}" alt="Galeri Görseli" onerror="this.style.display='none'">`;
             });
 
-            modal.style.display = "block";
-            setTimeout(() => { modal.classList.add("active"); }, 10);
-            document.body.style.overflow = "hidden"; // Arkadaki kaydırmayı durdur
+            projectModal.style.display = "block";
+            setTimeout(() => { projectModal.classList.add("active"); }, 10);
+            document.body.style.overflow = "hidden"; 
         }
 
         function closeModal() {
-            modal.classList.remove("active");
-            setTimeout(() => { modal.style.display = "none"; }, 400);
-            document.body.style.overflow = "auto"; // Kaydırmayı geri aç
+            projectModal.classList.remove("active");
+            setTimeout(() => { projectModal.style.display = "none"; }, 400);
+            document.body.style.overflow = "auto"; 
         }
 
-        // Modalı dışarıya tıklayarak kapatma
+        function openAboutModal() {
+            document.getElementById('mesh-canvas').style.zIndex = "999"; 
+            aboutModal.style.display = "block";
+            setTimeout(() => { aboutModal.classList.add("active"); }, 10);
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeAboutModal() {
+            aboutModal.classList.remove("active");
+            setTimeout(() => { 
+                aboutModal.style.display = "none"; 
+                document.getElementById('mesh-canvas').style.zIndex = "1"; 
+            }, 400);
+            document.body.style.overflow = "auto";
+        }
+
         window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                closeModal();
+            if (event.target === projectModal) { closeModal(); }
+            if (event.target === aboutModal) { closeAboutModal(); }
+        });
+
+        document.addEventListener('keydown', function(event) { 
+            if (event.key === "Escape") { closeModal(); closeAboutModal(); }
+        });
+
+        // BAŞA DÖN BUTONU MANTIĞI
+        const scrollTopBtn = document.getElementById("scrollTopBtn");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 400) {
+                scrollTopBtn.classList.add("show");
+            } else {
+                scrollTopBtn.classList.remove("show");
             }
         });
 
-        // Modalı klavyeden ESC tuşu ile kapatma
-        document.addEventListener('keydown', function(event) { 
-            if (event.key === "Escape") closeModal(); 
-        });
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
 
-        // 7. AŞAĞI KAYDIRDIKÇA BELİREN ANİMASYONLAR (SCROLL REVEAL)
+        // SCROLL REVEAL (AŞAĞI KAYDIRMA ANİMASYONLARI)
         const observerElements = document.querySelectorAll('.hidden-anim');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
