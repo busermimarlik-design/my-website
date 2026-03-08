@@ -291,7 +291,7 @@
         .hidden-anim { opacity: 0; transform: translateY(40px); transition: all var(--transition-speed) ease-out; }
         .show-anim { opacity: 1; transform: translateY(0); }
 
-        /* MOBİL EKRAN UYUMU */
+/* MOBİL EKRAN UYUMU */
         @media screen and (max-width: 768px) {
             nav { padding: 15px 20px; }
             .menu-btn { display: block; }
@@ -301,11 +301,18 @@
             .about-me-img-wrapper { aspect-ratio: 1/1; }
             .modal-body { padding: 30px 20px; }
             #scrollTopBtn { bottom: 20px; right: 20px; width: 40px; height: 40px; }
+            
+            /* ---> YENİ EKLENEN KISIM BURASI <--- */
+            
+            /* Mobilde açılış ekranının arka planını bembeyaz yapar */
+            #intro-screen {
+                background-color: #ffffff; 
+            }
 
-/* YENİ: Mobilde videonun kesilip devasa olmasını engeller */
+            /* Mobilde videonun kesilmesini engeller */
             #intro-video { 
-                object-fit: contain; /* Kesmek yerine videoyu ekrana tam sığdırır */
-                padding: 20px; /* Kenarlardan biraz nefes payı bırakır */
+                object-fit: contain; 
+                padding: 20px; 
             }
         }
     </style>
