@@ -17,7 +17,7 @@
 
         /* KURUMSAL RENKLER VE TEMA (GÜNDÜZ MODU) */
         :root {
-            --bg-dark: #324355; 
+            --bg-dark: #0f172a; 
             --bg-light: #f9f9f9; 
             --bg-footer: #f3f4f6;
             --text-dark: #111827; 
@@ -32,13 +32,13 @@
 
         /* GECE MODU RENKLERİ */
         body.dark-theme {
-            --bg-light: #111827; 
-            --bg-footer: #0f141e; 
-            --text-dark: #f9f9f9; 
-            --text-gray: #9ca3af;
-            --border-color: #374151; 
-            --nav-bg: rgba(17, 24, 39, 0.95);
-            --bg-about-modal: rgba(17, 24, 39, 0.85); 
+            --bg-light: #040a14; 
+            --bg-footer: #02050a; 
+            --text-dark: #f8fafc; 
+            --text-gray: #8ba0b5;
+            --border-color: #0f1c30; 
+            --nav-bg: rgba(4, 10, 20, 0.95);
+            --bg-about-modal: rgba(4, 10, 20, 0.85); 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,6 +50,27 @@
             line-height: 1.7;
             overflow-x: hidden;
             transition: background-color 0.5s ease, color 0.5s ease; 
+        }
+        /* --- YENİ: VİDEOLU AÇILIŞ (INTRO) EKRANI --- */
+        #intro-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #040a14; /* Videonun arka planına uygun koyu renk */
+            z-index: 9999; 
+            display: flex; justify-content: center; align-items: center;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+        
+        #intro-video {
+            width: 100%; height: 100%; 
+            /* object-fit: cover videoyu tam ekrana yayar. Eğer logonun kesilmesini istemiyorsan 'contain' yapabilirsin */
+            object-fit: cover; 
+            pointer-events: none; /* Videoya tıklanmasını engeller */
+        }
+
+        /* Intro ekranını gizlemek için kullanılacak sınıf */
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
         }
 
         /* 3D MESH ANİMASYONU CANVAS ALANI */
@@ -230,6 +251,13 @@
     </style>
 </head>
 <body>
+
+    <div id="intro-screen">
+        <video id="intro-video" muted autoplay playsinline>
+            <source src="images/intro.mp4" type="video/mp4">
+            Tarayıcınız video etiketini desteklemiyor.
+        </video>
+    </div>
 
     <canvas id="mesh-canvas"></canvas>
 
@@ -417,6 +445,35 @@
     </button>
 
     <script>
+        // --- YENİ: VİDEO BİTİŞ KONTROLÜ ---
+        window.addEventListener('DOMContentLoaded', () => {
+            const introScreen = document.getElementById('intro-screen');
+            const introVideo = document.getElementById('intro-video');
+
+            if (introVideo) {
+                // Video oynamayı bitirdiğinde tetiklenecek olay
+                introVideo.addEventListener('ended', () => {
+                    // Saydamlaştırma sınıfını ekle
+                    introScreen.classList.add('fade-out');
+                    
+                    // Geçiş animasyonu (1 saniye) bittikten sonra arkadan tamamen kaldır
+                    setTimeout(() => { 
+                        introScreen.style.display = 'none'; 
+                    }, 1000);
+                });
+
+                // Güvenlik önlemi (Fallback):
+                // Eğer video herhangi bir sebepten yüklenmezse veya hata verirse, site kilitli kalmasın diye
+                // 6 saniye sonra intro ekranını otomatik olarak kapatırız.
+                setTimeout(() => {
+                    if(introScreen.style.display !== 'none') {
+                        introScreen.classList.add('fade-out');
+                        setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
+                    }
+                }, 6000);
+            }
+        });
+
         // OTOMATİK YIL GÜNCELLEMESİ
         document.getElementById("currentYear").innerText = new Date().getFullYear();
 
