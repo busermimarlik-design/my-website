@@ -3,753 +3,434 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buser Mimarlık | Ankara Mimari Tasarım & BIM Merkezi</title>
-    <meta name="description" content="Ankara merkezli Buser Mimarlık; BIM, Revit, Fotogrametri ve yenilikçi mimari tasarım alanlarında profesyonel hizmet sunmaktadır.">
-    <meta name="keywords" content="Buser Mimarlık, Ankara Mimarlık Ofisi, BIM, Revit Tasarım, Fotogrametri, Mimari Proje">
+    <title>Buser Mimarlık | Ankara Mimari Tasarım, Proje ve Tadilat</title>
+    <meta name="description" content="Ankara merkezli Buser Mimarlık; mimari tasarım ve proje, tadilat-renovasyon, anahtar teslim uygulama ve BIM hizmetlerini tek elden sunar.">
     <meta name="author" content="Buser Mimarlık">
     <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="canonical" href="https://busermimarlik.com/">
 
+    <!-- Paylaşım önizlemesi (WhatsApp, LinkedIn, Instagram vb.) -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:site_name" content="Buser Mimarlık">
+    <meta property="og:title" content="Buser Mimarlık | Mimari Tasarım, Proje ve Tadilat">
+    <meta property="og:description" content="Tasarımdan teslime tek elden: mimari tasarım ve proje, tadilat-renovasyon ve anahtar teslim uygulama.">
+    <meta property="og:url" content="https://busermimarlik.com/">
+    <meta property="og:image" content="https://busermimarlik.com/images/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
-        /* AKICI KAYDIRMA */
-        html { scroll-behavior: smooth; }
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ProfessionalService",
+        "name": "Buser Mimarlık",
+        "url": "https://busermimarlik.com/",
+        "logo": "https://busermimarlik.com/images/icon-512.png",
+        "image": "https://busermimarlik.com/images/og-image.jpg",
+        "email": "busermimarlik@gmail.com",
+        "founder": [{"@type": "Person", "name": "Halil Sertaç Dayılar", "jobTitle": "Mimar"}, {"@type": "Person", "name": "Burak Yazıcıoğlu", "jobTitle": "İnşaat Mühendisi"}],
+        "address": { "@type": "PostalAddress", "addressLocality": "Ankara", "addressCountry": "TR" },
+        "areaServed": "Türkiye",
+        "sameAs": ["https://www.instagram.com/busermimarlik/", "https://tr.linkedin.com/company/busermimarlik"],
+        "knowsAbout": ["Mimari Tasarım", "Mimari Proje", "Tadilat ve Renovasyon", "Anahtar Teslim Uygulama", "Şantiye Yönetimi", "BIM"]
+    }
+    </script>
 
-        /* KURUMSAL RENKLER VE TEMA (GÜNDÜZ MODU) */
-        :root {
-            --bg-dark: #0f172a; 
-            --bg-light: #f9f9f9; 
-            --bg-footer: #f3f4f6;
-            --text-dark: #111827; 
-            --text-light: #ffffff;
-            --text-gray: #6b7280;
-            --accent: #c9a063; 
-            --border-color: #e5e7eb;
-            --nav-bg: rgba(249, 249, 249, 0.95);
-            --bg-about-modal: rgba(249, 249, 249, 0.75); 
-            --transition-speed: 0.8s;
-        }
-
-        /* GECE MODU RENKLERİ */
-        body.dark-theme {
-            --bg-light: #040a14; 
-            --bg-footer: #02050a; 
-            --text-dark: #f8fafc; 
-            --text-gray: #8ba0b5;
-            --border-color: #0f1c30; 
-            --nav-bg: rgba(4, 10, 20, 0.95);
-            --bg-about-modal: rgba(4, 10, 20, 0.85); 
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark); 
-            color: var(--text-dark);
-            line-height: 1.7;
-            overflow-x: hidden;
-            transition: background-color 0.5s ease, color 0.5s ease; 
-        }
-        /* --- YENİ: VİDEOLU AÇILIŞ (INTRO) EKRANI --- */
-        #intro-screen {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #040a14; /* Videonun arka planına uygun koyu renk */
-            z-index: 9999; 
-            display: flex; justify-content: center; align-items: center;
-            transition: opacity 1s ease, visibility 1s ease;
-        }
-        
-        #intro-video {
-            width: 100%; height: 100%; 
-            /* object-fit: cover videoyu tam ekrana yayar. Eğer logonun kesilmesini istemiyorsan 'contain' yapabilirsin */
-            object-fit: cover; 
-            pointer-events: none; /* Videoya tıklanmasını engeller */
-        }
-
-        /* Intro ekranını gizlemek için kullanılacak sınıf */
-        .fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        /* 3D MESH ANİMASYONU CANVAS ALANI */
-        #mesh-canvas {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: 1; pointer-events: none;
-        }
-
-        /* NAVBAR (MENÜ) */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 20px 50px;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 100; background: var(--nav-bg);
-            backdrop-filter: blur(10px); box-shadow: 0 1px 5px rgba(0,0,0,0.05);
-            transition: all 0.5s ease;
-        }
-        .brand { display: flex; align-items: center; gap: 15px; text-decoration: none; }
-/* YÜKLENEN LOGONUN YAZI İLE SENKRONİZE PARLAMASI */
-        .brand img { 
-            height: 40px; 
-            width: auto; 
-            /* Yazıdaki 10 saniyelik sayaç animasyonu ile aynı sürede çalışır */
-            animation: logoDigitalGlow 6s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        /* Logonun etrafına gölge (Drop Shadow) ile parlama verme */
-        @keyframes logoDigitalGlow {
-            0%, 50%, 100% { filter: drop-shadow(0 0 0px transparent); }
-            52%, 94% { filter: drop-shadow(0 0 10px #0ea5e9) drop-shadow(0 0 20px #0ea5e9); } /* Gök mavisi elektriklenme */
-            55%, 90% { filter: drop-shadow(0 0 10px rgba(201, 160, 99, 0.6)); } /* Bronz/Altın parlama */
-        }
-        .brand span { font-size: 20px; letter-spacing: 2px; font-weight: 600; color: var(--text-dark); transition: color 0.5s ease;}
-        
-        .nav-right { display: flex; align-items: center; gap: 40px; }
-        .nav-links { list-style: none; display: flex; gap: 40px; }
-        .nav-links li a { color: var(--text-dark); text-decoration: none; text-transform: uppercase; font-size: 12px; letter-spacing: 3px; font-weight: 500; transition: color 0.3s ease; cursor: pointer; }
-        .nav-links li a:hover { color: var(--accent); }
-
-/* --- DİJİTAL LOGO ANİMASYONU (SAYAÇ EFEKTİ VE BOŞLUKLU YAPI) --- */
-        .brand-text-wrapper {
-            display: flex;
-            align-items: center;
-            font-size: 20px;
-            letter-spacing: 2px;
-            font-weight: 600;
-            color: var(--text-dark);
-            overflow: hidden;
-        }
-
-        /* Tüm harfler (B, IM ve USER) aynı renk ve parlama döngüsüne girer (Siyah kalmaz) */
-        .b-letter, .user-letters {
-            animation: textDigitalGlow 6s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .im-letters {
-            display: inline-block;
-            max-width: 0; 
-            opacity: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            /* YENİ: steps(3) komutu harflerin kayarak değil, 3 adımda "tık-tık-tık" (sayaç gibi) açılmasını sağlar */
-            animation: textDigitalGlow 6s infinite, counterTick 6s infinite steps(3, end);
-        }
-
-        /* 1. Tüm yazının anlık mavi parlayıp Bronza dönme efekti */
-        @keyframes textDigitalGlow {
-            0%, 50%, 100% { color: var(--text-dark); text-shadow: none; }
-            52%, 94% { color: #0ea5e9; text-shadow: 0 0 12px #0ea5e9, 0 0 20px #0ea5e9; } /* Sayaç açılırken ve kapanırken dijital mavi */
-            55%, 90% { color: var(--accent); text-shadow: 0 0 15px rgba(201, 160, 99, 0.5); } /* BIM USER okunurken altın/bronz parlama */
-        }
-
-        /* 2. IM harflerinin sayaç gibi (tık-tık) açılıp kapanma efekti */
-        @keyframes counterTick {
-            0%, 50%, 100% { max-width: 0; opacity: 0; }
-            52% { opacity: 1; } /* Mavi parlama anında görünür olmaya başla */
-            55%, 90% { max-width: 40px; opacity: 1; } /* 3 adımda (I -> M -> Boşluk) tam açılır ve bekler */
-            94% { max-width: 0; opacity: 1; } /* Hızla geri sayarak kapanır */
-        }
-        
-        /* TEMA DEĞİŞTİRME BUTONU VE SVG AYARLARI */
-        .theme-switch { cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-dark); transition: transform 0.3s ease, color 0.5s ease; }
-        .theme-switch:hover { transform: scale(1.1) rotate(10deg); color: var(--accent); }
-        .theme-switch svg { width: 22px; height: 22px; transition: all 0.3s ease; }
-        
-        .icon-sun { display: none; }
-        .icon-moon { display: block; }
-        body.dark-theme .icon-sun { display: block; }
-        body.dark-theme .icon-moon { display: none; }
-
-        .menu-btn { display: none; font-size: 28px; cursor: pointer; color: var(--text-dark); }
-
-        /* BÖLÜM (SECTION) YAPILARI VE Z-INDEX SANDVİÇİ */
-        section { width: 100%; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 120px 5vw; }
-
-        .light-section { position: relative; z-index: 2; background-color: var(--bg-light); transition: background-color 0.5s ease; }
-        .dark-section { position: relative; z-index: 0; background-color: transparent; color: var(--text-light); }
-        .dark-section .container, .dark-section .hero-content { position: relative; z-index: 2; }
-
-        /* HERO BÖLÜMÜ (GİRİŞ EKRANI) */
-        .hero { 
-            position: relative; width: 100%; height: 100vh; display: flex; flex-direction: column; 
-            justify-content: center; align-items: center; text-align: center; z-index: 0; padding: 0 20px;
-            background: linear-gradient(rgba(10, 10, 12, 0.85), rgba(10, 10, 12, 0.95)), 
-                        url('images/hero-arkaplan.jpg') center/cover no-repeat; 
-        }
-        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 300; letter-spacing: -2px; line-height: 1.1; margin-bottom: 20px; color: var(--text-light); }
-        .hero p { font-size: 1.1rem; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 50px; }
-        .hero-btn { border: 1px solid var(--accent); padding: 15px 40px; color: var(--text-light); text-decoration: none; text-transform: uppercase; letter-spacing: 3px; font-size: 12px; transition: all 0.3s ease; }
-        .hero-btn:hover { background-color: var(--accent); color: var(--bg-dark); }
-
-        .section-title { font-size: 1.8rem; font-weight: 300; margin-bottom: 60px; text-transform: uppercase; letter-spacing: 5px; color: var(--text-gray); border-bottom: 1px solid var(--border-color); padding-bottom: 20px; transition: border-color 0.5s ease; }
-
-        /* PROJELER ALANI */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
-        .project-card { cursor: pointer; position: relative; }
-        .project-img-wrapper { overflow: hidden; aspect-ratio: 16/9; background-color: #f3f4f6; margin-bottom: 20px; }
-        .project-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s ease; }
-        .project-card:hover .project-img { transform: scale(1.05); }
-        .project-info h3 { font-size: 1.5rem; font-weight: 500; color: var(--text-dark); transition: color 0.3s ease;}
-        .project-card:hover .project-info h3 { color: var(--accent); }
-        .project-info p { color: var(--text-gray); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; }
-
-        /* VİZYON ALANI */
-        .about-content { text-align: center; max-width: 900px !important; }
-        .about-subtitle { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 8px; color: var(--accent); margin-bottom: 40px; display: block; }
-        .about-text { font-size: 2.2rem; font-weight: 300; line-height: 1.6; }
-
-        /* UZMANLIK ALANI */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 60px; }
-        .service-item { border-top: 1px solid var(--border-color); padding-top: 30px; transition: border-color 0.5s ease; }
-        .service-item h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; letter-spacing: -0.5px; }
-        .service-item p { color: var(--text-gray); font-weight: 300; }
-
-        /* İLETİŞİM VE FOOTER */
-        footer { 
-            text-align: center; background-color: transparent; 
-            border-top: 1px solid rgba(255, 255, 255, 0.1); position: relative; z-index: 0; 
-        }
-        footer .container { padding: 100px 20px; position: relative; z-index: 2; color: var(--text-light); }
-        footer h2 { font-size: 2rem; font-weight: 300; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; }
-        
-        /* GÜNCELLENDİ: Sosyal Linkler ve İkonlar */
-        .social-links { 
-            display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; flex-wrap: wrap; 
-        }
-        .social-links a { 
-            display: flex; align-items: center; gap: 10px; /* İkon ve metni yan yana hizalar */
-            color: var(--text-light); text-decoration: none; text-transform: uppercase; 
-            letter-spacing: 3px; font-size: 0.85rem; font-weight: 500; 
-            transition: all 0.3s ease; position: relative; opacity: 0.8; 
-        }
-        /* İkonların zıplama efekti */
-        .social-links a svg { transition: transform 0.3s ease; width: 20px; height: 20px; }
-        .social-links a:hover { color: var(--accent); opacity: 1; }
-        .social-links a:hover svg { transform: translateY(-3px); }
-        
-        /* Alt çizgi efekti (Sadece metin kısmı altında kalsın diye left/width ayarını güncelledik) */
-        .social-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background-color: var(--accent); transition: width 0.3s ease; }
-        .social-links a:hover::after { width: 100%; }
-        
-        .footer-bottom { 
-            color: rgba(255, 255, 255, 0.5); font-size: 0.85rem; text-transform: uppercase; 
-            letter-spacing: 2px; margin-top: 20px; line-height: 1.8;
-        }
-
-        /* --- BAŞA DÖN BUTONU --- */
-        #scrollTopBtn {
-            position: fixed; bottom: 40px; right: 40px; width: 50px; height: 50px;
-            background-color: var(--accent); color: #fff; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; z-index: 99; opacity: 0; visibility: hidden;
-            transform: translateY(20px); transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; outline: none;
-        }
-        #scrollTopBtn.show { opacity: 1; visibility: visible; transform: translateY(0); }
-        #scrollTopBtn:hover { background-color: var(--text-dark); transform: translateY(-5px); }
-        #scrollTopBtn svg { width: 24px; height: 24px; }
-
-        /* --- GENEL MODAL AYARLARI --- */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 10, 12, 0.9); backdrop-filter: blur(8px); z-index: 1000; overflow-y: auto; padding: 40px 20px; opacity: 0; transition: opacity 0.4s ease; }
-        .modal-overlay.active { display: block; opacity: 1; }
-        .modal-close-btn { position: absolute; top: 20px; right: 25px; font-size: 40px; font-weight: 300; color: #ffffff; cursor: pointer; z-index: 10; line-height: 1; transition: color 0.3s ease; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .modal-close-btn:hover { color: var(--accent); }
-        
-        /* PROJE MODALI ÖZEL */
-        .modal-content { background-color: var(--bg-light); max-width: 1000px; margin: 0 auto; position: relative; border-radius: 4px; overflow: hidden; transform: translateY(50px); transition: transform 0.4s ease, background-color 0.5s ease; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
-        .modal-header-img { width: 100%; height: 50vh; object-fit: cover; }
-        .modal-body { padding: 50px; }
-        .modal-title { font-size: 2.5rem; font-weight: 400; font-family: 'Playfair Display', serif; color: var(--text-dark); margin-bottom: 10px; transition: color 0.5s ease; }
-        .modal-category { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent); margin-bottom: 30px; }
-        .modal-desc { font-size: 1.1rem; color: var(--text-gray); line-height: 1.8; margin-bottom: 40px; transition: color 0.5s ease;}
-        .modal-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .modal-gallery img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 2px; }
-
-        /* HAKKIMDA MODALI (BUZLU CAM EFEKTİ) */
-        #aboutMeModal.modal-overlay {
-            background-color: rgba(10, 10, 12, 0.4); 
-            backdrop-filter: none; 
-        }
-        #aboutMeModal .modal-content {
-            background-color: var(--bg-about-modal); 
-            backdrop-filter: blur(15px); 
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(201, 160, 99, 0.3); 
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-        }
-        
-        .about-me-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; padding: 50px; }
-        .about-me-img-wrapper { width: 100%; aspect-ratio: 3/4; overflow: hidden; border-radius: 4px; }
-        .about-me-img { width: 100%; height: 100%; object-fit: cover; }
-        .cv-section-title { font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-top: 30px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; transition: color 0.5s ease; }
-        .cv-list { list-style: none; color: var(--text-gray); line-height: 1.8; font-weight: 300; transition: color 0.5s ease; }
-        .cv-list li { margin-bottom: 5px; }
-
-        /* AŞAĞI KAYDIRMA ANİMASYONLARI */
-        .hidden-anim { opacity: 0; transform: translateY(40px); transition: all var(--transition-speed) ease-out; }
-        .show-anim { opacity: 1; transform: translateY(0); }
-
-/* MOBİL EKRAN UYUMU */
-        @media screen and (max-width: 768px) {
-            nav { padding: 15px 20px; }
-            .menu-btn { display: block; }
-            .nav-links { position: absolute; top: 70px; left: -100%; flex-direction: column; background-color: var(--nav-bg); width: 100%; text-align: center; padding: 30px 0; transition: left 0.4s ease; gap: 25px; }
-            .nav-links.active { left: 0; }
-            .about-me-grid { grid-template-columns: 1fr; padding: 30px 20px; }
-            .about-me-img-wrapper { aspect-ratio: 1/1; }
-            .modal-body { padding: 30px 20px; }
-            #scrollTopBtn { bottom: 20px; right: 20px; width: 40px; height: 40px; }
-            
-            /* ---> YENİ EKLENEN KISIM BURASI <--- */
-            
-            /* Mobilde açılış ekranının arka planını bembeyaz yapar */
-            #intro-screen {
-                background-color: #ffffff; 
-            }
-
-            /* Mobilde videonun kesilmesini engeller */
-            #intro-video { 
-                object-fit: contain; 
-                padding: 20px; 
-            }
-        }
-    </style>
+    <!-- Tema, sayfa çizilmeden önce uygulanır (beyaz/koyu yanıp sönmeyi önler) -->
+    <script>
+        (function () {
+            var t = null;
+            try { t = localStorage.getItem('buser-theme'); } catch (e) {}
+            if (!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+            if (t === 'dark') document.documentElement.classList.add('dark-theme');
+            document.documentElement.classList.add('js');
+        })();
+    </script>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+    <script>
+        try { if (sessionStorage.getItem('buser-intro') === '1') document.documentElement.classList.add('intro-seen'); } catch (e) {}
+        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('intro-seen');
+    </script>
 
-    <div id="intro-screen">
-        <video id="intro-video" muted autoplay playsinline>
+    <div id="intro-screen" aria-hidden="true">
+        <video id="intro-video" muted autoplay playsinline preload="auto">
             <source src="images/intro.mp4" type="video/mp4">
-            Tarayıcınız video etiketini desteklemiyor.
         </video>
+        <button id="intro-skip" type="button">Geç</button>
     </div>
 
-    <canvas id="mesh-canvas"></canvas>
+    <canvas id="mesh-canvas" aria-hidden="true"></canvas>
 
-<nav>
-        <a href="#home" class="brand">
-            <img src="images/BUSERMIM-LOGO1.png" alt="Buser Mimarlık Logosu">
-            <div class="brand-text-wrapper">
+    <nav aria-label="Ana menü">
+        <a href="#home" class="brand" aria-label="Buser Mimarlık ana sayfa">
+            <img src="images/logo.png" alt="" width="40" height="40">
+            <div class="brand-text-wrapper" aria-hidden="true">
                 <span class="b-letter">B</span><span class="im-letters">IM&nbsp;</span><span class="user-letters">USER</span>
             </div>
         </a>
-        
+
         <div class="nav-right">
             <ul class="nav-links" id="navLinks">
-                <li><a href="#projects" onclick="toggleMenu()">Projeler</a></li>
-                <li><a href="#about" onclick="toggleMenu()">Vizyon</a></li>
-                <li><a href="#services" onclick="toggleMenu()">Uzmanlık</a></li>
-                <li><a onclick="openAboutModal(); toggleMenu();">Hakkımda</a></li>
-                <li><a href="#contact" onclick="toggleMenu()">İletişim</a></li>
+                <li><a href="#services">Hizmetler</a></li>
+                <li><a href="#process">Süreç</a></li>
+                <li><a href="#projects">Projeler</a></li>
+                <li><a href="#hakkimizda">Hakkımızda</a></li>
+                <li><a href="#contact" class="nav-cta">Teklif Al</a></li>
             </ul>
-            
-            <div class="theme-switch" onclick="toggleTheme()" title="Temayı Değiştir">
-                <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-                <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-            </div>
-            <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+            <button type="button" class="icon-btn theme-switch" id="themeToggle" aria-label="Açık / koyu tema">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+            </button>
+            <button type="button" class="icon-btn menu-btn" id="menuBtn" aria-label="Menüyü aç" aria-expanded="false" aria-controls="navLinks">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
         </div>
     </nav>
 
-    <section id="home" class="hero dark-section">
-        <div class="hero-content hidden-anim">
-            <h1>Dijital Hassasiyet. <br> Mimari Gerçeklik.</h1>
-            <p>BIM & İnovatif Uygulanabilir Tasarımlar</p>
-            <a href="#projects" class="hero-btn">İşleri Keşfet</a>
-        </div>
-    </section>
-
-    <section id="projects" class="light-section">
-        <div class="container">
-            <h2 class="section-title hidden-anim">Seçili Projeler</h2>
-            <div class="grid-container" id="project-container"></div>
-        </div>
-    </section>
-
-    <section id="about" class="dark-section">
-        <div class="container about-content hidden-anim">
-            <span class="about-subtitle">Tasarım Felsefesi</span>
-            <p class="about-text">
-                Buser Mimarlık, mimari estetiği <strong>dijital</strong> ekosisteminin veri odaklı gücüyle inşa eder. Her bir proje, fiziksel dünyanın <strong>dijital</strong> ortamda milimetrik bir hassasiyetle kurgulanmış yansımasıdır.
-            </p>
-        </div>
-    </section>
-
-    <section id="services" class="light-section">
-        <div class="container">
-            <div class="services-grid">
-                <div class="service-item hidden-anim" style="transition-delay: 0s;">
-                    <h3>Mimari Tasarım</h3>
-                    <p>Konseptten anahtar teslime, çevresiyle uyumlu ve fonksiyonel çağdaş mekan çözümleri.</p>
+    <main>
+        <!-- HERO -->
+        <section id="home" class="hero dark-section">
+            <div class="hero-content hidden-anim">
+                <span class="eyebrow">Mimari Tasarım · Proje · Tadilat</span>
+                <h1>Tasarımdan teslime.<br><em>Tek elden.</em></h1>
+                <p class="hero-sub">Yeni yapınızı ya da yenilemek istediğiniz mekânı tasarlıyor, projesini hazırlıyor ve aynı ekiple sahada hayata geçiriyoruz. Sürpriz maliyet yok, kopuk süreç yok.</p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-solid">Ücretsiz Keşif &amp; Teklif</a>
+                    <a href="#projects" class="btn">Projeleri İncele</a>
                 </div>
-                <div class="service-item hidden-anim" style="transition-delay: 0.2s;">
-                    <h3>Bina Bilgi Modellemesi (BIM)</h3>
-                    <p>Projelerin çakışmasız, veri odaklı ve uluslararası standartlarda dijital olarak modellenmesi.</p>
-                </div>
-                <div class="service-item hidden-anim" style="transition-delay: 0.4s;">
-                    <h3>Fotogrametri</h3>
-                    <p>Mevcut yapıların drone teknolojisi ile yüksek hassasiyetli 3D modellenmesi ve proje ile entegrasyonu.</p>
+                <div class="hero-pillars" aria-hidden="true">
+                    <span>Mimari Tasarım</span><span>Mimari Proje</span><span>Tadilat &amp; Renovasyon</span><span>Anahtar Teslim</span>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
+        <!-- ÇİZGİDEN GERÇEĞE -->
+        <section id="model" class="light-section">
+            <div class="container">
+                <div class="compare-wrap">
+                    <div class="compare-text hidden-anim">
+                        <span class="eyebrow">Modelden Gerçeğe</span>
+                        <h2 class="section-title">Her çizgi,<br>sahada bir karşılık</h2>
+                        <p style="margin-top:22px">Tasarladığımız her yapı önce dijital modelde, tüm detaylarıyla kurgulanır. Model; metrajın, iş programının ve şantiyenin ortak dilidir.</p>
+                        <span class="hint"><svg width="28" height="12" viewBox="0 0 28 12" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 1 1 6l5 5M22 1l5 5-5 5M1 6h26"/></svg> Karşılaştırmak için kaydırın</span>
+                    </div>
+                    <div class="compare hidden-anim" style="--pos:50%">
+                        <img src="images/korugan-1.jpg" alt="Korugan Yapısı – görselleştirme" loading="lazy" width="1920" height="1080">
+                        <img class="compare-top" src="images/korugan-1-model.jpg" alt="Korugan Yapısı – çizgi model" loading="lazy" width="1920" height="1080">
+                        <span class="compare-label left">Çizim</span>
+                        <span class="compare-label right">Görsel</span>
+                        <div class="compare-line"></div>
+                        <input class="compare-range" type="range" min="0" max="100" step="0.5" value="50" aria-label="Çizim ve görsel arasında kaydır">
+                        <div class="compare-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6 3 12l6 6M15 6l6 6-6 6"/></svg></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HİZMETLER -->
+        <section id="services" class="light-section">
+            <div class="container">
+                <div class="section-head hidden-anim">
+                    <div>
+                        <span class="eyebrow">Hizmetler</span>
+                        <h2 class="section-title">Mimari tasarım<br>ve tadilat</h2>
+                    </div>
+                    <p class="section-lead">Odağımız iyi tasarlanmış, uygulanabilir projeler ve özenli yenileme işleri. Projeyi çizen ekip, sahadaki uygulamayı da yönetir.</p>
+                </div>
+
+                <div class="services-grid">
+                    <article class="service-item featured hidden-anim">
+                        <span class="svc-no">01</span>
+                        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 42h36M10 42V18l14-10 14 10v24"/><path d="M19 42V30h10v12"/><path d="M4 20 24 6l20 14"/></svg>
+                        <h3>Mimari Tasarım &amp; Proje</h3>
+                        <p>Fikir aşamasından ruhsat ve uygulama projesine kadar; çevresiyle uyumlu, fonksiyonel ve bütçesiyle uygulanabilir yapılar tasarlıyoruz.</p>
+                        <ul><li>Konsept &amp; avan proje</li><li>Ruhsat projeleri</li><li>Uygulama &amp; detay projeleri</li><li>Cephe tasarımı</li><li>3D görselleştirme</li><li>BIM tabanlı proje koordinasyonu</li></ul>
+                        <a href="#contact" class="svc-cta" data-service="Mimari Tasarım &amp; Proje">Proje için teklif alın <span aria-hidden="true">→</span></a>
+                    </article>
+                    <article class="service-item featured hidden-anim">
+                        <span class="svc-no">02</span>
+                        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M30 6l12 12-20 20H10V26z"/><path d="M26 10l12 12M6 42h36"/></svg>
+                        <h3>Tadilat &amp; Renovasyon</h3>
+                        <p>Konut, ofis ve ticari mekânlarınızı yerinde keşif ve ölçümle başlayan, planlı, temiz ve zamanında teslim edilen bir süreçle yeniliyoruz.</p>
+                        <ul><li>İç mekân yenileme</li><li>Cephe yenileme</li><li>Mekân dönüşümü &amp; iyileştirme</li><li>Yerinde keşif &amp; ölçüm</li><li>Metraja dayalı şeffaf teklif</li><li>Uygulama &amp; teslim</li></ul>
+                        <a href="#contact" class="svc-cta" data-service="Tadilat &amp; Renovasyon">Tadilat için keşif isteyin <span aria-hidden="true">→</span></a>
+                    </article>
+                    <article class="service-item hidden-anim">
+                        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 42V14h14v28M22 42V6h18v36M4 42h40"/><path d="M12 20h6M12 26h6M12 32h6M27 12h8M27 18h8M27 24h8M27 30h8"/></svg>
+                        <h3>Anahtar Teslim Uygulama</h3>
+                        <p>Projelendirdiğimiz yapıyı kaba inşaattan ince işlere kadar tek sözleşme ve tek muhatapla teslim ediyoruz.</p>
+                        <ul><li>Kaba ve ince inşaat</li><li>Taşeron ve malzeme koordinasyonu</li><li>Anahtar teslim devir</li></ul>
+                    </article>
+                    <article class="service-item hidden-anim">
+                        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="8" y="6" width="32" height="38" rx="2"/><path d="M17 6V3h14v3M15 18l3 3 6-6M15 30l3 3 6-6M28 19h6M28 31h6"/></svg>
+                        <h3>Proje &amp; Şantiye Yönetimi</h3>
+                        <p>Zaman, maliyet ve kaliteyi takip ediyor; işvereni düzenli raporlarla bilgilendiriyoruz.</p>
+                        <ul><li>İş programı &amp; maliyet kontrolü</li><li>Metraj ve hakediş</li><li>Şantiye koordinasyonu &amp; raporlama</li></ul>
+                    </article>
+                    <article class="service-item hidden-anim">
+                        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M24 4 42 14v20L24 44 6 34V14z"/><path d="M6 14l18 10 18-10M24 24v20"/></svg>
+                        <h3>BIM Modelleme</h3>
+                        <p>Çakışmasız, veri odaklı modeller; IFC 4.x ve ISO 19650 standartlarına uygun teslim.</p>
+                        <ul><li>Revit modelleme (LOD 100–500)</li><li>Navisworks / Solibri çakışma kontrolü</li><li>BIM tabanlı metraj</li></ul>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- SÜREÇ -->
+        <section id="process" class="dark-section">
+            <div class="container">
+                <div class="section-head hidden-anim">
+                    <div>
+                        <span class="eyebrow">Çalışma Süreci</span>
+                        <h2 class="section-title">Önce modelde,<br>sonra sahada</h2>
+                    </div>
+                    <p class="section-lead">Her adım bir önceki adımın dijital verisine dayanır. Böylece sahada karar değil, uygulama yapılır.</p>
+                </div>
+                <ol class="process-list">
+                    <li class="hidden-anim"><h3>Keşif &amp; İhtiyaç</h3><p>Yerinde keşif, mevcut durum ölçümü ve beklentilerin netleştirilmesi.</p></li>
+                    <li class="hidden-anim"><h3>Tasarım &amp; BIM</h3><p>Mimari tasarım ve tüm disiplinlerin tek modelde, çakışmasız kurgulanması.</p></li>
+                    <li class="hidden-anim"><h3>Maliyet &amp; Plan</h3><p>Modelden çıkan metrajla şeffaf teklif ve gerçekçi iş programı.</p></li>
+                    <li class="hidden-anim"><h3>Uygulama</h3><p>Şantiye yönetimi, kalite kontrol ve düzenli ilerleme raporları.</p></li>
+                    <li class="hidden-anim"><h3>Teslim</h3><p>Anahtar teslim devir ve yapının “as-built” dijital modeli.</p></li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- PROJELER -->
+        <section id="projects" class="light-section">
+            <div class="container">
+                <div class="section-head hidden-anim">
+                    <div>
+                        <span class="eyebrow">Portfolyo</span>
+                        <h2 class="section-title">Seçili Projeler</h2>
+                    </div>
+                    <div class="filters" role="group" aria-label="Projeleri filtrele" id="filters"><button type="button" class="filter-btn active" data-filter="tumu" aria-pressed="true">Tümü</button><button type="button" class="filter-btn" data-filter="uygulama" aria-pressed="false">Uygulama Projesi</button><button type="button" class="filter-btn" data-filter="konsept" aria-pressed="false">Konsept & Avan</button><button type="button" class="filter-btn" data-filter="cephe" aria-pressed="false">Cephe & Görselleştirme</button></div>
+                </div>
+                <div class="grid-container" id="project-container">
+                    <a href="projeler/korugan-yapisi.html" class="project-card hidden-anim" data-cat="uygulama" style="transition-delay:0.00s">
+                        <div class="project-img-wrapper"><img src="images/thumbs/korugan-1.jpg" alt="Korugan Yapısı – Uygulama Projesi ve Görselleştirme" class="project-img" loading="lazy" width="900" height="506"></div>
+                        <div class="project-info"><h3>Korugan Yapısı</h3><p>Uygulama Projesi ve Görselleştirme</p><span class="project-more">Projeyi incele →</span></div>
+                    </a>
+                    <a href="projeler/dsi-lefkosa-yerleskesi.html" class="project-card hidden-anim" data-cat="uygulama" style="transition-delay:0.12s">
+                        <div class="project-img-wrapper"><img src="images/thumbs/dsi-1.jpg" alt="DSİ Lefkoşa Yerleşkesi – Uygulama Projesi ve Görselleştirme" class="project-img" loading="lazy" width="900" height="506"></div>
+                        <div class="project-info"><h3>DSİ Lefkoşa Yerleşkesi</h3><p>Uygulama Projesi ve Görselleştirme</p><span class="project-more">Projeyi incele →</span></div>
+                    </a>
+                    <a href="projeler/guneysu-kultur-ve-spor-merkezi.html" class="project-card hidden-anim" data-cat="konsept" style="transition-delay:0.24s">
+                        <div class="project-img-wrapper"><img src="images/thumbs/guneysu-1.jpg" alt="Güneysu Kültür ve Spor Merkezi – Mimari Konsept &amp; Avan Proje" class="project-img" loading="lazy" width="900" height="506"></div>
+                        <div class="project-info"><h3>Güneysu Kültür ve Spor Merkezi</h3><p>Mimari Konsept &amp; Avan Proje</p><span class="project-more">Projeyi incele →</span></div>
+                    </a>
+                    <a href="projeler/ticaret-yapisi-amasya.html" class="project-card hidden-anim" data-cat="konsept" style="transition-delay:0.00s">
+                        <div class="project-img-wrapper"><img src="images/thumbs/tcrt-1.jpg" alt="Ticaret Yapısı – Mimari Konsept &amp; Avan Proje" class="project-img" loading="lazy" width="900" height="506"></div>
+                        <div class="project-info"><h3>Ticaret Yapısı</h3><p>Mimari Konsept &amp; Avan Proje</p><span class="project-more">Projeyi incele →</span></div>
+                    </a>
+                    <a href="projeler/incek-villa.html" class="project-card hidden-anim" data-cat="cephe" style="transition-delay:0.12s">
+                        <div class="project-img-wrapper"><img src="images/thumbs/villa-1.jpg" alt="İncek Villa Projesi – Cephe Tasarımı ve Görselleştirme" class="project-img" loading="lazy" width="900" height="506"></div>
+                        <div class="project-info"><h3>İncek Villa Projesi</h3><p>Cephe Tasarımı ve Görselleştirme</p><span class="project-more">Projeyi incele →</span></div>
+                    </a>
+                    <a href="projeler/four-vision-villa-sitesi.html" class="project-card hidden-anim" data-cat="cephe" style="transition-delay:0.24s">
+                        <div class="project-img-wrapper"><img src="images/thumbs/fv-1.jpg" alt="Four Vision Villa Sitesi – Cephe Tasarımı ve Görselleştirme" class="project-img" loading="lazy" width="900" height="506"></div>
+                        <div class="project-info"><h3>Four Vision Villa Sitesi</h3><p>Cephe Tasarımı ve Görselleştirme</p><span class="project-more">Projeyi incele →</span></div>
+                    </a>
+                    <a href="projeler/cts-konut-projesi.html" class="project-card hidden-anim" data-cat="cephe" style="transition-delay:0.00s">
+                        <div class="project-img-wrapper"><img src="images/thumbs/cts-1.jpg" alt="CTS Konut Projesi – Cephe Tasarımı ve Görselleştirme" class="project-img" loading="lazy" width="900" height="506"></div>
+                        <div class="project-info"><h3>CTS Konut Projesi</h3><p>Cephe Tasarımı ve Görselleştirme</p><span class="project-more">Projeyi incele →</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- VİZYON -->
+        <section id="about" class="dark-section">
+            <div class="container about-content hidden-anim">
+                <span class="eyebrow">Tasarım Felsefesi</span>
+                <p class="about-text">
+                    Buser Mimarlık, mimari estetiği <strong>dijital</strong> verinin gücüyle birleştirir. Her proje, önce sanal ortamda milimetrik hassasiyetle inşa edilir; ardından aynı titizlikle <strong>sahada</strong> hayata geçirilir.
+                </p>
+            </div>
+        </section>
+
+        <!-- NEDEN BUSER -->
+        <section id="why" class="light-section">
+            <div class="container">
+                <div class="section-head hidden-anim">
+                    <div>
+                        <span class="eyebrow">Neden Buser</span>
+                        <h2 class="section-title">Tasarlayan ekip,<br>uygulayan ekiptir</h2>
+                    </div>
+                </div>
+                <div class="why-grid">
+                    <div class="why-item hidden-anim"><span class="num"></span><h3>Tek muhatap</h3><p>Proje, ruhsat ve uygulama arasında sorumluluk kaybolmaz; tüm süreç tek elden yürür.</p></div>
+                    <div class="why-item hidden-anim"><span class="num"></span><h3>Şeffaf maliyet</h3><p>Teklifler BIM modelinden alınan metraja dayanır; kalem kalem açık ve karşılaştırılabilir.</p></div>
+                    <div class="why-item hidden-anim"><span class="num"></span><h3>Sahada sürpriz yok</h3><p>Disiplinler arası çakışmalar şantiyeden önce, modelde çözülür.</p></div>
+                    <div class="why-item hidden-anim"><span class="num"></span><h3>Dijital teslim</h3><p>Yapınızın güncel modeli ve dokümanları, bakım ve gelecekteki tadilatlar için sizde kalır.</p></div>
+                </div>
+            </div>
+        </section>
+        <!-- HAKKIMIZDA -->
+        <section id="hakkimizda" class="light-section">
+            <div class="container">
+                <div class="section-head hidden-anim">
+                    <div>
+                        <span class="eyebrow">Hakkımızda</span>
+                        <h2 class="section-title">Buser Mimarlık<br>ekibi</h2>
+                    </div>
+                    <p class="section-lead">Ankara merkezli ofisimizde mimari tasarım, proje ve tadilat işlerini baştan sona aynı ekiple yürütüyoruz. Her işte tasarımın kalitesini, sahadaki uygulamanın özeniyle tamamlıyoruz.</p>
+                </div>
+
+                <div class="team-grid">
+                    <article class="person hidden-anim">
+                        <div class="person-photo"><img src="images/ekip-sertac.jpg" alt="Halil Sertaç Dayılar" loading="lazy" width="600" height="800"></div>
+                        <div class="person-body">
+                            <h3>Halil Sertaç Dayılar</h3>
+                            <p class="person-role">Kurucu Ortak · Mimar</p>
+                            <p>Mimari tasarımı veri odaklı teknolojilerle birleştirir; tasarlanan her projenin sahada da aynı titizlikle hayata geçmesini takip eder.</p>
+                            <details>
+                                <summary>Özgeçmiş</summary>
+                                <h4>Eğitim</h4>
+                                <ul class="cv-list">
+                                    <li>Yıldız Teknik Üniversitesi – Mimarlık Fakültesi</li>
+                                    <li>buildingSMART Profesyonel Sertifikasyon (PCERT)</li>
+                                    <li>İleri Seviye Revit Eğitimi (TMMOB İstanbul Büyükkent Şubesi)</li>
+                                </ul>
+                                <h4>Uzmanlık &amp; Yazılım</h4>
+                                <ul class="cv-list">
+                                    <li>Mimari tasarım ve proje koordinasyonu</li>
+                                    <li>BIM · IFC · ISO 19650</li>
+                                    <li>Autodesk Revit, Navisworks, AutoCAD, Dynamo, Solibri</li>
+                                </ul>
+                                <h4>Deneyim</h4>
+                                <ul class="cv-list">
+                                    <li>BUSER Mimarlık – Kurucu Ortak (Günümüz)</li>
+                                    <li>NKY Mimarlık – Proje Koordinatörü / BIM Manager</li>
+                                    <li>EMAY Uluslararası Mühendislik ve Müşavirlik A.Ş. – Proje Koordinatörü / BIM Coordinator</li>
+                                    <li>İLTAY Mimarlık – Proje Koordinatörü</li>
+                                    <li>ULUS Mimarlık – Proje Koordinatörü</li>
+                                    <li>DNA Mimarlık – Mimar</li>
+                                </ul>
+                            </details>
+                        </div>
+                    </article>
+
+                    <article class="person hidden-anim">
+                        <div class="person-photo"><img src="images/ekip-burak.jpg" alt="Burak Yazıcıoğlu" loading="lazy" width="600" height="800"></div>
+                        <div class="person-body">
+                            <h3>Burak Yazıcıoğlu</h3>
+                            <p class="person-role">Kurucu Ortak · İnşaat Mühendisi</p>
+                            <p>Statik proje, yapı denetimi ve proje yönetimi deneyimiyle uygulama ve tadilat işlerinin sahadaki yürütümünü üstlenir; yapım sürecinde kalite, maliyet ve zamanın planlandığı gibi ilerlemesini takip eder.</p>
+                            <details>
+                                <summary>Özgeçmiş</summary>
+                                <h4>Eğitim</h4>
+                                <ul class="cv-list">
+                                    <li>Hacettepe Üniversitesi (2018 – devam ediyor)</li>
+                                    <li>Bayburt Üniversitesi – İnşaat Mühendisliği, Lisans (2014 – 2017)</li>
+                                    <li>Adalet Bakanlığı – Bilirkişi Eğitimi</li>
+                                    <li>Çalışma ve Sosyal Güvenlik Bakanlığı – Gayrimenkul Değerleme Lisansı</li>
+                                </ul>
+                                <h4>Uzmanlık</h4>
+                                <ul class="cv-list">
+                                    <li>Statik proje tasarımı ve analizi</li>
+                                    <li>Proje yönetimi ve mühendisliği</li>
+                                    <li>Yapı denetimi ve kontrol mühendisliği</li>
+                                    <li>Beton teknolojisi ve uygulamaları</li>
+                                    <li>Gayrimenkul değerleme · Bilirkişilik</li>
+                                    <li>Serbest inşaat mühendisliği · AutoCAD</li>
+                                </ul>
+                                <h4>Deneyim</h4>
+                                <ul class="cv-list">
+                                    <li>BUSER Mimarlık – Kurucu Ortak (Günümüz)</li>
+                                    <li>AYDINÖZ İnşaat – Proje Müdürü (2020 – devam ediyor, Ankara)</li>
+                                    <li>BY Mimarlık Mühendislik – Proje Mühendisi (2018 – 2020)</li>
+                                    <li>Bayburt Yapı Denetim Ltd. Şti. – Genel Müdür (2017 – 2020, Bayburt)</li>
+                                    <li>Öz-Ka Yapı Denetim Ltd. Şti. – Kontrol Mühendisi (2016 – 2017, Erzurum)</li>
+                                    <li>ER-BAY Yapı Denetim – Kontrol Mühendisi (2013 – 2016)</li>
+                                </ul>
+                            </details>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- İLETİŞİM / TEKLİF -->
     <footer id="contact" class="dark-section">
-        <div class="container hidden-anim">
-            <h2>İşbirliği İçin</h2>
-            
-            <div class="social-links">
-                <a href="mailto: busermimarlik@gmail.com" title="Bize E-posta Gönderin">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                    Mail
-                </a>
-                
-                <a href="https://www.instagram.com/busermimarlik/" target="_blank" title="Instagram Profilimiz">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                    Instagram
-                </a>
-                
-                <a href="https://tr.linkedin.com/company/busermimarlik" target="_blank" title="LinkedIn Profilimiz">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                        <rect x="2" y="9" width="4" height="12"></rect>
-                        <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                    LinkedIn
-                </a>
+        <div class="container">
+            <div class="contact-grid">
+                <div class="hidden-anim">
+                    <span class="eyebrow">İletişim</span>
+                    <h2>Projenizi<br>konuşalım</h2>
+                    <p class="lead">Yeni bir yapı, mimari proje ya da tadilat… Kısa bir bilgi bırakın, keşif ve teklif için size dönelim.</p>
+                    <ul class="contact-lines">
+                        <li data-phone hidden><a data-tel href="#">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <span data-tel-text></span></a></li>
+                        <li data-phone hidden><a data-wa href="#" target="_blank" rel="noopener">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.43 9.43 0 0 1-1.44-5.01c0-5.2 4.24-9.44 9.45-9.44a9.4 9.4 0 0 1 6.68 2.77 9.38 9.38 0 0 1 2.76 6.68c0 5.21-4.24 9.44-9.45 9.44zm8.04-17.48A11.3 11.3 0 0 0 12.05.5C5.78.5.68 5.6.68 11.86c0 2 .52 3.96 1.52 5.68L.58 23.5l6.1-1.6a11.34 11.34 0 0 0 5.37 1.37h.01c6.26 0 11.36-5.1 11.36-11.36 0-3.04-1.18-5.89-3.33-8.04z"/></svg>
+                            WhatsApp</a></li>
+                        <li><a data-mail href="mailto:busermimarlik@gmail.com">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                            <span data-mail-text>busermimarlik@gmail.com</span></a></li>
+                        <li><a href="https://www.instagram.com/busermimarlik/" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                            Instagram</a></li>
+                        <li><a href="https://tr.linkedin.com/company/busermimarlik" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                            LinkedIn</a></li>
+                        <li><a href="https://www.google.com/maps/search/?api=1&query=Ankara" target="_blank" rel="noopener">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            Ankara, Türkiye</a></li>
+                    </ul>
+                </div>
+
+                <form class="quote-form hidden-anim" id="quoteForm" novalidate>
+                    <div class="form-row">
+                        <div class="field"><label for="f-name">Ad Soyad</label><input id="f-name" name="name" required autocomplete="name"></div>
+                        <div class="field"><label for="f-phone">Telefon</label><input id="f-phone" name="phone" type="tel" autocomplete="tel"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="field"><label for="f-service">Hizmet</label>
+                            <select id="f-service" name="service">
+                                <option>Mimari Tasarım &amp; Proje</option>
+                                <option>Tadilat &amp; Renovasyon</option>
+                                <option>Anahtar Teslim Uygulama</option>
+                                <option>Proje &amp; Şantiye Yönetimi</option>
+                                <option>BIM Modelleme</option>
+                                <option>Diğer</option>
+                            </select>
+                        </div>
+                        <div class="field"><label for="f-city">Konum / Alan (m²)</label><input id="f-city" name="city" placeholder="Örn. Çankaya, 140 m²"></div>
+                    </div>
+                    <div class="field"><label for="f-msg">Projeniz hakkında</label><textarea id="f-msg" name="message" rows="4" required></textarea></div>
+                    <button type="submit" class="btn btn-solid">Teklif İste</button>
+                    <p class="form-note" id="formNote">Gönder'e bastığınızda e-posta uygulamanız mesaj hazır şekilde açılır.</p>
+                </form>
             </div>
-            
-            <p class="footer-bottom">
-                &copy; <span id="currentYear"></span> Buser Mimarlık. All Rights Reserved. <br>
-                Ankara, Türkiye
-            </p>
-            
+
+            <div class="footer-bottom">
+                <span>&copy; <span id="currentYear">2026</span> Buser Mimarlık. Tüm hakları saklıdır.</span>
+                <span>Mimari Tasarım · Proje · Tadilat</span>
+            </div>
         </div>
     </footer>
 
-    <div id="projectModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close-btn" onclick="closeModal()">&times;</span>
-            <img id="modalImg" src="" alt="Proje Kapak Fotoğrafı" class="modal-header-img">
-            <div class="modal-body">
-                <h2 id="modalTitle" class="modal-title">Proje Adı</h2>
-                <p id="modalCategory" class="modal-category">Kategori / Yıl</p>
-                <p id="modalDesc" class="modal-desc">Proje detayı...</p>
-                <div id="modalGallery" class="modal-gallery"></div>
-            </div>
-        </div>
-    </div>
+    <a class="wa-float" data-phone data-wa hidden href="#" target="_blank" rel="noopener" aria-label="WhatsApp ile yazın"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35zM12.05 21.5h-.01a9.4 9.4 0 0 1-4.8-1.31l-.34-.2-3.57.94.95-3.48-.22-.36a9.43 9.43 0 0 1-1.44-5.01c0-5.2 4.24-9.44 9.45-9.44a9.4 9.4 0 0 1 6.68 2.77 9.38 9.38 0 0 1 2.76 6.68c0 5.21-4.24 9.44-9.45 9.44zm8.04-17.48A11.3 11.3 0 0 0 12.05.5C5.78.5.68 5.6.68 11.86c0 2 .52 3.96 1.52 5.68L.58 23.5l6.1-1.6a11.34 11.34 0 0 0 5.37 1.37h.01c6.26 0 11.36-5.1 11.36-11.36 0-3.04-1.18-5.89-3.33-8.04z"/></svg></a>
 
-    <div id="aboutMeModal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close-btn" onclick="closeAboutModal()">&times;</span>
-            
-            <div class="about-me-grid">
-                <div class="about-me-img-wrapper">
-                    <img src="images/senin-fotografin.jpg" alt="Halil Sertaç Dayılar" class="about-me-img" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800'">
-                </div>
-                
-                <div class="about-me-text">
-                    <h2 class="modal-title">Halil Sertaç Dayılar</h2>
-                    <p class="modal-category">Kurucu Mimar & BIM Uzmanı</p>
-                    
-                    <p class="modal-desc">
-                        Mimari tasarımı veri odaklı teknolojilerle birleştiren yenilikçi bir vizyona sahibim. Estetik ve fonksiyonelliği, modern dünyanın ihtiyaçları ve sürdürülebilirlik ilkeleri çerçevesinde yeniden yorumluyorum.
-                    </p>
-                    
-                    <h4 class="cv-section-title">Eğitim</h4>
-                    <ul class="cv-list">
-                        <li>• Yıldız Teknik Üniversitesi - Mimarlık Fakültesi</li>
-                        <li>• BuildingSMART Profesyonel Sertifikasyon (PCERT)</li>
-                        <li>• İleri Seviye Revit Eğitimi (TMMOB İstanbul Büyükkent Şubesi)</li>
-                    </ul>
-
-                    <h4 class="cv-section-title">Uzmanlık & Yazılım</h4>
-                    <ul class="cv-list">
-                        <li>• BIM (Building Information Modeling)</li>
-                        <li>• Autodesk Revit, Navisworks</li>
-                        <li>• Fotogrametri & 3D Modelleme</li>
-                    </ul>
-                    
-                    <h4 class="cv-section-title">Deneyim</h4>
-                    <ul class="cv-list">
-                        <li>• BUSER Mimarlık - Kurucu (Günümüz)</li>
-                        <li>• NKY Mimarlık / Proje Koordinatörü-BIM Manager</li>
-                        <li>• EMAY Uluslararası Mühendislik ve Müşavirlik A.Ş / Proje Koordinatörü-BIM Coordinator</li>
-                        <li>• İLTAY Mimarlık / Proje Koordinatörü</li>
-                        <li>• ULUS Mimarlık / Proje Koordinatörü</li>
-                        <li>• DNA Mimarlık / Mimar</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <button id="scrollTopBtn" onclick="scrollToTop()" title="Başa Dön">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="19" x2="12" y2="5"></line>
-            <polyline points="5 12 12 5 19 12"></polyline>
-        </svg>
+    <button id="scrollTopBtn" type="button" aria-label="Başa dön">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
     </button>
 
-    <script>
-        // --- YENİ: VİDEO BİTİŞ KONTROLÜ ---
-        window.addEventListener('DOMContentLoaded', () => {
-            const introScreen = document.getElementById('intro-screen');
-            const introVideo = document.getElementById('intro-video');
-
-            if (introVideo) {
-                // Video oynamayı bitirdiğinde tetiklenecek olay
-                introVideo.addEventListener('ended', () => {
-                    // Saydamlaştırma sınıfını ekle
-                    introScreen.classList.add('fade-out');
-                    
-                    // Geçiş animasyonu (1 saniye) bittikten sonra arkadan tamamen kaldır
-                    setTimeout(() => { 
-                        introScreen.style.display = 'none'; 
-                    }, 1000);
-                });
-
-                // Güvenlik önlemi (Fallback):
-                // Eğer video herhangi bir sebepten yüklenmezse veya hata verirse, site kilitli kalmasın diye
-                // 6 saniye sonra intro ekranını otomatik olarak kapatırız.
-                setTimeout(() => {
-                    if(introScreen.style.display !== 'none') {
-                        introScreen.classList.add('fade-out');
-                        setTimeout(() => { introScreen.style.display = 'none'; }, 1000);
-                    }
-                }, 6000);
-            }
-        });
-
-        // OTOMATİK YIL GÜNCELLEMESİ
-        document.getElementById("currentYear").innerText = new Date().getFullYear();
-
-        // TEMA DEĞİŞTİRME FONKSİYONU
-        function toggleTheme() { document.body.classList.toggle('dark-theme'); }
-
-        // 3D MESH CANVAS ANİMASYONU
-        const canvas = document.getElementById('mesh-canvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray = [];
-        let mouse = { x: null, y: null, radius: 130 }
-
-        window.addEventListener('mousemove', function(event) { mouse.x = event.x; mouse.y = event.y; });
-        window.addEventListener('mouseout', function() { mouse.x = undefined; mouse.y = undefined; });
-
-        function setCanvasSize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; 
-                this.size = Math.random() * 2 + 1; this.speedX = Math.random() * 1 - 0.5; this.speedY = Math.random() * 1 - 0.5; 
-            }
-            update() {
-                this.x += this.speedX; this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-
-                if (mouse.x != undefined && mouse.y != undefined) {
-                    let dx = mouse.x - this.x; let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy); 
-                    if (distance < mouse.radius) {
-                        const forceDirectionX = dx / distance; const forceDirectionY = dy / distance;
-                        this.x -= forceDirectionX * 2; this.y -= forceDirectionY * 2;
-                    }
-                }
-            }
-            draw() {
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(201, 160, 99, 0.7)'; ctx.fill();
-            }
-        }
-
-        function initMesh() {
-            particlesArray = []; let numberOfParticles = (canvas.width * canvas.height) / 11000;
-            for (let i = 0; i < numberOfParticles; i++) particlesArray.push(new Particle());
-        }
-
-        function animateMesh() {
-            requestAnimationFrame(animateMesh); ctx.clearRect(0, 0, canvas.width, canvas.height); 
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update(); particlesArray[i].draw();
-                for (let j = i; j < particlesArray.length; j++) {
-                    const dx = particlesArray[i].x - particlesArray[j].x; const dy = particlesArray[i].y - particlesArray[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < 120) {
-                        ctx.beginPath(); ctx.strokeStyle = `rgba(201, 160, 99, ${1 - distance / 120})`; ctx.lineWidth = 0.8;
-                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y); ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
-                        ctx.stroke(); ctx.closePath();
-                    }
-                }
-            }
-        }
-
-        window.addEventListener('resize', () => { setCanvasSize(); initMesh(); });
-        setCanvasSize(); initMesh(); animateMesh();
-
-        // MOBİL MENÜ
-        function toggleMenu() { document.getElementById("navLinks").classList.toggle("active"); }
-
-        // PROJELER VERİ TABANI
-        const projeler = [
-            { 
-                ad: "Korugan Yapısı", tur: "Uygulama Projesi ve Görselleştirme", 
-                gorsel: "images/korugan-1.jpg", 
-                detay: "SEMA PROJE liderdiğinde, arkeolojik alanında kazı çalışmalarını ve eşsiz buluntuları doğa şartlarından korumak amacıyla tasarlanmış kanopi tasarımı. Tarihi dokuya zarar vermeden, çevresiyle uyumlu ve estetik bir strüktür kurgulanmıştır. Tüm çelik konstrüksiyon ve tarama verileri BIM süreçleriyle milimetrik olarak mimari ile koordine edilmiştir.", 
-                galeri: ["images/korugan-2.jpg", "images/korugan-3.jpg"] 
-            },
-            { 
-                ad: "DSİ Lefkoşa Yerleşkesi", tur: "Uygulama Projesi ve Görselleştirme", 
-                gorsel: "images/dsi-1.jpg", 
-                detay: "Devlet Su İşleri için tasarlanan modern ve fonksiyonel misafirhane, idari bina ve lojmanlardan oluşan bir yerleşke yapısının uygulama projeleri yapılmıştır. Enerji verimliliği ön planda tutularak, yerel cephe malzemeleri ile çift cidarlı mekanik giydirme cepheler tasarımın ana karakterini oluşturmuştur.Güneş enerjisi sitemleri ile sürdürülebilir bir yerleşke tasarımı hedeflenmiştir.", 
-                galeri: ["images/dsi-2.jpg", "images/dsi-3.jpg"] 
-            },
-            { 
-                ad: "Güneysu Kültür ve Spor Merkezi", tur: "Mimari Konsept & Avan Proje", 
-                gorsel: "images/guneysu-1.jpg", 
-                detay: "ECO.laud firmasının TOKİ için Rize Güneysu'da hayata geçirdiği Millet Bahçesi projesi dahilindeki Kültür ve Spor Tesisi'nin mimari tasarım ve avan projeleri tamamlanmıştır. Yapıda, geleneksel Türk mimarisi ile Karadeniz'in yöresel dokusu harmanlanarak modern bir mimari dille yeniden yorumlanmıştır.", 
-                galeri: ["images/guneysu-2.jpg", "images/guneysu-3.jpg"] 
-            },
-            { 
-                ad: "Ticaret Yapısı", tur: "Mimari Konsept & Avan Proje", 
-                gorsel: "images/tcrt-1.jpg", 
-                detay: "Tasarımı ECO.laud firmasına ait olan Amasya Hızırpaşa Mahallesi Millet Bahçesi projesi kapsamındaki ticaret yapısının konsept ve avan proje süreçleri tamamlanmıştır. Geleneksel kemer formları ve tuğla işçiliğinin geniş cam yüzeylerle modern bir dille yorumlandığı yapı, parkın doğal dokusuyla bütünleşen, şeffaf ve davetkar bir ticari alan olarak kurgulanmıştır.", 
-                galeri: ["images/tcrt-2.jpg", "images/tcrt-3.jpg"] 
-            },
-            { 
-                ad: "İncek Villa Projesi", tur: "Cephe Tasarımı ve Görselleştirme", 
-                gorsel: "images/villa-1.jpg", 
-                detay: "Klasik mimarinin asaletini modern detaylarla harmanladığımız bu villa cephesi tasarımında, geniş cam yüzeyler ve kemerli formlarla aydınlık, ferah bir kompozisyon oluşturduk. Doğal taş dokulu yüzeylerin incelikli ferforje korkuluklar ve koyu renkli silmelerle zenginleştirildiği bu proje, yapıya zamansız ve prestijli bir karakter kazandırıyor.", 
-                galeri: ["images/villa-2.jpg", "images/villa-3.jpg"] 
-            },
-            { 
-                ad: "Four Vision Villa Sitesi", tur: "Cephe Tasarımı ve Görselleştirme", 
-                gorsel: "images/fv-1.jpg", 
-                detay: "Kıbrıs'ın eşsiz atmosferiyle bütünleşen Four Vision Villa Sitesi projesi için cephe tasarımı ve yüksek kaliteli mimari görselleştirme hizmetleri sunduk. Açılı taş yüzeylerin ve organik formların tropikal peyzajla iç içe geçtiği projede, Akdeniz yaşam tarzının konfor ve lüksünü yansıtan yenilikçi bir mimari dil kurguladık.", 
-                galeri: ["images/fv-2.jpg", "images/fv-3.jpg"] 
-            },
-            { 
-                ad: "CTS Konut Projesi", tur: "Cephe Tasarımı ve Görselleştirme", 
-                gorsel: "images/cts-1.jpg", 
-                detay: "Lefkoşa'da yer alan bu modern konut projesinin cephe tasarımı ve fotogerçekçi görselleştirme çalışmaları firmamız tarafından üstlenilmiştir. Tasarım sürecinde, tuğla dokusunun sıcaklığı ile modern panel cephelerin dinamizmi harmanlanmış; Akdeniz iklimine uygun geniş cam balkonlar ve bitkilendirilmiş çatı terası gibi detaylar yüksek kaliteli render'larla dijital ortamda hayata geçirilerek projenin vizyonu net bir şekilde yansıtılmıştır.", 
-                galeri: ["images/cts-2.jpg", "images/cts-3.jpg"] 
-            }
-        ];
-
-        // PROJELERİ EKRANA BASMA
-        const pContainer = document.getElementById('project-container');
-        projeler.forEach((proje, index) => {
-            const cardHTML = `
-                <div class="project-card hidden-anim" style="transition-delay: ${index * 0.15}s;" onclick="openModal(${index})">
-                    <div class="project-img-wrapper">
-                        <img src="${proje.gorsel}" alt="${proje.ad}" class="project-img" onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800'">
-                    </div>
-                    <div class="project-info">
-                        <h3>${proje.ad}</h3>
-                        <p>${proje.tur}</p>
-                    </div>
-                </div>
-            `;
-            pContainer.innerHTML += cardHTML;
-        });
-
-        // MODAL KONTROLLERİ
-        const projectModal = document.getElementById("projectModal");
-        const aboutModal = document.getElementById("aboutMeModal");
-        
-        function openModal(index) {
-            const secilenProje = projeler[index];
-            document.getElementById("modalImg").src = secilenProje.gorsel;
-            document.getElementById("modalTitle").innerText = secilenProje.ad;
-            document.getElementById("modalCategory").innerText = secilenProje.tur;
-            document.getElementById("modalDesc").innerText = secilenProje.detay;
-            
-            const galleryContainer = document.getElementById("modalGallery");
-            galleryContainer.innerHTML = "";
-            secilenProje.galeri.forEach(fotoUrl => {
-                galleryContainer.innerHTML += `<img src="${fotoUrl}" alt="Galeri Görseli" onerror="this.style.display='none'">`;
-            });
-
-            projectModal.style.display = "block";
-            setTimeout(() => { projectModal.classList.add("active"); }, 10);
-            document.body.style.overflow = "hidden"; 
-        }
-
-        function closeModal() {
-            projectModal.classList.remove("active");
-            setTimeout(() => { projectModal.style.display = "none"; }, 400);
-            document.body.style.overflow = "auto"; 
-        }
-
-        function openAboutModal() {
-            document.getElementById('mesh-canvas').style.zIndex = "999"; 
-            aboutModal.style.display = "block";
-            setTimeout(() => { aboutModal.classList.add("active"); }, 10);
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeAboutModal() {
-            aboutModal.classList.remove("active");
-            setTimeout(() => { 
-                aboutModal.style.display = "none"; 
-                document.getElementById('mesh-canvas').style.zIndex = "1"; 
-            }, 400);
-            document.body.style.overflow = "auto";
-        }
-
-        window.addEventListener('click', function(event) {
-            if (event.target === projectModal) { closeModal(); }
-            if (event.target === aboutModal) { closeAboutModal(); }
-        });
-
-        document.addEventListener('keydown', function(event) { 
-            if (event.key === "Escape") { closeModal(); closeAboutModal(); }
-        });
-
-        // BAŞA DÖN BUTONU MANTIĞI
-        const scrollTopBtn = document.getElementById("scrollTopBtn");
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 400) {
-                scrollTopBtn.classList.add("show");
-            } else {
-                scrollTopBtn.classList.remove("show");
-            }
-        });
-
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-
-        // SCROLL REVEAL (AŞAĞI KAYDIRMA ANİMASYONLARI)
-        const observerElements = document.querySelectorAll('.hidden-anim');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) { entry.target.classList.add('show-anim'); }
-            });
-        }, { threshold: 0.15 });
-        observerElements.forEach((el) => observer.observe(el));
-    </script>
+    <script src="assets/main.js" defer></script>
 </body>
 </html>
