@@ -205,6 +205,46 @@
         }
     }
 
+    // ---------- Teklif formu (iletişim bölümü) → aynı Telegram grubuna ----------
+    const qf = document.getElementById('quoteForm');
+    if (qf) {
+        const qStart = Date.now();
+        const note = qf.querySelector('#formNote');
+        const setErr = (msg, field) => { note.textContent = msg; note.className = 'form-note err'; if (field) field.focus(); };
+        qf.addEventListener('submit', async e => {
+            e.preventDefault();
+            const nameEl = qf.elements['name'];
+            const name = nameEl.value.trim(), phone = normPhone(qf.phone.value), msg = qf.message.value.trim();
+            const service = (qf.querySelector('input[name=service]:checked') || {}).value || 'Diğer';
+            if (name.length < 2) return setErr('Lütfen adınızı ve soyadınızı yazın.', nameEl);
+            if (!phone) return setErr('Telefon numarası geçerli görünmüyor. Örn. 0532 123 45 67', qf.phone);
+            if (!qf.consent.checked) return setErr('Devam etmek için Aydınlatma Metni onayını işaretleyin.', qf.consent);
+            const data = { name, service, note: msg, phone, when: qf.when.value, page: location.pathname + '#iletisim', startedAt: qStart };
+            if (!WORKER_URL) {
+                const txt = `Ad Soyad: ${name}\nKonu: ${service}\nNot: ${msg || '-'}\nTelefon: ${prettyPhone(phone)}\nUygun zaman: ${data.when}`;
+                location.href = `mailto:${EPOSTA}?subject=${encodeURIComponent('Teklif talebi – ' + service)}&body=${encodeURIComponent(txt)}`;
+                return;
+            }
+            const btn = qf.querySelector('.qf-submit');
+            btn.disabled = true; btn.textContent = 'Gönderiliyor…'; note.textContent = ''; note.className = 'form-note';
+            try {
+                const r = await fetch(WORKER_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(Object.assign({}, data, { consent: true, website: qf.website.value })) });
+                const j = await r.json().catch(() => ({}));
+                if (!r.ok || !j.ok) throw new Error(j.error || r.status);
+                qf.innerHTML = `<div class="qf-done">
+                    <span class="qf-check" aria-hidden="true">✓</span>
+                    <h3>Talebiniz bize ulaştı</h3>
+                    <p>Teşekkürler ${esc(name.split(' ')[0])}. En kısa sürede <strong>${esc(prettyPhone(phone))}</strong> numarasından size <strong>WhatsApp üzerinden</strong> ulaşacağız.</p></div>`;
+                qf.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } catch (err) {
+                btn.disabled = false; btn.textContent = 'Talebi Gönder';
+                note.innerHTML = `Talebiniz şu an iletilemedi. Lütfen tekrar deneyin ya da <a href="mailto:${EPOSTA}">${EPOSTA}</a> adresine yazın.`;
+                note.className = 'form-note err';
+            }
+        });
+    }
+
     // ---------- Aç / kapat ----------
     let lastFocus = null;
     const open = () => {

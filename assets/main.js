@@ -225,24 +225,14 @@
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeAbout(); closeLb(); setMenu(false); } });
 
-    // ---- HİZMET KARTINDAN FORMA: seçili hizmeti doldur ----
+    // ---- HİZMET KARTINDAN FORMA: seçili hizmeti işaretle ----
     $$('[data-service]').forEach(a => a.addEventListener('click', () => {
-        const sel = $('#f-service'); if (!sel) return;
-        const opt = Array.from(sel.options).find(o => o.text === a.dataset.service);
-        if (opt) sel.value = opt.value;
+        const r = $$('#quoteForm input[name=service]').find(i => i.value === a.dataset.service);
+        if (r) r.checked = true;
         setTimeout(() => { const n = $('#f-name'); if (n) n.focus({ preventScroll: true }); }, 700);
     }));
 
-    // ---- TEKLİF FORMU ----
-    const form = $('#quoteForm');
-    if (form) form.addEventListener('submit', e => {
-        e.preventDefault();
-        const name = form.name.value.trim(), msg = form.message.value.trim(), note = $('#formNote');
-        if (!name || !msg) { note.textContent = 'Lütfen adınızı ve proje bilgisini yazın.'; (name ? form.message : form.name).focus(); return; }
-        const body = `Ad Soyad: ${name}\nTelefon: ${form.phone.value}\nHizmet: ${form.service.value}\nKonum / Alan: ${form.city.value}\n\n${msg}`;
-        location.href = `mailto:${EPOSTA}?subject=${encodeURIComponent('Teklif Talebi – ' + form.service.value)}&body=${encodeURIComponent(body)}`;
-        note.textContent = 'E-posta uygulamanız açıldı. Açılmadıysa bize doğrudan ' + EPOSTA + ' adresinden yazabilirsiniz.';
-    });
+    // (Teklif formunun gönderimi assets/chat.js içindedir.)
 
     // ---- BAŞA DÖN ----
     const topBtn = $('#scrollTopBtn');

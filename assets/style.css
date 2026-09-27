@@ -522,3 +522,47 @@ html.dark-theme .msg.user { background: #c9a063; color: #0f172a; }
     .chat-panel { right: 0; left: 0; bottom: 0; width: 100%; height: 88vh; height: 88dvh; border-radius: 16px 16px 0 0; }
     .has-wa #scrollTopBtn { bottom: 80px; }
 }
+
+/* ================= İLETİŞİM (yeniden) ================= */
+.call-card {
+    width: 100%; display: flex; align-items: center; gap: 18px; text-align: left; cursor: pointer; margin: 6px 0 36px;
+    padding: 20px 22px; border-radius: 14px; border: 1px solid rgba(201, 160, 99, 0.45); background: rgba(201, 160, 99, 0.08);
+    color: var(--text-light); font-family: inherit; transition: background-color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+.call-card:hover { background: rgba(201, 160, 99, 0.16); border-color: var(--accent); transform: translateY(-2px); }
+.call-icon { width: 48px; height: 48px; border-radius: 50%; background: #25d366; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.call-icon svg { width: 22px; height: 22px; }
+.call-text { flex: 1; }
+.call-text strong { display: block; font-size: 1.05rem; font-weight: 600; letter-spacing: 0.5px; }
+.call-text small { display: block; color: rgba(255,255,255,0.7); font-size: 0.88rem; margin-top: 2px; }
+.call-arrow { font-size: 1.4rem; color: var(--accent); transition: transform 0.3s ease; }
+.call-card:hover .call-arrow { transform: translateX(4px); }
+
+.quote-form { border-radius: 14px; }
+.qf-head h3 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 1.6rem; margin-bottom: 4px; }
+.qf-head p { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 26px; }
+.quote-form fieldset { border: none; padding: 0; margin: 0 0 22px; }
+.quote-form legend { display: block; font-size: 0.7rem; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 10px; }
+.svc-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.svc-pick label { cursor: pointer; }
+.svc-pick input { position: absolute; opacity: 0; pointer-events: none; }
+.svc-pick span { display: inline-block; padding: 9px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.22); font-size: 0.85rem; color: rgba(255,255,255,0.85); transition: all 0.2s ease; }
+.svc-pick label:hover span { border-color: var(--accent); }
+.svc-pick input:checked + span { background: var(--accent); border-color: var(--accent); color: #0f172a; font-weight: 500; }
+.svc-pick input:focus-visible + span { outline: 2px solid #fff; outline-offset: 2px; }
+.field .opt { text-transform: none; letter-spacing: 0; opacity: 0.7; }
+.field select { cursor: pointer; }
+.quote-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.qf-consent { display: flex; gap: 10px; align-items: flex-start; font-size: 0.78rem; line-height: 1.5; color: rgba(255,255,255,0.6); margin: 4px 0 22px; cursor: pointer; }
+.qf-consent input { margin-top: 3px; width: 16px; height: 16px; accent-color: #c9a063; flex-shrink: 0; }
+.qf-consent a { color: var(--accent); }
+.qf-submit { width: 100%; border-radius: 30px; font-weight: 600; }
+.qf-submit:disabled { opacity: 0.6; cursor: wait; }
+.form-note.err { color: #fca5a5; }
+.form-note a { color: var(--accent); }
+.qf-done { text-align: center; padding: 40px 10px; }
+.qf-check { display: inline-flex; width: 64px; height: 64px; border-radius: 50%; background: #25d366; color: #fff; font-size: 30px; align-items: center; justify-content: center; margin-bottom: 18px; }
+.qf-done h3 { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 1.7rem; margin-bottom: 10px; }
+.qf-done p { color: rgba(255,255,255,0.75); }
+.svc-pick label { display: inline-block; margin: 0; font-size: inherit; letter-spacing: 0; text-transform: none; color: inherit; }
+#contact { z-index: 2; background-color: #0f172a; }
